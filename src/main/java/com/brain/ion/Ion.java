@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 public class Ion {
 	
-	private Map<SettingEntry, String> settings; 
+	private Map<SettingEntry, String> settings;
 	
 	private JFrame mainFrame;
 	
@@ -31,22 +31,14 @@ public class Ion {
 		
 		initSettings();
 		
-		int x = Integer.parseInt(settings.get(SettingEntry.WINDOWED_POS_X));
-		int y = Integer.parseInt(settings.get(SettingEntry.WINDOWED_POS_Y));
-		int w = Integer.parseInt(settings.get(SettingEntry.WINDOWED_WIDTH));
-		int h = Integer.parseInt(settings.get(SettingEntry.WINDOWED_HEIGHT));
-		
 		mainFrame.setTitle("Pulsar");
 		
-		Canvas screen = new Canvas();
-		screen.setPreferredSize(new Dimension(w, h));
-		screen.setLocation(x, y);
-		
-		mainFrame.add(screen);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		mainFrame.pack();
+		
+		GameLoop gameLoop = new GameLoop(mainFrame, settings);
 		
 //		c.createBufferStrategy(2);
 //		BufferStrategy bs = c.getBufferStrategy();
