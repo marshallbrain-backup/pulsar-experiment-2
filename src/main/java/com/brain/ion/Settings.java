@@ -96,10 +96,11 @@ public class Settings {
 			name = key.substring(i+1);
 		}
 		
-		String value = settingGroups.get(group).get(name);
-		if(value == null && defaultValue != null) {
+		String value = defaultValue;
+		if((settingGroups.get(group) == null || settingGroups.get(group).get(name) == null) && defaultValue != null) {
 			put(key, defaultValue);
-			value = defaultValue;
+		} else {
+			value = settingGroups.get(group).get(name);
 		}
 		
 		return value;
@@ -120,7 +121,9 @@ public class Settings {
 			settingGroups.put(group, new HashMap<String, String>());
 		}
 		
-		return settingGroups.get(group).put(name, value);
+		String v = settingGroups.get(group).put(name, value);
+		System.out.println("Added setting - " + key + "=" + value);
+		return v;
 		
 	}
 	
