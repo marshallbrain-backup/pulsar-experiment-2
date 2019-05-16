@@ -40,6 +40,8 @@ public class Ion {
 		
 		mainFrame.pack();
 		
+		gameLoop.start();
+		
 //		c.createBufferStrategy(2);
 //		BufferStrategy bs = c.getBufferStrategy();
 //		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
