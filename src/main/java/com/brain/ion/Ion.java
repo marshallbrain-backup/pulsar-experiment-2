@@ -32,13 +32,13 @@ public class Ion {
 		initSettings();
 		
 		mainFrame.setTitle("Pulsar");
-		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
-		mainFrame.pack();
 		
 		GameLoop gameLoop = new GameLoop(mainFrame, settings);
+		
+		mainFrame.pack();
 		
 //		c.createBufferStrategy(2);
 //		BufferStrategy bs = c.getBufferStrategy();
