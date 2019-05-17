@@ -67,7 +67,90 @@ public class GameLoop implements Runnable {
 	
 	public void run() {
 		
+		int tps;
+		int fps;
 		
+		long lastSecond;
+		long lastUpdateTime;
+		long lastRenderTime;
+		final long TARGET_FPS = 60;
+		final long TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+		final long GAME_HERTZ = 60;
+		final long TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+		
+		tps = 0;
+		fps = 0;
+		lastSecond = System.nanoTime();
+		lastUpdateTime = System.nanoTime();
+		lastRenderTime = System.nanoTime();
+		
+		while(running) {
+			
+			long now = System.nanoTime();
+			
+			while(now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
+				tps++;
+				lastUpdateTime += TIME_BETWEEN_UPDATES;
+			}
+			
+			fps++;
+			lastRenderTime = now;
+			
+			if((lastUpdateTime / 1000000) - (lastSecond / 1000000) >= 1000) {
+				
+				System.out.println("TPS - " + String.valueOf(tps));
+				System.out.println("FPS - " + String.valueOf(fps));
+				System.out.println();
+				
+				tps = 0;
+				fps = 0;
+				lastSecond = lastUpdateTime;
+				
+			}
+			
+			while(now - lastRenderTime < TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+				
+				Thread.yield();
+				try {
+					Thread.sleep(1);
+				} catch(Exception e) {
+				}
+				
+				now = System.nanoTime();
+               
+			}
+			
+//			if(now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
+//				
+//				tps++;
+//				lastUpdateTime = now;
+//				
+//			}
+//			
+//			now = System.nanoTime();
+//			
+//			if(now - lastRenderTime > TIME_BETWEEN_RENDERS) {
+//				
+//				fps++;
+//				lastRenderTime = now;
+//				
+//			}
+//			
+//			now = System.nanoTime();
+//			
+//			if(now - lastTime > 1000000000) {
+//				
+//				lastTime = now;
+//				System.out.println("TPS - " + String.valueOf(tps));
+//				System.out.println("FPS - " + String.valueOf(fps));
+//				System.out.println();
+//				
+//				tps = 0;
+//				fps = 0;
+//				
+//			}
+			
+		}
 		
 	}
 	
