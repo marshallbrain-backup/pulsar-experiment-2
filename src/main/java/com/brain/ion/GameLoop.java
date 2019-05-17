@@ -12,13 +12,18 @@ public class GameLoop implements Runnable {
 	private boolean running;
 	
 	private Map<SettingEntry, String> settings;
+	private TickCall tickClass;
+	private RenderCall renderClass;
+	
 	private JFrame mainFrame;
 	private Thread mainThread;
 
-	public GameLoop(JFrame f, Map<SettingEntry, String> s) {
+	public GameLoop(JFrame f, Map<SettingEntry, String> s, TickCall t, RenderCall r) {
 		
 		settings = s;
 		mainFrame = f;
+		tickClass = t;
+		renderClass = r;
 		
 		int x = Integer.parseInt(settings.get(SettingEntry.WINDOWED_POS_X));
 		int y = Integer.parseInt(settings.get(SettingEntry.WINDOWED_POS_Y));
@@ -29,6 +34,7 @@ public class GameLoop implements Runnable {
 		screen.setPreferredSize(new Dimension(w, h));
 		screen.setLocation(x, y);
 		
+		renderClass.setCanvas(screen);
 		mainFrame.add(screen);
 		
 		screen.createBufferStrategy(2);
@@ -89,10 +95,14 @@ public class GameLoop implements Runnable {
 			long now = System.nanoTime();
 			
 			while(now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
+				
+				tickClass.tick();
 				tps++;
 				lastUpdateTime += TIME_BETWEEN_UPDATES;
+				
 			}
 			
+			renderClass.render();
 			fps++;
 			lastRenderTime = now;
 			
@@ -119,36 +129,6 @@ public class GameLoop implements Runnable {
 				now = System.nanoTime();
                
 			}
-			
-//			if(now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
-//				
-//				tps++;
-//				lastUpdateTime = now;
-//				
-//			}
-//			
-//			now = System.nanoTime();
-//			
-//			if(now - lastRenderTime > TIME_BETWEEN_RENDERS) {
-//				
-//				fps++;
-//				lastRenderTime = now;
-//				
-//			}
-//			
-//			now = System.nanoTime();
-//			
-//			if(now - lastTime > 1000000000) {
-//				
-//				lastTime = now;
-//				System.out.println("TPS - " + String.valueOf(tps));
-//				System.out.println("FPS - " + String.valueOf(fps));
-//				System.out.println();
-//				
-//				tps = 0;
-//				fps = 0;
-//				
-//			}
 			
 		}
 		
