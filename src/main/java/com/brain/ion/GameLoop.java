@@ -33,7 +33,6 @@ public class GameLoop implements Runnable {
 		screen.setPreferredSize(new Dimension(w, h));
 		screen.setLocation(x, y);
 		
-		renderClass.setCanvas(screen);
 		mainFrame.add(screen);
 		
 		screen.createBufferStrategy(2);

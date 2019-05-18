@@ -5,7 +5,5 @@ import java.awt.Canvas;
 public interface RenderCall {
 	
 	void render();
-
-	void setCanvas(Canvas c);
 	
 }
