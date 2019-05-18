@@ -2,7 +2,7 @@ package main.java.com.brain.pulsar;
 
 import main.java.com.brain.ion.Ion;
 
-public class Pulsar {
+public class PulsarBootstrap {
 	
 	public static void main(String[] args) {
 		
