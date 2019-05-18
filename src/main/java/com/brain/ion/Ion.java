@@ -18,13 +18,13 @@ public class Ion {
 	
 	private JFrame mainFrame;
 	
-	public Ion(TickCall t, RenderCall r) {
+	public Ion(TickCall t, RenderCall r, Canvas s) {
 		
-		init(t, r);
+		init(t, r, s);
 		
 	}
 	
-	private void init(TickCall t, RenderCall r) {
+	private void init(TickCall t, RenderCall r, Canvas s) {
 		
 		settings = new EnumMap<SettingEntry, String>(SettingEntry.class);
 		mainFrame = new JFrame();
@@ -36,7 +36,7 @@ public class Ion {
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		
-		GameLoop gameLoop = new GameLoop(mainFrame, settings, t, r);
+		GameLoop gameLoop = new GameLoop(mainFrame, settings, t, r, s);
 		
 		mainFrame.pack();
 		
