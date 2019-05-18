@@ -6,6 +6,8 @@ public class Pulsar {
 	
 	public Pulsar() {
 		
+		Ion ion = new Ion();
+		
 	}
 	
 }

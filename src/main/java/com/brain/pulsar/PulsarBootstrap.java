@@ -6,7 +6,7 @@ public class PulsarBootstrap {
 	
 	public static void main(String[] args) {
 		
-		Ion ion = new Ion();
+		Pulsar pulsar = new Pulsar();
 		
 	}
 	
