@@ -17,6 +17,7 @@ public class Ion {
 	private Map<SettingEntry, String> settings;
 	
 	private JFrame mainFrame;
+	private GameLoop gameLoop;
 	
 	public Ion(TickCall t, RenderCall r, Canvas s) {
 		
@@ -36,11 +37,9 @@ public class Ion {
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		
-		GameLoop gameLoop = new GameLoop(mainFrame, settings, t, r, s);
+		gameLoop = new GameLoop(mainFrame, settings, t, r, s);
 		
 		mainFrame.pack();
-		
-		gameLoop.start();
 		
 //		c.createBufferStrategy(2);
 //		BufferStrategy bs = c.getBufferStrategy();
@@ -70,6 +69,10 @@ public class Ion {
 		settings.put(SettingEntry.WINDOWED_WIDTH, s.get("WindowedWidth", "1920"));
 		settings.put(SettingEntry.WINDOWED_HEIGHT, s.get("WindowedHeight", "1080"));
 		
+	}
+	
+	public void start() {
+		gameLoop.start();
 	}
 	
 }
