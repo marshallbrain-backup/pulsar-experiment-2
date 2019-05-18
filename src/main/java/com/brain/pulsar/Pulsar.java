@@ -28,14 +28,14 @@ public class Pulsar implements TickCall, RenderCall {
 	}
 
 	@Override
-	public void tick() {
+	public synchronized void tick() {
 		
 		
 		
 	}
 
 	@Override
-	public  void render() {
+	public synchronized void render() {
 		
 		BufferStrategy bs = screen.getBufferStrategy();
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
