@@ -10,7 +10,9 @@ public class Pulsar implements TickCall, RenderCall {
 	
 	public Pulsar() {
 		
-		Ion ion = new Ion(this, this);
+		Canvas screen = new Canvas();
+		
+		Ion ion = new Ion(this, this, screen);
 		
 	}
 

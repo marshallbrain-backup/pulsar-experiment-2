@@ -18,7 +18,7 @@ public class GameLoop implements Runnable {
 	private JFrame mainFrame;
 	private Thread mainThread;
 
-	public GameLoop(JFrame f, Map<SettingEntry, String> s, TickCall t, RenderCall r) {
+	public GameLoop(JFrame f, Map<SettingEntry, String> s, TickCall t, RenderCall r, Canvas screen) {
 		
 		settings = s;
 		mainFrame = f;
@@ -30,7 +30,6 @@ public class GameLoop implements Runnable {
 		int w = Integer.parseInt(settings.get(SettingEntry.WINDOWED_WIDTH));
 		int h = Integer.parseInt(settings.get(SettingEntry.WINDOWED_HEIGHT));
 		
-		Canvas screen = new Canvas();
 		screen.setPreferredSize(new Dimension(w, h));
 		screen.setLocation(x, y);
 		
