@@ -41,7 +41,7 @@ public class Pulsar implements TickCall, RenderCall {
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 		
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(5, 5, 100, 100);
+		g.fillRect(0, 0, screen.getWidth(), screen.getHeight());
 		
 		g.dispose();
 		bs.show();
