@@ -14,14 +14,18 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 
 import main.java.com.brain.ion.Ion;
 import main.java.com.brain.ion.RenderCall;
 import main.java.com.brain.ion.TickCall;
 import main.java.com.brain.ion.XmlParser;
+import main.java.com.brain.pulsar.files.DataContainer;
+import main.java.com.brain.pulsar.universe.BodyType;
 
 public class Pulsar implements TickCall, RenderCall {
 	
@@ -45,7 +49,9 @@ public class Pulsar implements TickCall, RenderCall {
 			e.printStackTrace();
 		}
 		
-//		XmlParser.getXml(fileName, classList);
+		List<Object> o = new ArrayList<>();
+		Class<?>[] dataTypes = new Class<?>[]{DataContainer.class, BodyType.class};
+		getXmlFiles(new File("common"), dataTypes, o);
 		
 	}
 
@@ -67,6 +73,20 @@ public class Pulsar implements TickCall, RenderCall {
 		
 		g.dispose();
 		bs.show();
+		
+	}
+	
+	private void getXmlFiles(File folder, Class<?>[] classList, List<Object> o) {
+		
+		for(File f: folder.listFiles()) {
+			
+			if(f.isDirectory()) {
+				getXmlFiles(f, classList, o);
+			} else if(f.isFile()) {
+				o.add(XmlParser.getXml(f, classList));
+			}
+			
+		}
 		
 	}
 	
