@@ -49,7 +49,7 @@ public class Pulsar implements TickCall, RenderCall {
 			e.printStackTrace();
 		}
 		
-		List<Object> o = new ArrayList<>();
+		List<DataContainer> o = new ArrayList<>();
 		Class<?>[] dataTypes = new Class<?>[]{DataContainer.class, BodyType.class};
 		getXmlFiles(new File("common"), dataTypes, o);
 		
@@ -76,14 +76,14 @@ public class Pulsar implements TickCall, RenderCall {
 		
 	}
 	
-	private void getXmlFiles(File folder, Class<?>[] classList, List<Object> o) {
+	private void getXmlFiles(File folder, Class<?>[] classList, List<DataContainer> o) {
 		
 		for(File f: folder.listFiles()) {
 			
 			if(f.isDirectory()) {
 				getXmlFiles(f, classList, o);
 			} else if(f.isFile()) {
-				o.add(XmlParser.getXml(f, classList));
+				o.add((DataContainer) XmlParser.getXml(f, classList));
 			}
 			
 		}
