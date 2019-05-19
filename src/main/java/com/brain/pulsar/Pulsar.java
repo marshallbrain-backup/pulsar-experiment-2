@@ -26,14 +26,18 @@ import main.java.com.brain.ion.TickCall;
 import main.java.com.brain.ion.XmlParser;
 import main.java.com.brain.pulsar.files.DataContainer;
 import main.java.com.brain.pulsar.universe.BodyType;
+import main.java.com.brain.pulsar.universe.StarSystem;
 
 public class Pulsar implements TickCall, RenderCall {
 	
 	private Canvas screen;
 	
+	private StarSystem mainSystem;
+	
 	public Pulsar() {
 		
 		screen = new Canvas();
+		
 		Ion ion = new Ion(this, this, screen);
 		
 		init();
@@ -49,9 +53,15 @@ public class Pulsar implements TickCall, RenderCall {
 			e.printStackTrace();
 		}
 		
-		List<DataContainer> o = new ArrayList<>();
+		List<DataContainer> data = new ArrayList<>();
+		
 		Class<?>[] dataTypes = new Class<?>[]{DataContainer.class, BodyType.class};
-		getXmlFiles(new File("common"), dataTypes, o);
+		getXmlFiles(new File("common"), dataTypes, data);
+		DataContainer common = new DataContainer(data);
+		
+		List<BodyType> typeBodys = common.getMatchData(BodyType.class);
+		
+		mainSystem = new StarSystem(typeBodys);
 		
 	}
 
