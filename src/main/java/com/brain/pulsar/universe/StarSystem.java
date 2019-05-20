@@ -7,8 +7,16 @@ public class StarSystem {
 	public StarSystem(List<BodyType> typeBodys, List<StarSystemType> typeSytems) {
 		
 		StarSystemType systemType = typeSytems.get(0);
+		BodyType starType = null;
 		
-		System.out.println(systemType.getBody());
+		for(BodyType b: typeBodys) {
+			if(b.getName().equals(systemType.getBody())) {
+				starType = b;
+			}
+		}
+		
+		Body core = new Body();
+		Body star = new Body(starType, core);
 		
 	}
 	
