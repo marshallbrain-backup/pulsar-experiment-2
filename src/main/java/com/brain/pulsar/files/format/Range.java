@@ -11,12 +11,12 @@ public class Range {
 	@XmlAttribute(name = "max")
 	private String max;
 	
-//	public double getMin() {
-//		return min;
-//	}
-//	
-//	public double getMax() {
-//		return max;
-//	}
+	public String getMin() {
+		return min;
+	}
+	
+	public String getMax() {
+		return max;
+	}
 	
 }
