@@ -1,9 +1,10 @@
 package test.java.com.brain.pulsar.universe;
 
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import main.java.com.brain.pulsar.data.Distance;
+import main.java.com.brain.pulsar.data.DistanceType;
 import main.java.com.brain.pulsar.files.DataContainer;
 import main.java.com.brain.pulsar.universe.Body;
 import main.java.com.brain.pulsar.universe.BodyType;
@@ -37,14 +40,43 @@ class BodyTest {
 	}
 	
 	@Test
-	void oneStarInit() {
+	void starTest() {
 		
 		List<BodyType> typeBodys = data.getMatchData(BodyType.class);
 		
 		Body core = new Body();
 		Body star = new Body(typeBodys.get(0), core);
 		
-		assertThat(star.getRadius().getDistance(), allOf(greaterThanOrEqualTo(3L), lessThanOrEqualTo(6L)));
+		assertThat("Radius range check", 
+				star.getRadius().getDistance(), 
+				allOf(
+						greaterThanOrEqualTo(new Distance(3, DistanceType.METER).getDistance()), 
+						lessThanOrEqualTo(new Distance(6, DistanceType.METER).getDistance())
+						)
+				);
+		
+		assertThat("Temperature range check", star.getTemperature(), allOf(greaterThanOrEqualTo(10000L), lessThanOrEqualTo(20000L)));
+		
+	}
+	
+	@Test
+	void planetTest() {
+		
+		List<BodyType> typeBodys = data.getMatchData(BodyType.class);
+		
+		Body core = new Body();
+		Body star = new Body(typeBodys.get(0), core);
+		
+		assertThat("Radius range check", 
+				star.getRadius().getDistance(), 
+				allOf(
+						greaterThanOrEqualTo(new Distance(3, DistanceType.METER).getDistance()), 
+						lessThanOrEqualTo(new Distance(6, DistanceType.METER).getDistance())
+						)
+				);
+		
+		assertThat("Temperature range check", star.getTemperature(), allOf(greaterThanOrEqualTo(10000L), lessThanOrEqualTo(20000L)));
+		assertThat("Angle range check", star.getAngle(), allOf(greaterThanOrEqualTo(0.0), lessThanOrEqualTo(360.0)));
 		
 	}
 	
