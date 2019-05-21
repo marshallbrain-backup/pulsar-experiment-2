@@ -10,6 +10,11 @@ public class Distance {
 		distance = d;
 		type = t;
 	}
+
+	public Distance(double d, DistanceType t) {
+		distance = convert(d, DistanceType.METER, t);
+		type = t;
+	}
 	
 	public Distance(Distance d) {
 		distance = d.distance;
@@ -21,7 +26,11 @@ public class Distance {
 	}
 
 	public Distance convert(DistanceType t) {
-		return new Distance(Math.round(distance * type.getValueInverse() * t.getValue()), t);
+		return new Distance(convert(distance, type, t), t);
+	}
+	
+	private static long convert(double distance, DistanceType type1, DistanceType type2) {
+		return Math.round(distance * type2.getValueInverse() * type1.getValue());
 	}
 	
 	@Override
