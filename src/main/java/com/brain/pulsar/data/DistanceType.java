@@ -3,9 +3,9 @@ package main.java.com.brain.pulsar.data;
 
 public enum DistanceType {
 	
-	METER(1L, 1),
-	AU(149597870700L, 1),
-	SOLAR_RADIUS(695500L, 1),
+	METER(1L, 0),
+	AU(149597870700L, 0),
+	SOLAR_RADIUS(695500L, 3),
 	;
 	
 	private final long number;
@@ -21,7 +21,7 @@ public enum DistanceType {
 	}
 
 	public double getValueInverse() {
-		return number * Math.pow(10, -exponent);
+		return 1/getValue();
 	}
 	
 }
