@@ -14,12 +14,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import main.java.com.brain.ion.XmlParser;
 import main.java.com.brain.pulsar.data.Distance;
 import main.java.com.brain.pulsar.data.DistanceType;
 import main.java.com.brain.pulsar.files.DataContainer;
 import main.java.com.brain.pulsar.universe.Body;
 import main.java.com.brain.pulsar.universe.BodyType;
-import test.java.com.brain.pulsar.JUnitTestSetup;
+import main.java.com.brain.pulsar.universe.StarSystemType;
 
 
 class BodyTest {
@@ -29,7 +30,17 @@ class BodyTest {
 	@BeforeAll
 	static void setUpBeforeClass() {
 		
-		data = JUnitTestSetup.xmlReader(getXmlFiles());
+		Class<?>[] dataTypes = new Class<?>[]{
+			DataContainer.class, 
+			BodyType.class, StarSystemType.class
+			};
+		
+		List<DataContainer> uncompresed = new ArrayList<>();
+		for(String xml: getXmlFiles()) {
+			uncompresed.add((DataContainer) XmlParser.getXml(xml, dataTypes));
+		}
+		
+		data = new DataContainer(uncompresed);
 		
 	}
 	
@@ -67,7 +78,7 @@ class BodyTest {
 		testBodyPropertys(star,
 				new Distance(3, DistanceType.SOLAR_RADIUS), new Distance(6, DistanceType.SOLAR_RADIUS),
 				new Distance(2, DistanceType.AU), new Distance(2, DistanceType.AU),
-				10000L, 20000L,
+				0L, 10000L,
 				0.0, 360.0);
 		
 	}
