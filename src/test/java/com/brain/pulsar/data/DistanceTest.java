@@ -12,7 +12,7 @@ class DistanceTest {
 	
 	@Test
 	void meter() {
-		assertEquals(new Distance(695500L, DistanceType.METER), new Distance(1, DistanceType.SOLAR_RADIUS));
+		assertEquals(new Distance(695500000L, DistanceType.METER), new Distance(1, DistanceType.SOLAR_RADIUS));
 		assertEquals(new Distance(149597870700L, DistanceType.METER), new Distance(1, DistanceType.AU));
 	}
 	
@@ -24,7 +24,7 @@ class DistanceTest {
 	
 	@Test
 	void solarRadius() {
-		assertEquals(new Distance(5, DistanceType.SOLAR_RADIUS), new Distance(695500L*5, DistanceType.METER));
+		assertEquals(new Distance(5, DistanceType.SOLAR_RADIUS), new Distance(695500000L*5, DistanceType.METER));
 	}
 	
 }
