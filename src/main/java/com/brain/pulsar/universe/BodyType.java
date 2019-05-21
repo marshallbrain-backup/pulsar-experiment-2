@@ -8,8 +8,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import main.java.com.brain.pulsar.files.format.Range;
 
 @XmlRootElement(name = "body")
-public class BodyType {
-	
+public class BodyType implements Cloneable {
+
+	@XmlElement(defaultValue = "true")
+	private boolean suitable;
+
 	@XmlElement
 	private String name;
 	@XmlElement
@@ -19,8 +22,10 @@ public class BodyType {
 	private Range radius;
 	@XmlElement(name = "temp_set")
 	private Range tempSet;
+	@XmlElement(name = "temp_range")
+	private Range tempRange;
 	
-	Random random;
+	private Random random;
 	
 	public BodyType() {
 		random = new Random();
@@ -28,6 +33,10 @@ public class BodyType {
 	
 	public String getName() {
 		return name;
+	}
+
+	public boolean isSuitable () {
+		return suitable;
 	}
 	
 	public long getRandomTemp() {
@@ -51,6 +60,23 @@ public class BodyType {
 		return Math.round(r);
 		
 	}
+
+	public boolean inTemperatureRange(long temperature) {
+		
+		if(tempRange == null) {
+			return true;
+		}
+		
+		double min = convert(tempRange.getMin());
+		double max = convert(tempRange.getMax());
+		
+		if(min < temperature && temperature < max) {
+			return true;
+		}
+		
+		return false;
+		
+	}
 	
 	private double convert(String n) {
 		
@@ -65,6 +91,27 @@ public class BodyType {
 		double d = Double.parseDouble(i);
 		
 		return d * Math.pow(10, e);
+		
+	}
+	
+	@Override
+	public BodyType clone() {
+		
+		BodyType clone = null;
+		try {
+			
+			clone = (BodyType) super.clone();
+			
+			clone.name = name;
+			clone.colonizable = colonizable;
+			clone.radius = radius.clone();
+			clone.tempSet = tempSet.clone();
+			
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+		return clone;
 		
 	}
 	
