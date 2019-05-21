@@ -1,10 +1,11 @@
 package test.java.com.brain.pulsar.universe;
 
+import static org.hamcrest.CoreMatchers.anyOf;
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,15 +48,11 @@ class BodyTest {
 		Body core = new Body();
 		Body star = new Body(typeBodys.get(0), core);
 		
-		assertThat("Radius range check", 
-				star.getRadius().getDistance(), 
-				allOf(
-						greaterThanOrEqualTo(new Distance(3, DistanceType.METER).getDistance()), 
-						lessThanOrEqualTo(new Distance(6, DistanceType.METER).getDistance())
-						)
-				);
-		
-		assertThat("Temperature range check", star.getTemperature(), allOf(greaterThanOrEqualTo(10000L), lessThanOrEqualTo(20000L)));
+		testBodyPropertys(star,
+				new Distance(3, DistanceType.SOLAR_RADIUS), new Distance(6, DistanceType.SOLAR_RADIUS),
+				new Distance(0, DistanceType.AU), new Distance(0, DistanceType.AU),
+				10000L, 20000L,
+				0.0, 0.0);
 		
 	}
 	
@@ -65,18 +62,57 @@ class BodyTest {
 		List<BodyType> typeBodys = data.getMatchData(BodyType.class);
 		
 		Body core = new Body();
-		Body star = new Body(typeBodys.get(0), core);
+		Body star = new Body(typeBodys.get(0), core, 2);
+		
+		testBodyPropertys(star,
+				new Distance(3, DistanceType.SOLAR_RADIUS), new Distance(6, DistanceType.SOLAR_RADIUS),
+				new Distance(2, DistanceType.AU), new Distance(2, DistanceType.AU),
+				10000L, 20000L,
+				0.0, 360.0);
+		
+	}
+	
+	static void testBodyPropertys(Body body, 
+			Distance radiusMin, Distance radiusMax, 
+			Distance distanceMin, Distance distanceMax, 
+			Long temperatureMin, Long temperatureMax, 
+			Double angleMin, Double angleMax) {
 		
 		assertThat("Radius range check", 
-				star.getRadius().getDistance(), 
-				allOf(
-						greaterThanOrEqualTo(new Distance(3, DistanceType.METER).getDistance()), 
-						lessThanOrEqualTo(new Distance(6, DistanceType.METER).getDistance())
+				body.getRadius().getDistance(), 
+				anyOf(
+						is(radiusMin.getDistance()), 
+						is(radiusMax.getDistance()), 
+						allOf(
+								greaterThanOrEqualTo(radiusMin.getDistance()), 
+								lessThanOrEqualTo(radiusMax.getDistance())
+								)
 						)
 				);
 		
-		assertThat("Temperature range check", star.getTemperature(), allOf(greaterThanOrEqualTo(10000L), lessThanOrEqualTo(20000L)));
-		assertThat("Angle range check", star.getAngle(), allOf(greaterThanOrEqualTo(0.0), lessThanOrEqualTo(360.0)));
+		assertThat("Distance range check", 
+				body.getDistance().getDistance(), 
+				allOf(
+						greaterThanOrEqualTo(distanceMin.getDistance()), 
+						lessThanOrEqualTo(distanceMax.getDistance())
+						)
+				);
+		
+		assertThat("Temperature range check", 
+				body.getTemperature(), 
+				allOf(
+						greaterThanOrEqualTo(temperatureMin), 
+						lessThanOrEqualTo(temperatureMax)
+						)
+				);
+		
+		assertThat("Angle range check", 
+				body.getAngle(), 
+				allOf(
+						greaterThanOrEqualTo(angleMin), 
+						lessThanOrEqualTo(angleMax)
+						)
+				);
 		
 	}
 	
