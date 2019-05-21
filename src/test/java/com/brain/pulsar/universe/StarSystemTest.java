@@ -53,6 +53,24 @@ class StarSystemTest {
 				10000L, 20000L,
 				0.0, 360.0);
 		
+		testPlanets(one.getPlanetList());
+		
+	}
+	
+	static void testPlanets(List<Body> planets) {
+
+		int distance = 1;
+		for(Body b: planets) {
+			
+			BodyTest.testBodyPropertys(b,
+					new Distance(3, DistanceType.SOLAR_RADIUS), new Distance(6, DistanceType.SOLAR_RADIUS),
+					new Distance(distance, DistanceType.AU), new Distance(distance, DistanceType.AU),
+					0L, 10000L,
+					0.0, 360.0);
+			distance++;
+			
+		}
+		
 	}
 	
 	static List<String> getXmlFiles() {
@@ -60,6 +78,7 @@ class StarSystemTest {
 		List<String> list = new ArrayList<>();
 		
 		list.add(stars);
+		list.add(planets);
 		list.add(systems);
 		
 		return list;
@@ -71,10 +90,26 @@ class StarSystemTest {
 			"\r\n" + 
 			"	<body>\r\n" + 
 			"		<name>sc_b_star</name>\r\n" + 
+			"		<suitable>false</suitable>\r\n" + 
 			"		<radius min=\"3\" max=\"6\"/>\r\n" + 
 			"		<temp_set min=\"10e3\" max=\"20e3\"/>\r\n" + 
 			"		<colonizable>false</colonizable>\r\n" + 
 			"	</body>\r\n" + 
+			"</pulsar>";
+	
+	private static String planets = 
+			"<pulsar>\r\n" + 
+			"\r\n" + 
+			"	<body>\r\n" + 
+			"		<name>pc_continental</name>\r\n" + 
+			"		<climate>wet</climate>\r\n" + 
+			"		<tag></tag>\r\n" + 
+			"		<spawn_odds>1</spawn_odds>\r\n" + 
+			"		<temp_range min=\"0\" max=\"10000\"/>\r\n" + 
+			"		<radius min=\"12\" max=\"25\"/>\r\n" + 
+			"		<moon_size min=\"10\" max=\"15\"/>\r\n" + 
+			"	</body>\r\n" + 
+			"\r\n" + 
 			"</pulsar>";
 	
 	private static String systems = 
