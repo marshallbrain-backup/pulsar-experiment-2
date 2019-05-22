@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -15,26 +17,37 @@ public class Settings {
 	
 	private Map<String, Map<String, String>> settingGroups;
 	
+	private File settingsFile;
+	
 	public Settings() {
+		settingsFile = new File("settings.txt");
+		init();
+	}
+	
+	public Settings(boolean b) {
+		settingsFile = new File("settings_test.txt");
+		settingsFile.deleteOnExit();
+		init();
+	}
+	
+	private void init() {
 		
 		settingGroups = new HashMap<String, Map<String, String>>();
 		
 		FileReader in;
 		
-		Pattern header = Pattern.compile("^\\[\\w+\\]");
-		Pattern name = Pattern.compile("^\\w=");
-		Pattern value = Pattern.compile("^=\\w");
+		Pattern header = Pattern.compile("(?:^\\[)(\\w+)(?:\\])");
+		Pattern name = Pattern.compile("(^\\w+)(?:=)");
+		Pattern value = Pattern.compile("(?:^=)(\\w+)");
 		Pattern none = Pattern.compile("^\\s+");
 		
 		try {
 			
-			File file = new File("settings.txt");
-			
-			if (!file.exists()) {
-				file.createNewFile();
+			if (!settingsFile.exists()) {
+				settingsFile.createNewFile();
 			}
 			
-			in = new FileReader(file);
+			in = new FileReader(settingsFile);
 			BufferedReader br = new BufferedReader(in);
 			
 			int pos = 0;
@@ -51,13 +64,20 @@ public class Settings {
 				
 				if((m = header.matcher(l)).find()) {
 					currentGroup = new HashMap<String, String>();
-					settingGroups.put(m.group(), currentGroup);
+					settingGroups.put(m.group(1), currentGroup);
+					lines = l.substring(m.end());
+					pos=0;
 				} else if((m = name.matcher(l)).find()) {
-					currentEntry = m.group();
+					currentEntry = m.group(1);
+					lines = l.substring(m.end(1));
+					pos=0;
 				} else if((m = value.matcher(l)).find()) {
-					currentGroup.put(currentEntry, m.group());
+					currentGroup.put(currentEntry, m.group(1));
+					lines = l.substring(m.end());
+					pos=0;
 				} else if((m = none.matcher(l)).find()) {
-					lines.substring(m.end());
+					lines = l.substring(m.end());
+					pos=0;
 				} else {
 					pos++;
 				}
@@ -81,7 +101,7 @@ public class Settings {
 		}
 		
 	}
-	
+
 	public String get(String key) {
 		return get(key, null);
 	}
@@ -128,6 +148,26 @@ public class Settings {
 	}
 	
 	public void push() {
+		
+		String file = "";
+		
+		for(Entry<String, Map<String, String>> g: settingGroups.entrySet()) {
+			
+			if(!g.getKey().isEmpty()) {
+				file = file.concat("[" + g.getKey() + "]" + System.lineSeparator());
+			}
+			
+			for(Entry<String, String> e: g.getValue().entrySet()) {
+				file = file.concat(e.getKey() + "=" + e.getValue() + System.lineSeparator());
+			}
+			
+		}
+		
+		try (PrintWriter out = new PrintWriter(settingsFile)) {
+			out.print(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
