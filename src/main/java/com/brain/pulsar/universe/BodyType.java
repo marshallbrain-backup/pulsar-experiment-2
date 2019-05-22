@@ -9,14 +9,19 @@ import main.java.com.brain.pulsar.files.format.Range;
 
 @XmlRootElement(name = "body")
 public class BodyType implements Cloneable {
+	
+	@XmlElement(name = "spawn_odds")
+	private double spawnOdds;
 
 	@XmlElement(defaultValue = "true")
 	private boolean suitable;
+	@XmlElement(defaultValue = "true")
+	private boolean colonizable;
 
 	@XmlElement
 	private String name;
 	@XmlElement
-	private String colonizable;
+	private String climate;
 	
 	@XmlElement
 	private Range radius;
@@ -24,6 +29,8 @@ public class BodyType implements Cloneable {
 	private Range tempSet;
 	@XmlElement(name = "temp_range")
 	private Range tempRange;
+	@XmlElement(name = "moon_size")
+	private Range moonSize;
 	
 	private Random random;
 	
@@ -92,6 +99,54 @@ public class BodyType implements Cloneable {
 		
 		return d * Math.pow(10, e);
 		
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		
+		Boolean equals = false;
+		
+		if(object instanceof BodyType) {
+			
+			BodyType compare = (BodyType) object;
+			
+			if(this == compare) {
+				equals = true;
+			} else {
+				equals = true;
+				if(spawnOdds != compare.spawnOdds) {
+					equals = false;
+				}
+				if(suitable != compare.suitable) {
+					equals = false;
+				}
+				if(colonizable != compare.colonizable) {
+					equals = false;
+				}
+				if(!name.equals(compare.name)) {
+					equals = false;
+				}
+				if(!climate.equals(compare.climate)) {
+					equals = false;
+				}
+				if(!radius.equals(compare.radius)) {
+					equals = false;
+				}
+				if(!tempSet.equals(compare.tempSet)) {
+					equals = false;
+				}
+				if(!tempRange.equals(compare.tempRange)) {
+					equals = false;
+				}
+				if(!moonSize.equals(compare.moonSize)) {
+					equals = false;
+				}
+				
+			}
+			
+		}
+		
+		return equals;
 	}
 	
 	@Override

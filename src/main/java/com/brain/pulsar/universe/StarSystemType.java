@@ -11,7 +11,7 @@ import main.java.com.brain.pulsar.files.format.Range;
 public class StarSystemType {
 	
 	@XmlElement(name = "spawn_odds")
-	private int spawnOdds;
+	private double spawnOdds;
 	
 	@XmlElement
 	private String body;
@@ -36,6 +36,36 @@ public class StarSystemType {
 		int max = Integer.parseInt(planetsNum.getMax());
 		
 		return r.nextInt(max - min) + min;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		
+		Boolean equals = false;
+		
+		if(object instanceof StarSystemType) {
+			
+			StarSystemType compare = (StarSystemType) object;
+			
+			if(this == compare) {
+				equals = true;
+			} else {
+				equals = true;
+				if(spawnOdds != compare.spawnOdds) {
+					equals = false;
+				}
+				if(!body.equals(compare.body)) {
+					equals = false;
+				}
+				if(!planetsNum.equals(compare.planetsNum)) {
+					equals = false;
+				}
+				
+			}
+			
+		}
+		
+		return equals;
 	}
 	
 }
