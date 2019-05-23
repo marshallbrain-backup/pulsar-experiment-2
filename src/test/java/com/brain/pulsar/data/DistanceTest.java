@@ -19,7 +19,7 @@ class DistanceTest {
 	@Test
 	void au() {
 		assertEquals(new Distance(5, DistanceType.AU), new Distance(149597870700L*5, DistanceType.METER));
-		
+		assertEquals(new Distance(5, DistanceType.AU).convert(DistanceType.SOLAR_RADIUS), new Distance(149597870700L*5, DistanceType.METER));
 	}
 	
 	@Test
