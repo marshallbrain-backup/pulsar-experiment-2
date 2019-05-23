@@ -10,6 +10,30 @@ import java.math.BigDecimal;
  */
 public class Distance {
 	
+	/**
+	 * Converts a double of the oldType a long of the newType
+	 * 
+	 * @param distance
+	 *            The distance being converted
+	 * @param oldType
+	 *            The type of units being converted from
+	 * @param newType
+	 *            The type of units being converted to
+	 * @return The distance in the new units
+	 */
+	public static Distance convert(double distance, int oldScale, DistanceType oldType, DistanceType newType) {
+		
+		// Do not switch newType and oldType
+		BigDecimal converted = BigDecimal.valueOf(distance * newType.getValueInverse() * oldType.getValue());
+		converted = converted.scaleByPowerOfTen(-oldScale);
+		
+		int scale = converted.scale();
+		long normalized = converted.scaleByPowerOfTen(scale).longValueExact();
+		
+		return new Distance(normalized, scale, newType);
+		
+	}
+	
 	private final int scale;
 	
 	private final long amount;
@@ -17,18 +41,16 @@ public class Distance {
 	private final DistanceType type;
 	
 	/**
-	 * Creates a new Distance
+	 * Clone the given distance
 	 * 
 	 * @param distance
-	 *            The distance
-	 * @param type
-	 *            The unit of measurement that the long is in
+	 *            The distance being cloned
 	 */
-	public Distance(long d, DistanceType t) {
+	public Distance(Distance d) {
 		
-		amount = d;
-		type = t;
-		scale = 0;
+		amount = d.amount;
+		type = d.type;
+		scale = d.scale;
 	}
 	
 	/**
@@ -55,34 +77,26 @@ public class Distance {
 	 * @param type
 	 *            The unit of measurement that the long is in
 	 */
+	public Distance(long d, DistanceType t) {
+		
+		amount = d;
+		type = t;
+		scale = 0;
+	}
+	
+	/**
+	 * Creates a new Distance
+	 * 
+	 * @param distance
+	 *            The distance
+	 * @param type
+	 *            The unit of measurement that the long is in
+	 */
 	public Distance(long d, int s, DistanceType t) {
 		
 		amount = d;
 		type = t;
 		scale = s;
-	}
-	
-	/**
-	 * Clone the given distance
-	 * 
-	 * @param distance
-	 *            The distance being cloned
-	 */
-	public Distance(Distance d) {
-		
-		amount = d.amount;
-		type = d.type;
-		scale = d.scale;
-	}
-	
-	/**
-	 * Converts the distance into meters using the conversion given by type
-	 * 
-	 * @return The number of meters being represented by this object
-	 */
-	public double getDistance() {
-		
-		return amount * type.getValue();
 	}
 	
 	/**
@@ -95,30 +109,6 @@ public class Distance {
 	public Distance convert(DistanceType t) {
 		
 		return convert(amount, scale, type, t);
-	}
-	
-	/**
-	 * Converts a double of the oldType a long of the newType
-	 * 
-	 * @param distance
-	 *            The distance being converted
-	 * @param oldType
-	 *            The type of units being converted from
-	 * @param newType
-	 *            The type of units being converted to
-	 * @return The distance in the new units
-	 */
-	public static Distance convert(double distance, int oldScale, DistanceType oldType, DistanceType newType) {
-		
-		// Do not switch newType and oldType
-		BigDecimal converted = BigDecimal.valueOf(distance * newType.getValueInverse() * oldType.getValue());
-		converted = converted.scaleByPowerOfTen(-oldScale);
-		
-		int scale = converted.scale();
-		long normalized = converted.scaleByPowerOfTen(scale).longValueExact();
-		
-		return new Distance(normalized, scale, newType);
-		
 	}
 	
 	/*
@@ -157,6 +147,16 @@ public class Distance {
 		
 		return false;
 		
+	}
+	
+	/**
+	 * Converts the distance into meters using the conversion given by type
+	 * 
+	 * @return The number of meters being represented by this object
+	 */
+	public double getDistance() {
+		
+		return amount * type.getValue();
 	}
 	
 }
