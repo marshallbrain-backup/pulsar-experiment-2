@@ -8,15 +8,28 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement(name = "range")
-public class Range implements Cloneable {
+public class Range {
 	
 	@XmlAttribute
 	private String max;
 	@XmlAttribute
 	private String min;
 	
+	/**
+	 * 
+	 */
 	public Range() {
+	}
 	
+	/**
+	 * Clones a Range
+	 * 
+	 * @param clone The Range to clone
+	 */public Range(Range clone) {
+		
+		min = clone.min;
+		max = clone.max;
+		
 	}
 	
 	/**
@@ -29,30 +42,6 @@ public class Range implements Cloneable {
 		
 		this.min = min;
 		this.max = max;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public Range clone() {
-		
-		Range clone = null;
-		try {
-			
-			clone = (Range) super.clone();
-			
-			clone.min = min;
-			clone.max = max;
-			
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		
-		return clone;
-		
 	}
 	
 	/*

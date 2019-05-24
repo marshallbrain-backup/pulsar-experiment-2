@@ -2,7 +2,6 @@ package main.java.com.brain.pulsar.universe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * The object that contains the information about a star system.
@@ -12,7 +11,7 @@ import java.util.Random;
  */
 public class StarSystem {
 	
-	private List<Body> BodyList;
+	private List<Body> bodyList;
 	private List<Body> starList;
 	private List<Body> planetList;
 	private List<Body> moonList;
@@ -25,7 +24,7 @@ public class StarSystem {
 		
 		BodyType starType = null;
 		
-		BodyList = new ArrayList<>();
+		bodyList = new ArrayList<>();
 		starList = new ArrayList<>();
 		planetList = new ArrayList<>();
 		moonList = new ArrayList<>();
@@ -53,13 +52,13 @@ public class StarSystem {
 			
 		}
 		
-		BodyList.addAll(starList);
-		BodyList.addAll(planetList);
-		BodyList.addAll(moonList);
+		bodyList.addAll(starList);
+		bodyList.addAll(planetList);
+		bodyList.addAll(moonList);
 		
-		for(Body b: BodyList) {
+		for(Body b: bodyList) {
 			
-			b.nTemperatureCalc(BodyList);
+			b.nTemperatureCalc(bodyList);
 			b.setType(typeBodys);
 			
 		}
@@ -75,7 +74,7 @@ public class StarSystem {
 		List<Body> list = new ArrayList<>();
 		
 		for(Body b: starList) {
-			list.add(b.clone());
+			list.add(new Body(b));
 		}
 		
 		return list;
@@ -91,7 +90,7 @@ public class StarSystem {
 		List<Body> list = new ArrayList<>();
 		
 		for(Body b: planetList) {
-			list.add(b.clone());
+			list.add(new Body(b));
 		}
 		
 		return list;

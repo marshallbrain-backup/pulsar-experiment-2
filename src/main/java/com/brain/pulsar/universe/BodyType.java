@@ -14,7 +14,7 @@ import main.java.com.brain.pulsar.files.format.Range;
  *
  */
 @XmlRootElement(name = "body")
-public class BodyType implements Cloneable {
+public class BodyType {
 	
 	@XmlElement(name = "spawn_odds")
 	private double spawnOdds;
@@ -41,34 +41,30 @@ public class BodyType implements Cloneable {
 	
 	private Random random;
 	
+	/**
+	 * Basic constructor
+	 */
 	public BodyType() {
 		
 		random = new Random();
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Clones a BodyType
 	 * 
-	 * @see java.lang.Object#clone()
+	 * @param clone The BodyType to clone
 	 */
-	@Override
-	public BodyType clone() {
+	public BodyType(BodyType clone) {
 		
-		BodyType clone = null;
-		try {
-			
-			clone = (BodyType) super.clone();
-			
-			clone.name = name;
-			clone.colonizable = colonizable;
-			clone.radius = radius.clone();
-			clone.tempSet = tempSet.clone();
-			
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		
-		return clone;
+		spawnOdds = clone.spawnOdds;
+		suitable = clone.suitable;
+		colonizable = clone.colonizable;
+		climate = clone.climate;
+		name = clone.name;
+		radius = new Range(clone.radius);
+		tempSet = new Range(clone.tempSet);
+		tempRange = new Range(clone.tempRange);
+		moonSize = new Range(clone.moonSize);
 		
 	}
 	
@@ -187,7 +183,7 @@ public class BodyType implements Cloneable {
 	/**
 	 * Test whether the given temperature is within the set range
 	 * 
-	 * @param Temperature
+	 * @param temperature
 	 *            The temperature value to test
 	 * @return The results
 	 */
@@ -200,11 +196,7 @@ public class BodyType implements Cloneable {
 		double min = convert(tempRange.getMin());
 		double max = convert(tempRange.getMax());
 		
-		if (min < temperature && temperature < max) {
-			return true;
-		}
-		
-		return false;
+		return (min < temperature && temperature < max);
 		
 	}
 	

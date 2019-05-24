@@ -13,7 +13,7 @@ import main.java.com.brain.pulsar.data.DistanceType;
  * @author Marshall Brain
  *
  */
-public class Body implements Cloneable {
+public class Body {
 	
 	private long temperature;
 	private long temperatureEmission;
@@ -26,9 +26,31 @@ public class Body implements Cloneable {
 	private Random random;
 	private BodyType type;
 	
+	/**
+	 * Basic constructor
+	 */
 	public Body() {
 		
 		init();
+	}
+	
+	/**
+	 * Clones a Body
+	 * 
+	 * @param clone The Body to clone
+	 */
+	public Body(Body clone) {
+		
+		temperature = clone.temperature;
+		temperatureEmission = clone.temperatureEmission;
+		angle = clone.angle;
+		distance = new Distance(clone.distance);
+		radius = new Distance(clone.radius);
+		type = new BodyType(clone.type);
+		parent = new Body(clone.parent);
+		
+		init();
+		
 	}
 	
 	/**
@@ -40,13 +62,13 @@ public class Body implements Cloneable {
 	 * @param distance
 	 *            The distance from the parent this is orbiting at
 	 */
-	public Body(Body p, int d) {
+	public Body(Body parent, int distance) {
 		
 		init();
 		
-		parent = p;
+		this.parent = parent;
 		
-		distance = new Distance(d, DistanceType.AU);
+		this.distance = new Distance(distance, DistanceType.AU);
 		angle = random.nextDouble() * 360;
 		
 	}
@@ -60,11 +82,11 @@ public class Body implements Cloneable {
 	 * @param parent
 	 *            The body that this is centered on
 	 */
-	public Body(BodyType starType, Body p) {
+	public Body(BodyType starType, Body parent) {
 		
 		init();
 		
-		parent = p;
+		this.parent = parent;
 		type = starType;
 		
 		temperatureEmission = type.getRandomTemp();
@@ -87,48 +109,19 @@ public class Body implements Cloneable {
 	 * @param distance
 	 *            The distance from the parent this is orbiting at
 	 */
-	public Body(BodyType starType, Body p, long d) {
+	public Body(BodyType starType, Body parent, int distance) {
 		
 		init();
 		
-		parent = p;
+		this.parent = parent;
 		type = starType;
 		
+		this.distance = new Distance(distance, DistanceType.AU);
 		temperatureEmission = type.getRandomTemp();
 		radius = new Distance(type.getRandomRadius(), DistanceType.SOLAR_RADIUS);
-		distance = new Distance(d, DistanceType.AU);
 		angle = random.nextDouble() * 360;
 		
 		temperature = temperatureEmission;
-		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public Body clone() {
-		
-		Body clone = null;
-		try {
-			
-			clone = (Body) super.clone();
-			
-			if (type != null) {
-				clone.type = type.clone();
-			}
-			
-			if (parent != null) {
-				clone.parent = parent.clone();
-			}
-			
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		
-		return clone;
 		
 	}
 	
@@ -241,7 +234,7 @@ public class Body implements Cloneable {
 			if (b != this && b.temperatureEmission > 0) {
 				
 				long t = b.temperatureEmission;
-				Distance d = getDistance(this.clone(), b.clone());
+				Distance d = getDistance(new Body(this), new Body(b));
 				Distance r = b.radius;
 				
 				double tem = t * Math.sqrt(r.getDistance() / (2 * d.getDistance()));
