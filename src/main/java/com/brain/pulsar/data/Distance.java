@@ -15,6 +15,8 @@ public class Distance {
 	 * 
 	 * @param distance
 	 *            The distance being converted
+	 * @param oldScale
+	 *            The scientific notation of the distance being converted
 	 * @param oldType
 	 *            The type of units being converted from
 	 * @param newType
@@ -46,11 +48,11 @@ public class Distance {
 	 * @param distance
 	 *            The distance being cloned
 	 */
-	public Distance(Distance d) {
+	public Distance(Distance distance) {
 		
-		amount = d.amount;
-		type = d.type;
-		scale = d.scale;
+		amount = distance.amount;
+		type = distance.type;
+		scale = distance.scale;
 	}
 	
 	/**
@@ -61,11 +63,11 @@ public class Distance {
 	 * @param type
 	 *            The unit of measurement that the long is in
 	 */
-	public Distance(double d, DistanceType t) {
+	public Distance(double distance, DistanceType type) {
 		
-		Distance converted = convert(d, 0, DistanceType.METER, t);
+		Distance converted = convert(distance, 0, DistanceType.METER, type);
 		amount = converted.amount;
-		type = converted.type;
+		this.type = converted.type;
 		scale = converted.scale;
 	}
 	
@@ -77,10 +79,10 @@ public class Distance {
 	 * @param type
 	 *            The unit of measurement that the long is in
 	 */
-	public Distance(long d, DistanceType t) {
+	public Distance(long distance, DistanceType type) {
 		
-		amount = d;
-		type = t;
+		this.type = type;
+		amount = distance;
 		scale = 0;
 	}
 	
@@ -89,26 +91,28 @@ public class Distance {
 	 * 
 	 * @param distance
 	 *            The distance
+	 * @param scale
+	 *            The scientific notation of the distance
 	 * @param type
 	 *            The unit of measurement that the long is in
 	 */
-	public Distance(long d, int s, DistanceType t) {
+	public Distance(long distance, int scale, DistanceType type) {
 		
-		amount = d;
-		type = t;
-		scale = s;
+		this.type = type;
+		this.scale = scale;
+		amount = distance;
 	}
 	
 	/**
 	 * Converts the current unit of distance into a new one
 	 * 
-	 * @param Type
+	 * @param newType
 	 *            The unit type being converted to
 	 * @return A new distance of the given type
 	 */
-	public Distance convert(DistanceType t) {
+	public Distance convert(DistanceType newType) {
 		
-		return convert(amount, scale, type, t);
+		return convert(amount, scale, type, newType);
 	}
 	
 	/*
@@ -137,11 +141,8 @@ public class Distance {
 			if (d1.type != d2.type) {
 				return false;
 			}
-			if (d1.type != DistanceType.METER) {
-				return false;
-			}
 			
-			return true;
+			return (d1.type != DistanceType.METER);
 			
 		}
 		

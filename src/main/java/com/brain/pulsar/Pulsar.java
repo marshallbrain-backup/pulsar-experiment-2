@@ -132,8 +132,9 @@ public class Pulsar implements TickCall, RenderCall {
 		if (jarPath.getScheme().equals("jar")) {
 			
 			try (FileSystem fileSystem = FileSystems.getFileSystem(jarPath)) {
-				return fileSystem.getPath(jarPath.toString().substring(jarPath.toString().lastIndexOf("!") + 1));
+				return fileSystem.getPath(jarPath.toString().substring(jarPath.toString().lastIndexOf('!') + 1));
 			} catch (FileSystemNotFoundException e) {
+				e.printStackTrace();
 			}
 			
 		}

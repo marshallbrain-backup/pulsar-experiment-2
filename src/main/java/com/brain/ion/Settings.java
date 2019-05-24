@@ -185,7 +185,7 @@ public class Settings {
 		String group = "";
 		String name = key;
 		if (key.contains(".")) {
-			int i = key.indexOf(".");
+			int i = key.indexOf('.');
 			group = key.substring(0, i);
 			name = key.substring(i + 1);
 		}
@@ -219,7 +219,7 @@ public class Settings {
 		String group = "";
 		String name = key;
 		if (key.contains(".")) {
-			int i = key.indexOf(".");
+			int i = key.indexOf('.');
 			group = key.substring(0, i);
 			name = key.substring(i + 1);
 		}

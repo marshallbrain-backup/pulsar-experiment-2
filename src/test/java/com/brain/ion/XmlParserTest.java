@@ -7,9 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.java.com.brain.ion.XmlParser;
@@ -31,9 +29,9 @@ class XmlParserTest {
 	}
 	
 	@Test
-	void xmlToBody() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	void xmlToBody() throws NoSuchFieldException, IllegalAccessException {
 		
-		BodyType xmlBody = ((DataContainer) LoadXmlFile("body", body)).getMatchData(BodyType.class).get(0);
+		BodyType xmlBody = ((DataContainer) loadXmlFile("body", bodyXml)).getMatchData(BodyType.class).get(0);
 		BodyType setBody = new BodyType();
 		
 		Field suitable = BodyType.class.getDeclaredField("suitable");
@@ -71,9 +69,9 @@ class XmlParserTest {
 	}
 	
 	@Test
-	void xmlToSystem() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	void xmlToSystem() throws NoSuchFieldException, IllegalAccessException {
 		
-		StarSystemType xmlSystem = ((DataContainer) LoadXmlFile("system", system)).getMatchData(StarSystemType.class).get(0);
+		StarSystemType xmlSystem = ((DataContainer) loadXmlFile("system", systemXml)).getMatchData(StarSystemType.class).get(0);
 		StarSystemType setSystem = new StarSystemType();
 		
 		Field spawnOdds = StarSystemType.class.getDeclaredField("spawnOdds");
@@ -92,7 +90,7 @@ class XmlParserTest {
 		
 	}
 	
-	static Object LoadXmlFile(String name, String text) {
+	static Object loadXmlFile(String name, String text) {
 		
 		File f = new File("XmlTestFiles\\" + name + ".xml");
 		f.deleteOnExit();
@@ -112,7 +110,7 @@ class XmlParserTest {
 		BodyType.class, StarSystemType.class
 		};
 	
-	private static String body = 
+	private static String bodyXml = 
 			"<pulsar>\r\n" + 
 			"\r\n" + 
 			"	<body>\r\n" + 
@@ -129,7 +127,7 @@ class XmlParserTest {
 			"\r\n" + 
 			"</pulsar>";
 	
-	private static String system = 
+	private static String systemXml = 
 			"<pulsar>\r\n" + 
 			"\r\n" + 
 			"	<system>\r\n" + 

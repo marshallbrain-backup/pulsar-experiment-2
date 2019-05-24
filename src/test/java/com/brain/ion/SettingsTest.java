@@ -2,8 +2,6 @@ package test.java.com.brain.ion;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.java.com.brain.ion.Settings;
@@ -11,22 +9,10 @@ import main.java.com.brain.ion.Settings;
 
 class SettingsTest {
 	
-	private static Settings settings;
-	
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-		
-		settings = new Settings("settings_test.txt");
-		
-	}
-	
-	@BeforeEach
-	void setUp() {
-	
-	}
-	
 	@Test
 	void settingsTest() {
+		
+		Settings settings = new Settings("settings_test.txt");
 		
 		assertEquals("true", settings.get("test", "true"));
 		assertEquals("true", settings.get("test"));

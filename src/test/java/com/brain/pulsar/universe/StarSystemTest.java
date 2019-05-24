@@ -1,13 +1,9 @@
 package test.java.com.brain.pulsar.universe;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.java.com.brain.ion.XmlParser;
@@ -38,13 +34,6 @@ class StarSystemTest {
 		}
 		
 		data = new DataContainer(uncompresed);
-		
-	}
-	
-	@BeforeEach
-	void setUp() {
-		
-		
 		
 	}
 	
@@ -87,15 +76,15 @@ class StarSystemTest {
 		
 		List<String> list = new ArrayList<>();
 		
-		list.add(stars);
-		list.add(planets);
-		list.add(systems);
+		list.add(starsXml);
+		list.add(planetsXml);
+		list.add(systemsXml);
 		
 		return list;
 		
 	}
 	
-	private static String stars = 
+	private static String starsXml = 
 			"<pulsar>\r\n" + 
 			"\r\n" + 
 			"	<body>\r\n" + 
@@ -107,7 +96,7 @@ class StarSystemTest {
 			"	</body>\r\n" + 
 			"</pulsar>";
 	
-	private static String planets = 
+	private static String planetsXml = 
 			"<pulsar>\r\n" + 
 			"\r\n" + 
 			"	<body>\r\n" + 
@@ -122,7 +111,7 @@ class StarSystemTest {
 			"\r\n" + 
 			"</pulsar>";
 	
-	private static String systems = 
+	private static String systemsXml = 
 			"<pulsar>\r\n" + 
 			"\r\n" + 
 			"	<system>\r\n" + 
