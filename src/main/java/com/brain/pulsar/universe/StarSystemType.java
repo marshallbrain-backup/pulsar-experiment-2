@@ -27,6 +27,9 @@ public class StarSystemType {
 	
 	private Random r;
 	
+	/**
+	 * Basic constructor
+	 */
 	public StarSystemType() {
 		r = new Random();
 	}
