@@ -15,9 +15,6 @@ public class Range implements Cloneable {
 	@XmlAttribute
 	private String min;
 	
-	/**
-	 * Empty constructor
-	 */
 	public Range() {
 	
 	}
