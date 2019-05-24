@@ -36,12 +36,12 @@ public class GameLoop implements Runnable {
 	 * @param screen
 	 *            The canvas that the game is drawn in
 	 */
-	public GameLoop(JFrame f, Map<SettingEntry, String> s, TickCall t, RenderCall r, Canvas screen) {
+	public GameLoop(JFrame frame, Map<SettingEntry, String> settings, TickCall tickCall, RenderCall renderCall, Canvas screen) {
 		
-		settings = s;
-		mainFrame = f;
-		tickClass = t;
-		renderClass = r;
+		this.settings = settings;
+		mainFrame = frame;
+		tickClass = tickCall;
+		renderClass = renderCall;
 		
 		int x = Integer.parseInt(settings.get(SettingEntry.WINDOWED_POS_X));
 		int y = Integer.parseInt(settings.get(SettingEntry.WINDOWED_POS_Y));
@@ -58,7 +58,7 @@ public class GameLoop implements Runnable {
 	}
 	
 	/**
-	 * 
+	 * Starts the dedicated tick and rendering thread
 	 */
 	public synchronized void start() {
 		
@@ -75,7 +75,7 @@ public class GameLoop implements Runnable {
 	}
 	
 	/**
-	 * 
+	 * Stops the dedicated tick and rendering thread and closes the main frame
 	 */
 	public synchronized void stop() {
 		
@@ -138,9 +138,9 @@ public class GameLoop implements Runnable {
 			// Is called once a second
 			if ((lastUpdateTime / 1000000) - (lastSecond / 1000000) >= 1000) {
 				
-				// System.out.println("TPS - " + String.valueOf(tps));
-				// System.out.println("FPS - " + String.valueOf(fps));
-				// System.out.println();
+//				System.out.println("TPS - " + String.valueOf(tps));
+//				System.out.println("FPS - " + String.valueOf(fps));
+//				System.out.println();
 				
 				tps = 0;
 				fps = 0;
