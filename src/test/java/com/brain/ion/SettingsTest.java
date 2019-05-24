@@ -16,12 +16,12 @@ class SettingsTest {
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		
-		settings = new Settings(true);
+		settings = new Settings("settings_test.txt");
 		
 	}
 	
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
 	
 	}
 	
@@ -36,7 +36,7 @@ class SettingsTest {
 		
 		settings.push();
 		
-		settings = new Settings(true);
+		settings = new Settings("settings_test.txt");
 		assertEquals("true", settings.get("test"));
 		assertEquals("true", settings.get("test.test"));
 		
