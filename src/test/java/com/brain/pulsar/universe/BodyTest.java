@@ -78,7 +78,7 @@ class BodyTest {
 		testBodyPropertys(star,
 				new Distance(3, DistanceType.SOLAR_RADIUS), new Distance(6, DistanceType.SOLAR_RADIUS),
 				new Distance(2, DistanceType.AU), new Distance(2, DistanceType.AU),
-				0L, 10000L,
+				0L, 20000L,
 				0.0, 360.0);
 		
 	}
