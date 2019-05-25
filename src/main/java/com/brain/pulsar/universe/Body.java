@@ -162,6 +162,10 @@ public class Body {
 		return new Distance(distance);
 	}
 	
+	public String getId() {
+		return type.getName();
+	}
+
 	/**
 	 * Gets the distance between two bodies.
 	 * 
