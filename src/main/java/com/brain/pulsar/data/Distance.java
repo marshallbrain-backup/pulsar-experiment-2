@@ -142,7 +142,7 @@ public class Distance {
 				return false;
 			}
 			
-			return (d1.type != DistanceType.METER);
+			return (d1.type == DistanceType.METER);
 			
 		}
 		
