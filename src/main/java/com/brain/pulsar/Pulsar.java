@@ -23,6 +23,7 @@ import main.java.com.brain.ion.Ion;
 import main.java.com.brain.ion.RenderCall;
 import main.java.com.brain.ion.TickCall;
 import main.java.com.brain.ion.XmlParser;
+import main.java.com.brain.ion.graphics.VectorGraphics;
 import main.java.com.brain.pulsar.files.DataContainer;
 import main.java.com.brain.pulsar.ui.Ui;
 import main.java.com.brain.pulsar.universe.BodyType;
@@ -213,11 +214,12 @@ public class Pulsar implements TickCall, RenderCall {
 		
 		BufferStrategy bs = screen.getBufferStrategy();
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+		VectorGraphics vg = new VectorGraphics(g);
 		
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, screen.getWidth(), screen.getHeight());
 		
-		ui.render(g);
+		ui.render(vg);
 		
 		g.dispose();
 		bs.show();
