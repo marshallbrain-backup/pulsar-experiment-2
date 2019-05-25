@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,12 +28,21 @@ import main.java.com.brain.pulsar.universe.BodyType;
 import main.java.com.brain.pulsar.universe.StarSystem;
 import main.java.com.brain.pulsar.universe.StarSystemType;
 
+/**
+ * The main class for the game. Handels initialization of the game engien as
+ * well as handeling game tick and render calls
+ * 
+ * @author Marshall Brain
+ */
 public class Pulsar implements TickCall, RenderCall {
-	
-	private Canvas screen;
 	
 	private StarSystem mainSystem;
 	
+	private Canvas screen;
+	
+	/**
+	 * Class constructor
+	 */
 	public Pulsar() {
 		
 		screen = new Canvas();
@@ -46,38 +54,156 @@ public class Pulsar implements TickCall, RenderCall {
 		
 	}
 	
+	/**
+	 * Clone the folder to a different location, mainly should be used for cloning a
+	 * folder located in the jar to a folder outside the jar.
+	 * 
+	 * @param jarUri
+	 *            The path to the folder inside the jar
+	 * @param rootPath
+	 *            The destination folder
+	 * @throws IOException
+	 */
+	private void cloneFolder(URI jarUri, File rootPath) throws IOException {
+		
+		Path jarPath = getJarPath(jarUri);
+		
+		// Skips the first element because it crashes other wise
+		try (Stream<Path> folderStream = Files.walk(jarPath, 1).skip(1)) {
+			
+			for (Iterator<Path> it = folderStream.iterator(); it.hasNext();) {
+				
+				Path p = it.next();
+				
+				// Determans if it is a folder or a file
+				if (!p.toString().contains(".")) {
+					
+					File n2 = new File(rootPath.getPath() + File.separator + p.getFileName());
+					cloneFolder(p.toUri(), n2);
+					
+				} else {
+					
+					File n2 = new File(rootPath.getPath() + File.separator + p.getFileName());
+					n2.getParentFile().mkdirs();
+					
+					if (!n2.exists()) {
+						Files.copy(p, n2.toPath());
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+	}
+	
+	/**
+	 * Clones folders from inside the jar file into the folder the file is located
+	 * 
+	 * Current folders that are cloned
+	 * <ul>
+	 * <li>common</li>
+	 * </ul>
+	 * 
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private void cloneResorses() throws URISyntaxException, IOException {
+		
+		URI commonOld = getClass().getResource("/resorses/common/").toURI();
+		File commonNew = new File("common");
+		
+		cloneFolder(commonOld, commonNew);
+		
+	}
+	
+	/**
+	 * Converts a {@link URI} to a {@link Path}
+	 * 
+	 * @param jarPath
+	 *            The {@link URI} to conert
+	 * @return The {@link Path} to the location from the {@link URI}
+	 * @throws IOException
+	 */
+	private Path getJarPath(URI jarPath) throws IOException {
+		
+		if (jarPath.getScheme().equals("jar")) {
+			
+			try (FileSystem fileSystem = FileSystems.getFileSystem(jarPath)) {
+				return fileSystem.getPath(jarPath.toString().substring(jarPath.toString().lastIndexOf('!') + 1));
+			} catch (FileSystemNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return Paths.get(jarPath);
+		
+	}
+	
+	/**
+	 * Goes through every file in the spesified folder and converts them to a list
+	 * of {@link DataContainer}.
+	 * 
+	 * @param folder
+	 *            The folder to read from
+	 * @param classList
+	 *            The class list for {@link XmlParser}
+	 * @param dataList
+	 *            The list of {@link DataContainer} to add the responces from
+	 *            {@link XmlParser} to
+	 * @see XmlParser
+	 */
+	private void getXmlFiles(File folder, Class<?>[] classList, List<DataContainer> dataList) {
+		
+		for (File f : folder.listFiles()) {
+			
+			if (f.isDirectory()) {
+				getXmlFiles(f, classList, dataList);
+			} else if (f.isFile()) {
+				dataList.add((DataContainer) XmlParser.getXml(f, classList));
+			}
+			
+		}
+		
+	}
+	
+	/**
+	 * Initialization of the game
+	 */
 	private void init() {
 		
 		try {
 			cloneResorses();
-		} catch (ClassNotFoundException | URISyntaxException | IOException e) {
+		} catch (URISyntaxException | IOException e) {
 			e.printStackTrace();
 		}
 		
 		List<DataContainer> data = new ArrayList<>();
 		
-		Class<?>[] dataTypes = new Class<?>[]{
-			DataContainer.class, 
-			BodyType.class, StarSystemType.class
-			};
+		// The Type classes are there for the
+		// @XmlAnyElement tag in DataContainer
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
 		
 		getXmlFiles(new File("common"), dataTypes, data);
 		DataContainer common = new DataContainer(data);
 		
+		// Seperation into list is done this way instead of doing it by folder name
+		// to allow the ability to oraganize them any way the user wants
 		List<BodyType> typeBodys = common.getMatchData(BodyType.class);
 		List<StarSystemType> typeSytems = common.getMatchData(StarSystemType.class);
 		
 		mainSystem = new StarSystem(typeBodys, typeSytems);
 		
 	}
-
-	@Override
-	public synchronized void tick() {
-		
-		
-		
-	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.RenderCall#render()
+	 */
 	@Override
 	public synchronized void render() {
 		
@@ -92,82 +218,13 @@ public class Pulsar implements TickCall, RenderCall {
 		
 	}
 	
-	private void getXmlFiles(File folder, Class<?>[] classList, List<DataContainer> o) {
-		
-		for(File f: folder.listFiles()) {
-			
-			if(f.isDirectory()) {
-				getXmlFiles(f, classList, o);
-			} else if(f.isFile()) {
-				o.add((DataContainer) XmlParser.getXml(f, classList));
-			}
-			
-		}
-		
-	}
-	
-	private void cloneResorses() throws URISyntaxException, IOException, ClassNotFoundException {
-		
-		URI commonOld = getClass().getResource("/resorses/common/").toURI();
-		File commonNew = new File("common");
-		
-		cloneFolder(commonOld, commonNew);
-		
-	}
-	
-	private void cloneFolder(URI o, File n) throws IOException {
-		
-		Path old = getJarPath(o, n);
-		
-		try(Stream<Path> walk = Files.walk(old, 1).skip(1)) {
-			
-			for (Iterator<Path> it = walk.iterator(); it.hasNext();) {
-				
-				Path p = it.next();
-				
-				if(!p.toString().contains(".")) {
-					
-					File n2 = new File(n.getPath() + File.separator + p.getFileName());
-					cloneFolder(p.toUri(), n2);
-					
-				} else {
-					
-					File n2 = new File(n.getPath() + File.separator + p.getFileName());
-					n2.getParentFile().mkdirs();
-					
-					if(!n2.exists()) {
-//						StandardCopyOption.REPLACE_EXISTING
-						Files.copy(p, n2.toPath());
-					}
-					
-				}
-				
-			}
-			
-		}
-		
-	}
-	
-	private Path getJarPath(URI o, File n) throws IOException {
-		
-		if(!n.exists())
-			n.mkdirs();
-		
-		if (o.getScheme().equals("jar")) {
-			
-			FileSystem fileSystem;
-			
-			try {
-				fileSystem = FileSystems.getFileSystem(o);
-			} catch (FileSystemNotFoundException e) {
-				fileSystem = FileSystems.newFileSystem(o, Collections.<String, Object>emptyMap());
-			}
-			
-			return fileSystem.getPath(o.toString().substring(o.toString().lastIndexOf("!")+1));
-			
-		} else {
-		    return Paths.get(o);
-		}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.TickCall#tick()
+	 */
+	@Override
+	public synchronized void tick() {
 		
 	}
 	

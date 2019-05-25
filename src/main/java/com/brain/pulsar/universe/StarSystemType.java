@@ -7,6 +7,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import main.java.com.brain.pulsar.files.format.Range;
 
+/**
+ * Class for storing information about a system type from an xml file.
+ * 
+ * @author Marshall Brain
+ *
+ */
 @XmlRootElement(name = "system")
 public class StarSystemType {
 	
@@ -21,15 +27,24 @@ public class StarSystemType {
 	
 	private Random r;
 	
+	/**
+	 * Basic constructor
+	 */
 	public StarSystemType() {
 		r = new Random();
 	}
 
+	/**
+	 * @return The body at the core of the system
+	 */
 	public String getBody() {
-		String b = body.trim();
-		return b;
+		return body.trim();
 	}
 
+	/**
+	 * @return A random number that is in the range of the possible number of
+	 *         planets for the system
+	 */
 	public int getPlanetCount() {
 		
 		int min = Integer.parseInt(planetsNum.getMin());
@@ -38,6 +53,9 @@ public class StarSystemType {
 		return r.nextInt(max - min) + min;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object object) {
 		

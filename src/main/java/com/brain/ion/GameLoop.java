@@ -7,6 +7,12 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
+/**
+ * The class that contains the main loop for a game.
+ * 
+ * @author Marshall Brain
+ *
+ */
 public class GameLoop implements Runnable {
 	
 	private boolean running;
@@ -17,13 +23,25 @@ public class GameLoop implements Runnable {
 	
 	private JFrame mainFrame;
 	private Thread mainThread;
-
-	public GameLoop(JFrame f, Map<SettingEntry, String> s, TickCall t, RenderCall r, Canvas screen) {
+	
+	/**
+	 * @param frame
+	 *            The JFrame that the screen is added to
+	 * @param settings
+	 *            The settings map
+	 * @param tickCall
+	 *            The object to call the tick method from
+	 * @param renderCall
+	 *            The object to call the render method from
+	 * @param screen
+	 *            The canvas that the game is drawn in
+	 */
+	public GameLoop(JFrame frame, Map<SettingEntry, String> settings, TickCall tickCall, RenderCall renderCall, Canvas screen) {
 		
-		settings = s;
-		mainFrame = f;
-		tickClass = t;
-		renderClass = r;
+		this.settings = settings;
+		mainFrame = frame;
+		tickClass = tickCall;
+		renderClass = renderCall;
 		
 		int x = Integer.parseInt(settings.get(SettingEntry.WINDOWED_POS_X));
 		int y = Integer.parseInt(settings.get(SettingEntry.WINDOWED_POS_Y));
@@ -38,25 +56,32 @@ public class GameLoop implements Runnable {
 		screen.createBufferStrategy(2);
 		
 	}
-
+	
+	/**
+	 * Starts the dedicated tick and rendering thread
+	 */
 	public synchronized void start() {
 		
-		if(running) {
+		if (running) {
 			return;
 		}
 		
 		running = true;
 		
+		// Creates a new thread for the loop so that the main thread is not stuck
 		mainThread = new Thread(this);
 		mainThread.start();
 		
 	}
 	
-	public synchronized void stop(){
+	/**
+	 * Stops the dedicated tick and rendering thread and closes the main frame
+	 */
+	public synchronized void stop() {
 		
-		//TODO have this method be called when the attempting to close the program
-		//TODO find the better way of doing this
-		if(!running) {
+		// TODO have this method be called when the attempting to close the program
+		// TODO find the better way of doing this
+		if (!running) {
 			mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
 			return;
 		}
@@ -69,31 +94,30 @@ public class GameLoop implements Runnable {
 		
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		
-		int tps;
-		int fps;
-		
-		long lastSecond;
-		long lastUpdateTime;
-		long lastRenderTime;
 		final long TARGET_FPS = 60;
 		final long TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
 		final long GAME_HERTZ = 60;
 		final long TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
 		
-		tps = 0;
-		fps = 0;
-		lastSecond = System.nanoTime();
-		lastUpdateTime = System.nanoTime();
-		lastRenderTime = System.nanoTime();
+		int tps = 0;
+		int fps = 0;
+		long lastSecond = System.nanoTime();
+		long lastUpdateTime = lastSecond;
+		long lastRenderTime;
 		
-		while(running) {
+		while (running) {
 			
 			long now = System.nanoTime();
 			
-			while(now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
+			while (now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
 				
 				tickClass.tick();
 				tps++;
@@ -105,11 +129,12 @@ public class GameLoop implements Runnable {
 			fps++;
 			lastRenderTime = now;
 			
-			if((lastUpdateTime / 1000000) - (lastSecond / 1000000) >= 1000) {
+			// Is called once a second
+			if ((lastUpdateTime / 1000000) - (lastSecond / 1000000) >= 1000) {
 				
-				System.out.println("TPS - " + String.valueOf(tps));
-				System.out.println("FPS - " + String.valueOf(fps));
-				System.out.println();
+//				System.out.println("TPS - " + String.valueOf(tps));
+//				System.out.println("FPS - " + String.valueOf(fps));
+//				System.out.println();
 				
 				tps = 0;
 				fps = 0;
@@ -117,16 +142,18 @@ public class GameLoop implements Runnable {
 				
 			}
 			
-			while(now - lastRenderTime < TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+			// Idles until a frame or game tick needs to happen
+			while (now - lastRenderTime < TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
 				
 				Thread.yield();
 				try {
 					Thread.sleep(1);
-				} catch(Exception e) {
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 				
 				now = System.nanoTime();
-               
+				
 			}
 			
 		}
