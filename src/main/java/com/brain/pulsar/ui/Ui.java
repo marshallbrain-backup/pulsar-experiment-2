@@ -2,7 +2,9 @@ package main.java.com.brain.pulsar.ui;
 
 import java.awt.Graphics2D;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import main.java.com.brain.ion.graphics.VectorGraphics;
 import main.java.com.brain.ion.graphics.vectors.VectorGroup;
@@ -15,14 +17,39 @@ public class Ui {
 
 	public Ui(StarSystem mainSystem) {
 		
-		map = new StarSystemUi(mainSystem);
-		
 		Map<String, VectorGroup> vg = VectorGraphics.loadVectors(new File("gfx"));
-		vg.size();
+		
+		Map<String, VectorGroup> bodys = getGroups(vg, "body\\..*", true);
+		
+		vg.clear();
+		
+		map = new StarSystemUi(mainSystem, bodys);
+		
+	}
+	
+	private Map<String, VectorGroup> getGroups(Map<String, VectorGroup> vg, String regex, boolean cut){
+		
+		Map<String, VectorGroup> group = new HashMap<>();
+		
+		for(Entry<String, VectorGroup> e: vg.entrySet()) {
+			if(e.getKey().matches(regex)) {
+				
+				String key = e.getKey();
+				
+				if(cut) {
+					key = key.substring(key.indexOf('.')+1);
+				}
+				
+				group.put(key, new VectorGroup(e.getValue()));
+				
+			}
+		}
+		
+		return group;
 		
 	}
 
-	public void render(Graphics2D g) {
+	public void render(VectorGraphics g) {
 		
 		map.render(g);
 		
