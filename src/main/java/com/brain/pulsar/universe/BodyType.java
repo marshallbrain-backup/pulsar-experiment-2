@@ -56,6 +56,10 @@ public class BodyType {
 	 */
 	public BodyType(BodyType clone) {
 		
+		if(clone == null) {
+			return;
+		}
+		
 		spawnOdds = clone.spawnOdds;
 		suitable = clone.suitable;
 		colonizable = clone.colonizable;

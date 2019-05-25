@@ -25,7 +25,12 @@ public class Range {
 	 * Clones a Range
 	 * 
 	 * @param clone The Range to clone
-	 */public Range(Range clone) {
+	 */
+	public Range(Range clone) {
+		
+		if(clone == null) {
+			return;
+		}
 		
 		min = clone.min;
 		max = clone.max;
