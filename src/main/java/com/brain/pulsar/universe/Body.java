@@ -41,6 +41,12 @@ public class Body {
 	 */
 	public Body(Body clone) {
 		
+		init();
+		
+		if(clone == null) {
+			return;
+		}
+		
 		temperature = clone.temperature;
 		temperatureEmission = clone.temperatureEmission;
 		angle = clone.angle;
@@ -48,8 +54,6 @@ public class Body {
 		radius = new Distance(clone.radius);
 		type = new BodyType(clone.type);
 		parent = new Body(clone.parent);
-		
-		init();
 		
 	}
 	
@@ -125,6 +129,23 @@ public class Body {
 		
 	}
 	
+	/**
+	 * Generic initialization code.
+	 */
+	private void init() {
+		
+		temperature = 0;
+		temperatureEmission = 0;
+		angle = 0;
+		distance = new Distance(0, DistanceType.METER);
+		radius = new Distance(0, DistanceType.METER);
+		
+		type = null;
+		parent = null;
+		
+		random = new Random();
+	}
+
 	/**
 	 * @return The angle the body is at.
 	 */
@@ -211,14 +232,6 @@ public class Body {
 	public long getTemperature() {
 		
 		return temperature;
-	}
-	
-	/**
-	 * Generic initialization code.
-	 */
-	private void init() {
-		
-		random = new Random();
 	}
 	
 	/**
