@@ -24,19 +24,21 @@ import main.java.com.brain.ion.RenderCall;
 import main.java.com.brain.ion.TickCall;
 import main.java.com.brain.ion.XmlParser;
 import main.java.com.brain.pulsar.files.DataContainer;
+import main.java.com.brain.pulsar.ui.Ui;
 import main.java.com.brain.pulsar.universe.BodyType;
 import main.java.com.brain.pulsar.universe.StarSystem;
 import main.java.com.brain.pulsar.universe.StarSystemType;
 
 /**
- * The main class for the game. Handels initialization of the game engien as
- * well as handeling game tick and render calls
+ * The main class for the game. Handles initialization of the game engine as
+ * well as handling game tick and render calls
  * 
  * @author Marshall Brain
  */
 public class Pulsar implements TickCall, RenderCall {
 	
 	private StarSystem mainSystem;
+	private Ui ui;
 	
 	private Canvas screen;
 	
@@ -54,6 +56,37 @@ public class Pulsar implements TickCall, RenderCall {
 		
 	}
 	
+	/**
+	 * Initialization of the game
+	 */
+	private void init() {
+		
+		try {
+			cloneResorses();
+		} catch (URISyntaxException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		List<DataContainer> data = new ArrayList<>();
+		
+		// The Type classes are there for the
+		// @XmlAnyElement tag in DataContainer
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
+		
+		getXmlFiles(new File("common"), dataTypes, data);
+		DataContainer common = new DataContainer(data);
+		
+		// Seperation into list is done this way instead of doing it by folder name
+		// to allow the ability to oraganize them any way the user wants
+		List<BodyType> typeBodys = common.getMatchData(BodyType.class);
+		List<StarSystemType> typeSytems = common.getMatchData(StarSystemType.class);
+		
+		mainSystem = new StarSystem(typeBodys, typeSytems);
+		
+		ui = new Ui(mainSystem);
+		
+	}
+
 	/**
 	 * Clone the folder to a different location, mainly should be used for cloning a
 	 * folder located in the jar to a folder outside the jar.
@@ -144,7 +177,7 @@ public class Pulsar implements TickCall, RenderCall {
 	}
 	
 	/**
-	 * Goes through every file in the spesified folder and converts them to a list
+	 * Goes through every file in the specified folder and converts them to a list
 	 * of {@link DataContainer}.
 	 * 
 	 * @param folder
@@ -152,7 +185,7 @@ public class Pulsar implements TickCall, RenderCall {
 	 * @param classList
 	 *            The class list for {@link XmlParser}
 	 * @param dataList
-	 *            The list of {@link DataContainer} to add the responces from
+	 *            The list of {@link DataContainer} to add the responses from
 	 *            {@link XmlParser} to
 	 * @see XmlParser
 	 */
@@ -170,35 +203,6 @@ public class Pulsar implements TickCall, RenderCall {
 		
 	}
 	
-	/**
-	 * Initialization of the game
-	 */
-	private void init() {
-		
-		try {
-			cloneResorses();
-		} catch (URISyntaxException | IOException e) {
-			e.printStackTrace();
-		}
-		
-		List<DataContainer> data = new ArrayList<>();
-		
-		// The Type classes are there for the
-		// @XmlAnyElement tag in DataContainer
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
-		
-		getXmlFiles(new File("common"), dataTypes, data);
-		DataContainer common = new DataContainer(data);
-		
-		// Seperation into list is done this way instead of doing it by folder name
-		// to allow the ability to oraganize them any way the user wants
-		List<BodyType> typeBodys = common.getMatchData(BodyType.class);
-		List<StarSystemType> typeSytems = common.getMatchData(StarSystemType.class);
-		
-		mainSystem = new StarSystem(typeBodys, typeSytems);
-		
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -212,6 +216,8 @@ public class Pulsar implements TickCall, RenderCall {
 		
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, screen.getWidth(), screen.getHeight());
+		
+		ui.render(g);
 		
 		g.dispose();
 		bs.show();
