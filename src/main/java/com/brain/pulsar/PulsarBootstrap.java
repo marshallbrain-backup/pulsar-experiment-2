@@ -18,4 +18,7 @@ public class PulsarBootstrap {
 		
 	}
 	
+	//TODO Organize files
+	//TODO Simplify build path
+	
 }
