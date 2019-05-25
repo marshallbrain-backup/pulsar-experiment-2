@@ -1,6 +1,8 @@
 package main.java.com.brain.ion.graphics;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -40,16 +42,20 @@ public class VectorGraphics {
 				readFiles(f, vectors, classes);
 			}
 			if(f.isFile()) {
-				
-				String path = f.getPath();
-				path = path.substring(0, path.indexOf('.')).replace('\\', '.');
 				VectorGroup vg = (VectorGroup) XmlParser.getXml(f, classes);
 				
-				vectors.put(path, vg);
+				vectors.put(vg.getPath(), vg);
 				
 			}
 			
 		}
+		
+	}
+
+	public void draw(Shape s) {
+		
+		graphics.setColor(Color.WHITE);
+		graphics.fill(s);
 		
 	}
 	
