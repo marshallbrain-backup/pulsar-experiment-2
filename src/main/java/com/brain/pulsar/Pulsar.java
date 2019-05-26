@@ -17,10 +17,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import main.java.com.brain.ion.Ion;
 import main.java.com.brain.ion.RenderCall;
+import main.java.com.brain.ion.SettingEntry;
 import main.java.com.brain.ion.TickCall;
 import main.java.com.brain.ion.XmlParser;
 import main.java.com.brain.ion.graphics.VectorGraphics;
@@ -38,6 +40,8 @@ import main.java.com.brain.pulsar.universe.StarSystemType;
  */
 public class Pulsar implements TickCall, RenderCall {
 	
+	private Map<SettingEntry, String> settings;
+	
 	private StarSystem mainSystem;
 	private Ui ui;
 	
@@ -53,6 +57,8 @@ public class Pulsar implements TickCall, RenderCall {
 		Ion ion = new Ion(this, this, screen);
 		
 		init();
+		
+		settings = ion.getSettings();
 		ion.start();
 		
 	}
@@ -214,7 +220,7 @@ public class Pulsar implements TickCall, RenderCall {
 		
 		BufferStrategy bs = screen.getBufferStrategy();
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-		VectorGraphics vg = new VectorGraphics(g);
+		VectorGraphics vg = new VectorGraphics(g, settings);
 		
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, screen.getWidth(), screen.getHeight());
