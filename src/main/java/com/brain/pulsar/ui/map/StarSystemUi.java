@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import main.java.com.brain.ion.graphics.ScreenPosition;
 import main.java.com.brain.ion.graphics.VectorGraphics;
 import main.java.com.brain.ion.graphics.vectors.Circle;
 import main.java.com.brain.ion.graphics.vectors.Vector;
@@ -31,6 +32,8 @@ public class StarSystemUi {
 	}
 
 	public void render(VectorGraphics g) {
+		
+		g.setTranslate(ScreenPosition.CENTER);
 		
 		for(BodyUi b: bodyList) {
 			b.render(g);
