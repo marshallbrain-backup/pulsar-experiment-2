@@ -289,5 +289,13 @@ public class Body {
 		}
 		
 	}
+
+	public double getX() {
+		return Math.cos(angle) * distance.convert(DistanceType.METER).getDistance();
+	}
+
+	public double getY() {
+		return Math.sin(angle) * distance.convert(DistanceType.METER).getDistance();
+	}
 	
 }
