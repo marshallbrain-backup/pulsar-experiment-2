@@ -157,7 +157,7 @@ public class Distance {
 	 */
 	public double getDistance() {
 		
-		return amount * type.getValue();
+		return amount * Math.pow(10, -scale) * type.getValue();
 	}
 	
 }
