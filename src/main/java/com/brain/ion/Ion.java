@@ -75,6 +75,10 @@ public class Ion {
 		
 	}
 	
+	public Map<SettingEntry, String> getSettings(){
+		return settings;
+	}
+	
 	/**
 	 * Starts the main game loop
 	 */
