@@ -2,6 +2,7 @@ package main.java.com.brain.pulsar.universe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The object that contains the information about a star system.
@@ -16,6 +17,8 @@ public class StarSystem {
 	private List<Body> planetList;
 	private List<Body> moonList;
 
+	private Random random;
+
 	/**
 	 * @param typeBodys A list of body types
 	 * @param typeSytems A list of the systems that this system could be
@@ -28,8 +31,27 @@ public class StarSystem {
 		starList = new ArrayList<>();
 		planetList = new ArrayList<>();
 		moonList = new ArrayList<>();
+		random = new Random();
 		
-		StarSystemType systemType = typeSytems.get(0);
+		List<Double> probabilityList = new ArrayList<>();
+		double total = 0;
+		
+		for (StarSystemType s : typeSytems) {
+			probabilityList.add(s.getSpawnChance());
+			total += s.getSpawnChance();
+		}
+		
+		double chance = random.nextDouble() * total;
+		int id = 0;
+		for(int i = 0; i < probabilityList.size(); i++) {
+			chance -= probabilityList.get(i);
+			if(chance <= 0) {
+				id = i;
+				break;
+			}
+		}
+		
+		StarSystemType systemType = typeSytems.get(id);
 		
 		for(BodyType b: typeBodys) {
 			if(b.getName().equals(systemType.getBody())) {
@@ -43,12 +65,12 @@ public class StarSystem {
 		starList.add(star);
 		
 		int planetCount = systemType.getPlanetCount();
-		int distance = 1;
+		double distance = 1;
 		for(int i = 0; i < planetCount; i++) {
 			
 			Body p = new Body(star, distance);
 			planetList.add(p);
-			distance++;
+			distance += 0.5;
 			
 		}
 		
@@ -64,8 +86,6 @@ public class StarSystem {
 			
 			if(!s) {
 				remove.add(b);
-			}else {
-				System.out.println(b.getId());
 			}
 			
 		}
