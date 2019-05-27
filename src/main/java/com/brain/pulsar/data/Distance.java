@@ -1,6 +1,8 @@
 package main.java.com.brain.pulsar.data;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * Allows easer conversion between different units of measurement
@@ -55,17 +57,9 @@ public class Distance {
 		scale = distance.scale;
 	}
 	
-	/**
-	 * Converts a distance in meters to a distance of the given type
-	 * 
-	 * @param distance
-	 *            The distance
-	 * @param type
-	 *            The unit of measurement that the long is in
-	 */
 	public Distance(double distance, DistanceType type) {
 		
-		Distance converted = convert(distance, 0, DistanceType.METER, type);
+		Distance converted = convert(distance, 0, type, type);
 		amount = converted.amount;
 		this.type = converted.type;
 		scale = converted.scale;
@@ -158,6 +152,16 @@ public class Distance {
 	public double getDistance() {
 		
 		return amount * Math.pow(10, -scale) * type.getValue();
+	}
+
+	@Override
+	public String toString() {
+		
+		BigDecimal value = BigDecimal.valueOf(amount);
+		value = value.movePointLeft(scale);
+		value = value.setScale(2, RoundingMode.CEILING);
+		
+		return "Distance [amount=" + value + ", type=" + type + "]";
 	}
 	
 }
