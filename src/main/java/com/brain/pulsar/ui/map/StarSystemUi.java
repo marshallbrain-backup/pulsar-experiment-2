@@ -25,7 +25,7 @@ public class StarSystemUi {
 		bodyList = new ArrayList<>();
 		
 		VectorGroup base = bodys.getOrDefault("", new VectorGroup());
-		for(Body b: system.getStarList()) {
+		for(Body b: system.getBodyList()) {
 			bodyList.add(new BodyUi(b, bodys.getOrDefault(b.getId(), base)));
 		}
 		
