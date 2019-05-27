@@ -29,7 +29,7 @@ public class BodyUi {
 		
 	}
 
-	public void render(VectorGraphics g) {
+	public void render(VectorGraphics g, AffineTransform transform) {
 		
 		List<Vector> vectors = vectorLayer.getVectors();
 		
@@ -50,7 +50,7 @@ public class BodyUi {
 			r = 5;
 		}
 		
-		AffineTransform at = new AffineTransform();
+		AffineTransform at = new AffineTransform(transform);
 		
 		Shape e = new Ellipse2D.Double(parX-d, parY-d, d*2, d*2);
 		e = at.createTransformedShape(e);
