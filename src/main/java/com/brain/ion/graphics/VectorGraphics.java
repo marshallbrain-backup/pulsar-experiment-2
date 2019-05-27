@@ -130,6 +130,12 @@ public class VectorGraphics {
 		}
 		
 	}
+
+	public void moveTranslate(double x, double y) {
+		
+		currentTransform.translate(x, y);
+		
+	}
 	
 	private Color getColor(String hex, String alpha) {
 		
