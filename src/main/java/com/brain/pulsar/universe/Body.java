@@ -1,5 +1,6 @@
 package main.java.com.brain.pulsar.universe;
 
+import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,7 +15,7 @@ import main.java.com.brain.pulsar.data.DistanceType;
  *
  */
 public class Body {
-	
+
 	private long temperature;
 	private long temperatureEmission;
 	
@@ -66,7 +67,7 @@ public class Body {
 	 * @param distance
 	 *            The distance from the parent this is orbiting at
 	 */
-	public Body(Body parent, int distance) {
+	public Body(Body parent, double distance) {
 		
 		init();
 		
@@ -180,7 +181,7 @@ public class Body {
 		
 		double[] polar = getPolar(polar1, polar2);
 		
-		return new Distance(polar[0], DistanceType.AU);
+		return new Distance(polar[0], DistanceType.METER).convert(DistanceType.AU);
 		
 	}
 	
@@ -251,10 +252,12 @@ public class Body {
 			if (b != this && b.temperatureEmission > 0) {
 				
 				long t = b.temperatureEmission;
-				Distance d = getDistance(new Body(this), new Body(b));
-				Distance r = b.radius;
+				Distance orbit = getDistance(new Body(this), new Body(b));
+				Distance size = b.radius;
+				double d = orbit.getDistance();
+				double r = size.getDistance();
 				
-				double tem = t * Math.sqrt(r.getDistance() / (2 * d.getDistance()));
+				double tem = t * Math.sqrt(r / (2 * d));
 				temperature += Math.round(tem);
 				
 			}
@@ -274,19 +277,32 @@ public class Body {
 		if (type == null) {
 			
 			List<BodyType> sutable = new ArrayList<>();
+			List<Double> probabilityList = new ArrayList<>();
+			double total = 0;
 			
 			for (BodyType b : typeBodys) {
 				if (b.inTemperatureRange(temperature) && b.isSuitable()) {
 					sutable.add(b);
+					probabilityList.add(b.getSpawnChance());
+					total += b.getSpawnChance();
 				}
 			}
 			
-			// TODO should be based on spawn chance
 			if(sutable.isEmpty()) {
 				return false;
 			}
 			
-			type = sutable.get(0);
+			double chance = random.nextDouble() * total;
+			int id = 0;
+			for(int i = 0; i < probabilityList.size(); i++) {
+				chance -= probabilityList.get(i);
+				if(chance <= 0) {
+					id = i;
+					break;
+				}
+			}
+			
+			type = sutable.get(id);
 			radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(type.getRadiusUnit()));
 			
 		}
@@ -305,12 +321,26 @@ public class Body {
 	}
 
 	public double getY() {
+		
 		double y = Math.sin(angle) * distance.convert(DistanceType.METER).getDistance();
 		double offsetY = 0;
 		if(parent != null) {
 			offsetY = parent.getY();
 		}
 		return y + offsetY;
+		
+	}
+
+	@Override
+	public String toString() {
+		
+		return "Body [type=" + type + ", temperature=" + temperature + ", distance=" + distance + "]";
+	}
+
+	public Body getParent() {
+		
+		// TODO Auto-generated method stub
+		return parent;
 	}
 	
 }
