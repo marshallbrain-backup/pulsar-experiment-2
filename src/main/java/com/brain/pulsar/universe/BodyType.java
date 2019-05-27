@@ -162,14 +162,14 @@ public class BodyType {
 	/**
 	 * @return A random radius that is within the set range
 	 */
-	public long getRandomRadius() {
+	public double getRandomRadius() {
 		
 		double min = convert(radius.getMin());
 		double max = convert(radius.getMax());
 		
 		double r = ((max - min) * random.nextDouble()) + min;
 		
-		return Math.round(r);
+		return r;
 		
 	}
 	
@@ -217,6 +217,10 @@ public class BodyType {
 
 	public String getRadiusUnit() {
 		return radius.getUnits();
+	}
+
+	public Double getSpawnChance() {
+		return spawnOdds;
 	}
 
 	@Override
