@@ -14,6 +14,8 @@ public class Range {
 	private String max;
 	@XmlAttribute
 	private String min;
+	@XmlAttribute
+	private String units;
 	
 	/**
 	 * 
@@ -98,6 +100,16 @@ public class Range {
 	public String getMin() {
 		
 		return min;
+	}
+
+	public String getUnits() {
+		
+		if(units == null) {
+			return "METER";
+		}
+		
+		return units;
+		
 	}
 	
 }
