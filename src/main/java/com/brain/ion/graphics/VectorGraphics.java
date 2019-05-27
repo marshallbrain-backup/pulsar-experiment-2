@@ -1,5 +1,6 @@
 package main.java.com.brain.ion.graphics;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -32,7 +33,7 @@ public class VectorGraphics {
 	public static Map<String, VectorGroup> loadVectors(File gfx) {
 		
 		Map<String, VectorGroup> vectors = new HashMap<>();
-		Class<?>[] classes = {VectorGroup.class, Circle.class};
+		Class<?>[] classes = {IonXmlRoot.class, VectorGroup.class, Circle.class};
 		
 		readFiles(gfx, vectors, classes);
 		
@@ -48,9 +49,11 @@ public class VectorGraphics {
 				readFiles(f, vectors, classes);
 			}
 			if(f.isFile()) {
-				VectorGroup vg = (VectorGroup) XmlParser.getXml(f, classes);
+				IonXmlRoot xr = (IonXmlRoot) XmlParser.getXml(f, classes);
 				
-				vectors.put(vg.getPath(), vg);
+				for(VectorGroup vg: xr.getVectorGroups()) {
+					vectors.put(vg.getPath(), vg);
+				}
 				
 			}
 			
@@ -66,12 +69,43 @@ public class VectorGraphics {
 		return Integer.parseInt(settings.get(SettingEntry.WINDOWED_HEIGHT));
 	}
 
-	public void draw(Shape s) {
+	public void draw(Shape s, Map<String, String> style) {
 		
 		s = currentTransform.createTransformedShape(s);
 		
-		graphics.setColor(Color.WHITE);
-		graphics.fill(s);
+		if(style != null) {
+			
+			String fill = style.get("fill");
+			if(!(fill == null || fill.equals("none"))) {
+				
+				String alpha = style.get("fill-opacity");
+				if(alpha == null)
+					alpha = "1";
+				
+				graphics.setColor(getColor(fill, alpha));
+				graphics.fill(s);
+				
+			}
+			
+			String stroke = style.get("stroke");
+			if(!(stroke == null || stroke.equals("none"))) {
+				
+				String alpha = style.get("stroke-opacity");
+				if(alpha == null)
+					alpha = "1";
+				
+				String width = style.get("stroke-width");
+				if(width == null)
+					width = "1";
+				BasicStroke bs = new BasicStroke(Integer.parseInt(width));
+				
+				graphics.setColor(getColor(stroke, alpha));
+				graphics.setStroke(bs);
+				graphics.draw(s);
+				
+			}
+			
+		}
 		
 	}
 
@@ -89,6 +123,27 @@ public class VectorGraphics {
 			default:
 				return;
 		}
+		
+	}
+	
+	private Color getColor(String hex, String alpha) {
+		
+		Color c = null;
+			
+		if(hex.startsWith("#")) {
+			
+			hex = hex.substring(1);
+			
+			int r = Integer.parseInt(hex.substring(0, 2), 16);
+			int g = Integer.parseInt(hex.substring(2, 4), 16);
+			int b = Integer.parseInt(hex.substring(4, 6), 16);
+			int a = Math.round(Float.parseFloat(alpha)*255);
+			
+			c = new Color(r, g, b, a);
+			
+		}
+		
+		return c;
 		
 	}
 	
