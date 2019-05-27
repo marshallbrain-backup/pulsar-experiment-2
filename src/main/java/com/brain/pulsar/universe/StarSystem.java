@@ -56,12 +56,21 @@ public class StarSystem {
 		bodyList.addAll(planetList);
 		bodyList.addAll(moonList);
 		
+		List<Body> remove = new ArrayList<>();
 		for(Body b: bodyList) {
 			
 			b.nTemperatureCalc(bodyList);
-			b.setType(typeBodys);
+			boolean s = b.setType(typeBodys);
+			
+			if(!s) {
+				remove.add(b);
+			}else {
+				System.out.println(b.getId());
+			}
 			
 		}
+		
+		bodyList.removeAll(remove);
 		
 		
 	}
@@ -78,6 +87,7 @@ public class StarSystem {
 		}
 		
 		return list;
+		
 	}
 
 	/**
@@ -94,6 +104,19 @@ public class StarSystem {
 		}
 		
 		return list;
+		
+	}
+
+	public List<Body> getBodyList() {
+		
+		List<Body> list = new ArrayList<>();
+		
+		for(Body b: bodyList) {
+			list.add(new Body(b));
+		}
+		
+		return list;
+		
 	}
 	
 }
