@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import main.java.com.brain.ion.graphics.VectorGraphics;
 import main.java.com.brain.ion.graphics.vectors.VectorGroup;
+import main.java.com.brain.ion.input.Mouse;
 import main.java.com.brain.pulsar.ui.map.StarSystemUi;
 import main.java.com.brain.pulsar.universe.StarSystem;
 
@@ -47,6 +48,10 @@ public class Ui {
 		
 		return group;
 		
+	}
+
+	public void tick(Mouse m) {
+		map.tick(m);
 	}
 
 	public void render(VectorGraphics g) {

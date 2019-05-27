@@ -3,6 +3,7 @@ package main.java.com.brain.pulsar;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import main.java.com.brain.ion.SettingEntry;
 import main.java.com.brain.ion.TickCall;
 import main.java.com.brain.ion.XmlParser;
 import main.java.com.brain.ion.graphics.VectorGraphics;
+import main.java.com.brain.ion.input.Mouse;
 import main.java.com.brain.pulsar.files.DataContainer;
 import main.java.com.brain.pulsar.ui.Ui;
 import main.java.com.brain.pulsar.universe.BodyType;
@@ -44,6 +46,7 @@ public class Pulsar implements TickCall, RenderCall {
 	
 	private StarSystem mainSystem;
 	private Ui ui;
+	private Mouse mouse;
 	
 	private Canvas screen;
 	
@@ -53,7 +56,6 @@ public class Pulsar implements TickCall, RenderCall {
 	public Pulsar() {
 		
 		screen = new Canvas();
-		
 		Ion ion = new Ion(this, this, screen);
 		
 		init();
@@ -91,6 +93,12 @@ public class Pulsar implements TickCall, RenderCall {
 		mainSystem = new StarSystem(typeBodys, typeSytems);
 		
 		ui = new Ui(mainSystem);
+		
+		mouse = new Mouse();
+		
+		screen.addMouseListener(mouse);
+		screen.addMouseMotionListener(mouse);
+		screen.addMouseWheelListener(mouse);
 		
 	}
 
@@ -213,6 +221,20 @@ public class Pulsar implements TickCall, RenderCall {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see main.java.com.brain.ion.TickCall#tick()
+	 */
+	@Override
+	public synchronized void tick() {
+		
+		mouse.poll();
+		
+		ui.tick(mouse);
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see main.java.com.brain.ion.RenderCall#render()
 	 */
 	@Override
@@ -229,16 +251,6 @@ public class Pulsar implements TickCall, RenderCall {
 		
 		g.dispose();
 		bs.show();
-		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see main.java.com.brain.ion.TickCall#tick()
-	 */
-	@Override
-	public synchronized void tick() {
 		
 	}
 	

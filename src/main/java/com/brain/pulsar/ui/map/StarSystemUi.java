@@ -10,24 +10,30 @@ import main.java.com.brain.ion.graphics.VectorGraphics;
 import main.java.com.brain.ion.graphics.vectors.Circle;
 import main.java.com.brain.ion.graphics.vectors.Vector;
 import main.java.com.brain.ion.graphics.vectors.VectorGroup;
+import main.java.com.brain.ion.input.Mouse;
 import main.java.com.brain.pulsar.universe.Body;
 import main.java.com.brain.pulsar.universe.StarSystem;
 
 public class StarSystemUi {
 	
-	private StarSystem system;
+	private StarSystem starSystem;
 	private List<BodyUi> bodyList;
 
 	public StarSystemUi(StarSystem mainSystem, Map<String, VectorGroup> bodys) {
 		
-		system = mainSystem;
+		starSystem = mainSystem;
 		
 		bodyList = new ArrayList<>();
 		
 		VectorGroup base = bodys.getOrDefault("", new VectorGroup());
-		for(Body b: system.getBodyList()) {
+		for(Body b: starSystem.getBodyList()) {
 			bodyList.add(new BodyUi(b, bodys.getOrDefault(b.getId(), base)));
+			System.out.println(b);
 		}
+		
+	}
+
+	public void tick(Mouse m) {
 		
 	}
 
