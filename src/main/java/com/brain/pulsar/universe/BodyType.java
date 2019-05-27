@@ -18,10 +18,10 @@ public class BodyType {
 	
 	@XmlElement(name = "spawn_odds")
 	private double spawnOdds;
-	@XmlElement(defaultValue = "true")
-	private boolean suitable;
 	
-	@XmlElement(defaultValue = "true")
+	@XmlElement()
+	private boolean suitable;
+	@XmlElement()
 	private boolean colonizable;
 	
 	@XmlElement
@@ -45,6 +45,9 @@ public class BodyType {
 	 * Basic constructor
 	 */
 	public BodyType() {
+		
+		suitable = true;
+		colonizable = true;
 		
 		random = new Random();
 	}
@@ -210,6 +213,15 @@ public class BodyType {
 	public boolean isSuitable() {
 		
 		return suitable;
+	}
+
+	public String getRadiusUnit() {
+		return radius.getUnits();
+	}
+
+	@Override
+	public String toString() {
+		return "BodyType [name=" + name + "]";
 	}
 	
 }
