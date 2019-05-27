@@ -94,7 +94,7 @@ public class Body {
 		type = starType;
 		
 		temperatureEmission = type.getRandomTemp();
-		radius = new Distance(type.getRandomRadius(), DistanceType.SOLAR_RADIUS);
+		radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(type.getRadiusUnit()));
 		distance = new Distance(0, DistanceType.AU);
 		angle = 0;
 		
@@ -122,7 +122,7 @@ public class Body {
 		
 		this.distance = new Distance(distance, DistanceType.AU);
 		temperatureEmission = type.getRandomTemp();
-		radius = new Distance(type.getRandomRadius(), DistanceType.SOLAR_RADIUS);
+		radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(type.getRadiusUnit()));
 		angle = random.nextDouble() * 360;
 		
 		temperature = temperatureEmission;
@@ -269,33 +269,48 @@ public class Body {
 	 * @param typeBodys
 	 *            The list of bodies that can be assigned
 	 */
-	public void setType(List<BodyType> typeBodys) {
+	public boolean setType(List<BodyType> typeBodys) {
 		
 		if (type == null) {
 			
 			List<BodyType> sutable = new ArrayList<>();
 			
 			for (BodyType b : typeBodys) {
-				if (b.inTemperatureRange(temperature)) {
+				if (b.inTemperatureRange(temperature) && b.isSuitable()) {
 					sutable.add(b);
 				}
 			}
 			
 			// TODO should be based on spawn chance
-			// isSuitable()
+			if(sutable.isEmpty()) {
+				return false;
+			}
+			
 			type = sutable.get(0);
-			radius = new Distance(type.getRandomRadius(), DistanceType.SOLAR_RADIUS);
+			radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(type.getRadiusUnit()));
 			
 		}
+		
+		return true;
 		
 	}
 
 	public double getX() {
-		return Math.cos(angle) * distance.convert(DistanceType.METER).getDistance();
+		double x = Math.cos(angle) * distance.convert(DistanceType.METER).getDistance();
+		double offsetX = 0;
+		if(parent != null) {
+			offsetX = parent.getX();
+		}
+		return x + offsetX;
 	}
 
 	public double getY() {
-		return Math.sin(angle) * distance.convert(DistanceType.METER).getDistance();
+		double y = Math.sin(angle) * distance.convert(DistanceType.METER).getDistance();
+		double offsetY = 0;
+		if(parent != null) {
+			offsetY = parent.getY();
+		}
+		return y + offsetY;
 	}
 	
 }
