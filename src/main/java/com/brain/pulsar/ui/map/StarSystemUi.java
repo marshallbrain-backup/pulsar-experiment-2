@@ -3,6 +3,7 @@ package main.java.com.brain.pulsar.ui.map;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,18 +19,23 @@ import main.java.com.brain.pulsar.universe.StarSystem;
 
 public class StarSystemUi {
 	
+	private int height;
+	private int width;
+	
 	private double zoom;
-	private StarSystem starSystem;
+	
 	private List<BodyUi> bodyList;
-	private Point offsetAmount;
+	
+	private StarSystem starSystem;
+	private Point2D moveOffset;
+	private Point2D zoomOffset;
 
 	public StarSystemUi(StarSystem mainSystem, Map<String, VectorGroup> bodys) {
 		
-		zoom = 1;
-		
 		starSystem = mainSystem;
 		
-		offsetAmount = new Point(0, 0);
+		moveOffset = new Point2D.Double(0, 0);
+		zoomOffset = new Point2D.Double(0, 0);
 		bodyList = new ArrayList<>();
 		
 		VectorGroup base = bodys.getOrDefault("", new VectorGroup());
@@ -45,14 +51,30 @@ public class StarSystemUi {
 		if(m.buttonDown(1)) {
 			Point d = m.getChange();
 			if(d.getX() != 0 || d.getY() != 0) {
-				offsetAmount.translate(-d.x, -d.y);
+				double scale = Math.pow(1.1, zoom);
+				moveOffset.setLocation(moveOffset.getX()-d.x/scale, moveOffset.getY()-d.y/scale);
 			}
 		}
 		if(m.getWheelDir() != 0) {
 			double newZoom = zoom+m.getWheelDir();
-			if(newZoom == 0) {
-				newZoom += m.getWheelDir();
-			}
+			
+			double oldScale = Math.pow(1.1, zoom);
+			double newScale = Math.pow(1.1, newZoom);
+			
+			Point2D oldPosition = new Point.Double(
+					(m.getPosition().getX()-width/2)/oldScale,
+					(m.getPosition().getY()-height/2)/oldScale
+					);
+			
+			Point2D newPosition = new Point.Double(
+					(m.getPosition().getX()-width/2)/newScale,
+					(m.getPosition().getY()-height/2)/newScale
+					);
+			
+			zoomOffset.setLocation(
+					zoomOffset.getX() + newPosition.getX() - oldPosition.getX(),
+					zoomOffset.getY() + newPosition.getY() - oldPosition.getY()
+					);
 			
 			zoom = newZoom;
 			
@@ -62,11 +84,15 @@ public class StarSystemUi {
 
 	public void render(VectorGraphics g) {
 		
+		width = g.getWindowWidth();
+		height = g.getWindowHeight();
+		double scale = Math.pow(1.1, zoom);
+		
 		g.setTranslate(ScreenPosition.CENTER);
-		g.moveTranslate(offsetAmount.getX(), offsetAmount.getY());
+		g.moveTranslate(moveOffset.getX()*scale, moveOffset.getY()*scale);
+		g.moveTranslate(zoomOffset.getX()*scale, zoomOffset.getY()*scale);
 		
 		AffineTransform transform = new AffineTransform();
-		double scale = Math.pow(1.1, zoom);
 		transform.scale(scale, scale);
 		
 		for(BodyUi b: bodyList) {
