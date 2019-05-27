@@ -53,6 +53,10 @@ public class StarSystemType {
 		return r.nextInt(max - min) + min;
 	}
 
+	public double getSpawnChance() {
+		return spawnOdds;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
