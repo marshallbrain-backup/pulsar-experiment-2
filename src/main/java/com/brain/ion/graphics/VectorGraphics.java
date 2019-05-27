@@ -3,6 +3,7 @@ package main.java.com.brain.ion.graphics;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.io.File;
@@ -27,6 +28,10 @@ public class VectorGraphics {
 		
 		graphics = g;
 		settings = s;
+		
+		g.clipRect(0, 0, getWindowWidth(), getWindowHeight());
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
 		
 	}
 	
