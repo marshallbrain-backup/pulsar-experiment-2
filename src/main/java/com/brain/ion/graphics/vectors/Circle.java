@@ -2,6 +2,7 @@ package main.java.com.brain.ion.graphics.vectors;
 
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -18,6 +19,8 @@ public class Circle implements Vector {
 	
 	@XmlAttribute(name = "style")
 	private String styleString;
+	
+	private Map<String, String> style;
 
 	@Override
 	public Shape getShape() {
@@ -57,6 +60,17 @@ public class Circle implements Vector {
 		}
 		
 		return null;
+		
+	}
+
+	@Override
+	public Map<String, String> getStyle() {
+		
+		if(style == null) {
+			style = convertStyle(styleString);
+		}
+		
+		return style;
 		
 	}
 	
