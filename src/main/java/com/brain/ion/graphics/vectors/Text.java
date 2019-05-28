@@ -33,6 +33,8 @@ public class Text implements Vector {
 	
 	private Map<String, String> style;
 	
+	private  Font font = null;
+	
 	public Text() {
 	}
 	
@@ -68,7 +70,14 @@ public class Text implements Vector {
 			textFormated = textValue.replaceAll("\\s+","");
 		}
 		
-		Font font = new Font("Open Sans", Font.PLAIN, 30);
+		if(font == null) {
+			
+			String type = getStyle().getOrDefault("font-family", "Open Sans");
+			String size = getStyle().getOrDefault("font-size", "14");
+			
+			font = new Font(type, Font.PLAIN, Math.toIntExact(Math.round(Double.parseDouble(size))));
+			
+		}
 		
 		FontMetrics fontMetrics = g.getFontMetrics(font);
 		GlyphVector v = font.createGlyphVector(fontMetrics.getFontRenderContext(), textFormated);
