@@ -14,6 +14,8 @@ import main.java.com.brain.ion.graphics.vectors.Circle;
 import main.java.com.brain.ion.graphics.vectors.Vector;
 import main.java.com.brain.ion.graphics.vectors.VectorGroup;
 import main.java.com.brain.ion.input.Mouse;
+import main.java.com.brain.pulsar.data.Distance;
+import main.java.com.brain.pulsar.data.DistanceType;
 import main.java.com.brain.pulsar.universe.Body;
 import main.java.com.brain.pulsar.universe.StarSystem;
 
@@ -29,6 +31,7 @@ public class StarSystemUi {
 	private StarSystem starSystem;
 	private Point2D moveOffset;
 	private Point2D zoomOffset;
+	private Body zoomTarget;
 
 	public StarSystemUi(StarSystem mainSystem, Map<String, VectorGroup> bodys) {
 		
@@ -44,6 +47,8 @@ public class StarSystemUi {
 			System.out.println(b);
 		}
 		
+		zoomTarget = starSystem.getBodyList().get(1);
+		
 	}
 
 	public void tick(Mouse m) {
@@ -56,19 +61,22 @@ public class StarSystemUi {
 			}
 		}
 		if(m.getWheelDir() != 0) {
+			
 			double newZoom = zoom+m.getWheelDir();
+			
+			Point2D target = m.getPosition();
 			
 			double oldScale = Math.pow(1.1, zoom);
 			double newScale = Math.pow(1.1, newZoom);
 			
 			Point2D oldPosition = new Point.Double(
-					(m.getPosition().getX()-width/2)/oldScale,
-					(m.getPosition().getY()-height/2)/oldScale
+					(target.getX()-width/2)/oldScale,
+					(target.getY()-height/2)/oldScale
 					);
 			
 			Point2D newPosition = new Point.Double(
-					(m.getPosition().getX()-width/2)/newScale,
-					(m.getPosition().getY()-height/2)/newScale
+					(target.getX()-width/2)/newScale,
+					(target.getY()-height/2)/newScale
 					);
 			
 			zoomOffset.setLocation(
@@ -92,11 +100,8 @@ public class StarSystemUi {
 		g.moveTranslate(moveOffset.getX()*scale, moveOffset.getY()*scale);
 		g.moveTranslate(zoomOffset.getX()*scale, zoomOffset.getY()*scale);
 		
-		AffineTransform transform = new AffineTransform();
-		transform.scale(scale, scale);
-		
 		for(BodyUi b: bodyList) {
-			b.render(g, transform);
+			b.render(g, scale);
 		}
 		
 	}
