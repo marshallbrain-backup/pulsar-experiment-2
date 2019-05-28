@@ -21,6 +21,19 @@ public class Circle implements Vector {
 	private String styleString;
 	
 	private Map<String, String> style;
+	
+	public Circle() {
+	}
+	
+	public Circle(Circle base) {
+		
+		centerX = base.centerX;
+		centerY = base.centerY;
+		radius = base.radius;
+		styleString = base.styleString;
+		style = base.style;
+		
+	}
 
 	@Override
 	public Shape getShape() {
@@ -40,19 +53,6 @@ public class Circle implements Vector {
 		return new Ellipse2D.Float(x, y, w, h);
 		
 	}
-	
-	@Override
-	public Vector clone() {
-		
-		try {
-			return (Circle) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-		
-	}
 
 	@Override
 	public Map<String, String> getStyle() {
@@ -63,6 +63,11 @@ public class Circle implements Vector {
 		
 		return style;
 		
+	}
+
+	@Override
+	public Vector copyVector() {
+		return new Circle(this);
 	}
 	
 }
