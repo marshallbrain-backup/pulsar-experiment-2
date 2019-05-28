@@ -51,6 +51,11 @@ public class Text implements Vector {
 		return new Point(padingX*2, padingY*2);
 	}
 
+	public void setText(String newText) {
+		textValue = newText;
+		textFormated = newText;
+	}
+
 	@Override
 	public Shape getShape() {
 		return null;
@@ -69,7 +74,7 @@ public class Text implements Vector {
 		GlyphVector v = font.createGlyphVector(fontMetrics.getFontRenderContext(), textFormated);
 		Rectangle2D b = v.getVisualBounds();
 		
-		return v.getOutline(padingX, (int) Math.ceil(padingY+b.getHeight()-fontMetrics.getDescent()));
+		return v.getOutline(padingX - 2, (int) Math.ceil(padingY + b.getHeight() - fontMetrics.getDescent()) + 2);
 		
 	}
 
