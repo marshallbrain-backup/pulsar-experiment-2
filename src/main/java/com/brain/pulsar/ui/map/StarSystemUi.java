@@ -4,7 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +33,7 @@ public class StarSystemUi {
 	private StarSystem starSystem;
 	private Point2D moveOffset;
 	private Point2D zoomOffset;
-	private Body zoomTarget;
+	private BodyUi zoomTarget;
 
 	public StarSystemUi(StarSystem mainSystem, Map<String, VectorGroup> bodys) {
 		
@@ -47,11 +49,25 @@ public class StarSystemUi {
 			System.out.println(b);
 		}
 		
-		zoomTarget = starSystem.getBodyList().get(1);
-		
 	}
 
 	public void tick(Mouse m) {
+		
+		boolean hover = false;
+		for(BodyUi b: bodyList) {
+			hover = b.tick(m);
+			if(hover) {
+				if(m.buttonClicked(1)) {
+					zoomTarget = b;
+				}
+				break;
+			}
+		}
+		if(!hover) {
+			if(m.buttonClicked(1)) {
+				zoomTarget = null;
+			}
+		}
 		
 		if(m.buttonDown(1)) {
 			Point d = m.getChange();
