@@ -35,7 +35,7 @@ public class StarSystemUi {
 	private Point2D zoomOffset;
 	private BodyUi zoomTarget;
 
-	public StarSystemUi(StarSystem mainSystem, Map<String, VectorGroup> bodys) {
+	public StarSystemUi(StarSystem mainSystem, Map<String, VectorGroup> bodys, Map<String, VectorGroup> toolTip) {
 		
 		starSystem = mainSystem;
 		
@@ -44,8 +44,9 @@ public class StarSystemUi {
 		bodyList = new ArrayList<>();
 		
 		VectorGroup base = bodys.getOrDefault("", new VectorGroup());
+		VectorGroup baseToolTip = toolTip.getOrDefault("", new VectorGroup());
 		for(Body b: starSystem.getBodyList()) {
-			bodyList.add(new BodyUi(b, bodys.getOrDefault(b.getId(), base)));
+			bodyList.add(new BodyUi(b, bodys.getOrDefault(b.getId(), base), toolTip.getOrDefault(b.getId(), baseToolTip)));
 			System.out.println(b);
 		}
 		

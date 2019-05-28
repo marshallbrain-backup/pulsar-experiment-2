@@ -21,10 +21,11 @@ public class Ui {
 		Map<String, VectorGroup> vg = VectorGraphics.loadVectors(new File("gfx"));
 		
 		Map<String, VectorGroup> bodys = getGroups(vg, "body\\..*", true);
+		Map<String, VectorGroup> bodyToolTip = getGroups(vg, "body_tool_tip\\..*", true);
 		
 		vg.clear();
 		
-		map = new StarSystemUi(mainSystem, bodys);
+		map = new StarSystemUi(mainSystem, bodys, bodyToolTip);
 		
 	}
 	
