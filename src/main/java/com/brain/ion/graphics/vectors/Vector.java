@@ -23,6 +23,8 @@ public interface Vector {
 			return null;
 		}
 		
+		s = s.replaceAll("\\s+","");
+		
 		Map<String, String> style = new HashMap<String, String>();
 		
 		for(String e: s.split(";")) {
