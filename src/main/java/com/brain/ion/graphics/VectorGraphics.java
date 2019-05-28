@@ -157,5 +157,9 @@ public class VectorGraphics {
 		return c;
 		
 	}
+
+	public AffineTransform getAffineTransform() {
+		return new AffineTransform(currentTransform);
+	}
 	
 }
