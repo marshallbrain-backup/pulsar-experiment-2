@@ -124,11 +124,9 @@ public class BodyUi {
 		
 		lastRendered = lastRendered.createTransformedArea(g.getAffineTransform());
 		
-		renderToolTip(g);
-		
 	}
 	
-	private void renderToolTip(VectorGraphics g) {
+	public void renderToolTip(VectorGraphics g) {
 		
 		if(renderToolTip) {
 			
@@ -151,10 +149,14 @@ public class BodyUi {
 				Shape s = v.getShape(g.getGraphics());
 				
 				if(v instanceof Text) {
+					
+					Text textVector = ((Text) v);
+					textVector.setText(body.getId());
+					padding = textVector.getPading();
+					
+					s = v.getShape(g.getGraphics());
 					s = offset.createTransformedShape(s);
 					text = s;
-					
-					padding = ((Text) v).getPading();
 					
 				}
 				shapeList.put(s, v.getStyle());
@@ -163,7 +165,7 @@ public class BodyUi {
 			
 			if(text != null) {
 				Rectangle2D bounds = text.getBounds2D();
-				offset.scale(padding.getX() + bounds.getWidth(), padding.getY() + bounds.getHeight());
+				offset.scale(padding.getX() + bounds.getWidth() + 1, padding.getY() + bounds.getHeight() + 1);
 			}
 			
 			for(Entry<Shape, Map<String, String>> e: shapeList.entrySet()) {
