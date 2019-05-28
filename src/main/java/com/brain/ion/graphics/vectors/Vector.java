@@ -11,10 +11,6 @@ public interface Vector extends Cloneable {
 	Shape getShape();
 
 	Map<String, String> getStyle();
-
-	default Shape getShape(int x, int y) {
-		return getShape();
-	}
 	
 	default Map<String, String> convertStyle(String s) {
 		

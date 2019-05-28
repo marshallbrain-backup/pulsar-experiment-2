@@ -25,6 +25,10 @@ public class Circle implements Vector {
 	@Override
 	public Shape getShape() {
 		
+		if(radius <= 0) {
+			radius = 1;
+		}
+		
 		int w = radius;
 		int h = radius;
 		int x = centerX - w;
@@ -34,20 +38,7 @@ public class Circle implements Vector {
 		h *= 2;
 		
 		return new Ellipse2D.Float(x, y, w, h);
-	}
-
-	@Override
-	public Shape getShape(int dx, int dy) {
 		
-		int w = radius + dx;
-		int h = radius + dy;
-		int x = centerX - h;
-		int y = centerY - w;
-		
-		w *= 2;
-		h *= 2;
-		
-		return new Ellipse2D.Float(x, y, w, h);
 	}
 	
 	@Override
