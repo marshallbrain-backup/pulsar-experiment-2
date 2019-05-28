@@ -60,6 +60,7 @@ public class StarSystemUi {
 			if(hover) {
 				if(m.buttonClicked(1)) {
 					zoomTarget = b;
+					System.out.println("target set");
 				}
 				break;
 			}
@@ -67,6 +68,7 @@ public class StarSystemUi {
 		if(!hover) {
 			if(m.buttonClicked(1)) {
 				zoomTarget = null;
+				System.out.println("target unset");
 			}
 		}
 		
@@ -82,6 +84,10 @@ public class StarSystemUi {
 			double newZoom = zoom+m.getWheelDir();
 			
 			Point2D target = m.getPosition();
+			
+			if(zoomTarget != null) {
+				target = zoomTarget.getCenter();
+			}
 			
 			double oldScale = Math.pow(1.1, zoom);
 			double newScale = Math.pow(1.1, newZoom);
