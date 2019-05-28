@@ -58,6 +58,11 @@ public class BodyUi {
 		return renderToolTip;
 		
 	}
+	
+	public Point2D getCenter() {
+		Rectangle2D b = lastRendered.getBounds2D();
+		return new Point2D.Double(b.getCenterX(), b.getCenterY());
+	}
 
 	public void render(VectorGraphics g, double scale) {
 		
