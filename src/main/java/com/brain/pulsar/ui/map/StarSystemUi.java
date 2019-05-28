@@ -121,6 +121,10 @@ public class StarSystemUi {
 			b.render(g, scale);
 		}
 		
+		for(BodyUi b: bodyList) {
+			b.renderToolTip(g);
+		}
+		
 	}
 	
 }
