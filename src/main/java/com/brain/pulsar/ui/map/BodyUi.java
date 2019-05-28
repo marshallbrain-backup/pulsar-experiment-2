@@ -9,14 +9,18 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import main.java.com.brain.ion.graphics.VectorGraphics;
+import main.java.com.brain.ion.graphics.vectors.Text;
 import main.java.com.brain.ion.graphics.vectors.Vector;
 import main.java.com.brain.ion.graphics.vectors.VectorGroup;
 import main.java.com.brain.ion.input.Mouse;
@@ -30,13 +34,15 @@ public class BodyUi {
 	
 	private Body body;
 	private VectorGroup vectorLayer;
+	private VectorGroup toolTipVector;
 	private Area lastRendered;
-	private Point ToolTipPosition;
+	private Point toolTipPosition;
 
-	public BodyUi(Body b, VectorGroup vg) {
+	public BodyUi(Body b, VectorGroup vg, VectorGroup toolTip) {
 		
 		body = b;
 		vectorLayer = vg;
+		toolTipVector = toolTip;
 		
 	}
 
@@ -46,7 +52,7 @@ public class BodyUi {
 		renderToolTip = lastRendered.contains(p);
 		
 		if(renderToolTip) {
-			ToolTipPosition = p;
+			toolTipPosition = p;
 		}
 		
 		return renderToolTip;
@@ -118,27 +124,55 @@ public class BodyUi {
 		
 		lastRendered = lastRendered.createTransformedArea(g.getAffineTransform());
 		
-		try {
-			renderToolTip(g);
-		} catch (NoninvertibleTransformException e1) {
-			e1.printStackTrace();
-		}
+		renderToolTip(g);
 		
 	}
 	
-	private void renderToolTip(VectorGraphics g) throws NoninvertibleTransformException {
+	private void renderToolTip(VectorGraphics g) {
 		
 		if(renderToolTip) {
 			
-			Map<String, String> style = new HashMap<>();
-			style.put("stroke", "#000000");
-			style.put("stroke-opacity", "1");
-			style.put("stroke-width", "2");
+			Point2D p = new Point2D.Double(toolTipPosition.getX()+10, toolTipPosition.getY()+10);
 			
-			AffineTransform offset = g.getAffineTransform().createInverse();
-			Point2D p = new Point2D.Double(ToolTipPosition.getX()+20, ToolTipPosition.getY()+20);
-			Rectangle2D toolTip = new Rectangle2D.Double(p.getX(), p.getY(), 50, 50);
-			g.draw(offset.createTransformedShape(toolTip), style);
+			AffineTransform offset = new AffineTransform();
+			try {
+				offset = g.getAffineTransform().createInverse();
+			} catch (NoninvertibleTransformException e1) {
+				e1.printStackTrace();
+			}
+			
+			offset.translate(p.getX(), p.getY());
+			
+			Shape text = null;
+			Point padding = new Point();
+			Map<Shape, Map<String, String>> shapeList = new LinkedHashMap<>();
+			for(Vector v: toolTipVector.getVectors()) {
+				
+				Shape s = v.getShape(g.getGraphics());
+				
+				if(v instanceof Text) {
+					s = offset.createTransformedShape(s);
+					text = s;
+					
+					padding = ((Text) v).getPading();
+					
+				}
+				shapeList.put(s, v.getStyle());
+				
+			}
+			
+			if(text != null) {
+				Rectangle2D bounds = text.getBounds2D();
+				offset.scale(padding.getX() + bounds.getWidth(), padding.getY() + bounds.getHeight());
+			}
+			
+			for(Entry<Shape, Map<String, String>> e: shapeList.entrySet()) {
+				Shape shape = e.getKey();
+				if(shape != text) {
+					shape = offset.createTransformedShape(shape);
+				}
+				g.draw(shape, e.getValue());
+			}
 			
 		}
 		
