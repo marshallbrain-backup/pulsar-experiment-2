@@ -33,7 +33,7 @@ public class VectorGroup {
 		vectors = new ArrayList<>();
 		
 		for(Vector v: clone.vectors) {
-			vectors.add(v.clone());
+			vectors.add(v.copyVector());
 		}
 		
 	}
@@ -43,7 +43,7 @@ public class VectorGroup {
 		List<Vector> list = new ArrayList<>();
 		
 		for(Vector v: vectors) {
-			list.add(v.clone());
+			list.add(v.copyVector());
 		}
 		
 		return list;

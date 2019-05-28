@@ -1,14 +1,19 @@
 package main.java.com.brain.ion.graphics.vectors;
 
+import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface Vector extends Cloneable {
-
-	Vector clone();
+public interface Vector {
+	
+	Vector copyVector();
 	
 	Shape getShape();
+	
+	default Shape getShape(Graphics2D g) {
+		return getShape();
+	}
 
 	Map<String, String> getStyle();
 	
