@@ -123,6 +123,15 @@ public class BodyUi {
 		Point2D origin = new Point2D.Double(0, 0);
 		if (parent != null) {
 			origin = parent.getCenter();
+			
+			AffineTransform screenAT ;
+			try {
+				screenAT = g.getAffineTransform().createInverse();
+				origin.setLocation(origin.getX() + screenAT.getTranslateX(), origin.getY() + screenAT.getTranslateY());
+			} catch (NoninvertibleTransformException e1) {
+				e1.printStackTrace();
+			}
+			
 		}
 		
 		/*
