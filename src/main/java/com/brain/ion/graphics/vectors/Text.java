@@ -6,10 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.font.GlyphVector;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Map;
 
@@ -17,13 +13,19 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
+/**
+ * Holds data about a text vector from an xml file
+ * 
+ * @author Marshall Brain
+ *
+ */
 @XmlRootElement(name = "text")
 public class Text implements Vector {
 
-	@XmlAttribute(name = "pading_x")
-	private int padingX;
-	@XmlAttribute(name = "pading_y")
-	private int padingY;
+	@XmlAttribute(name = "padding_x")
+	private int paddingX;
+	@XmlAttribute(name = "padding_y")
+	private int paddingY;
 	
 	@XmlValue
 	private String textValue;
@@ -35,13 +37,22 @@ public class Text implements Vector {
 	
 	private  Font font = null;
 	
+	/**
+	 * Base constructor
+	 */
 	public Text() {
 	}
 	
+	/**
+	 * Clones the text
+	 * 
+	 * @param base
+	 *            The text to clone
+	 */
 	public Text(Text base) {
 		
-		padingX = base.padingX;
-		padingY = base.padingY;
+		paddingX = base.paddingX;
+		paddingY = base.paddingY;
 		textValue = base.textValue;
 		textFormated = base.textFormated;
 		styleString = base.styleString;
@@ -49,20 +60,32 @@ public class Text implements Vector {
 		
 	}
 	
+	/**
+	 * @return The padding that the text should have
+	 */
 	public Point getPading() {
-		return new Point(padingX*2, padingY*2);
+		return new Point(paddingX*2, paddingY*2);
 	}
 
+	/**
+	 * @param newText The new text
+	 */
 	public void setText(String newText) {
 		textValue = newText;
 		textFormated = newText;
 	}
 
+	/* (non-Javadoc)
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getShape()
+	 */
 	@Override
 	public Shape getShape() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getShape(java.awt.Graphics2D)
+	 */
 	@Override
 	public Shape getShape(Graphics2D g) {
 		
@@ -83,10 +106,13 @@ public class Text implements Vector {
 		GlyphVector v = font.createGlyphVector(fontMetrics.getFontRenderContext(), textFormated);
 		Rectangle2D b = v.getVisualBounds();
 		
-		return v.getOutline(padingX - 2, (int) Math.ceil(padingY + b.getHeight() - fontMetrics.getDescent()) + 2);
+		return v.getOutline(paddingX - 2, (int) Math.ceil(paddingY + b.getHeight() - fontMetrics.getDescent()) + 2);
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getStyle()
+	 */
 	@Override
 	public Map<String, String> getStyle() {
 		
@@ -98,6 +124,9 @@ public class Text implements Vector {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#copyVector()
+	 */
 	@Override
 	public Vector copyVector() {
 		return new Text(this);

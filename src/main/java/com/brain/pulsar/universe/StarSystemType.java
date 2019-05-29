@@ -31,16 +31,18 @@ public class StarSystemType {
 	 * Basic constructor
 	 */
 	public StarSystemType() {
+		
 		r = new Random();
 	}
-
+	
 	/**
 	 * @return The body at the core of the system
 	 */
 	public String getBody() {
+		
 		return body.trim();
 	}
-
+	
 	/**
 	 * @return A random number that is in the range of the possible number of
 	 *         planets for the system
@@ -52,12 +54,18 @@ public class StarSystemType {
 		
 		return r.nextInt(max - min) + min;
 	}
-
+	
+	/**
+	 * @return The spawn chance of the system type
+	 */
 	public double getSpawnChance() {
+		
 		return spawnOdds;
 	}
-
-	/* (non-Javadoc)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -65,21 +73,21 @@ public class StarSystemType {
 		
 		Boolean equals = false;
 		
-		if(object instanceof StarSystemType) {
+		if (object instanceof StarSystemType) {
 			
 			StarSystemType compare = (StarSystemType) object;
 			
-			if(this == compare) {
+			if (this == compare) {
 				equals = true;
 			} else {
 				equals = true;
-				if(spawnOdds != compare.spawnOdds) {
+				if (spawnOdds != compare.spawnOdds) {
 					equals = false;
 				}
-				if(!body.equals(compare.body)) {
+				if (!body.equals(compare.body)) {
 					equals = false;
 				}
-				if(!planetsNum.equals(compare.planetsNum)) {
+				if (!planetsNum.equals(compare.planetsNum)) {
 					equals = false;
 				}
 				
