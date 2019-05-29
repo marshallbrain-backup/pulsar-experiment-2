@@ -36,7 +36,9 @@ public class DataContainer {
 		data = new ArrayList<>();
 		
 		for (DataContainer dc : dataList) {
-			data.addAll(dc.data);
+			if(dc.data != null) {
+				data.addAll(dc.data);
+			}
 		}
 		
 	}

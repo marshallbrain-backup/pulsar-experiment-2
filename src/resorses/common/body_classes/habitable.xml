@@ -1,0 +1,54 @@
+<!--@habitable_planet_max_size = 25
+@habitable_planet_min_size = 12
+@habitable_moon_max_size = 15
+@habitable_moon_min_size	= 10
+@habitable_min_temp = 0
+@habitable_max_temp = 10000
+@habitable_spawn_odds = 1-->
+
+<pulsar>
+	
+	<body>
+		<name>pc_continental</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="283" max="300"/><!--17-->
+		<radius min="3178000" max="9534000"/>
+		<tag></tag>
+	</body>
+	
+	<body>
+		<name>pc_desert</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="305" max="339"/><!--34-->
+		<radius min="3178000" max="9534000"/>
+	</body>
+	
+	<body>
+		<name>pc_tropical</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="294" max="311"/><!--17-->
+		<radius min="3178000" max="9534000"/>
+	</body>
+	
+	<body>
+		<name>pc_ocean</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="278" max="311"/><!--33-->
+		<radius min="3178000" max="9534000"/>
+	</body>
+	
+	<body>
+		<name>pc_tundra</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="222" max="250"/><!--28-->
+		<radius min="3178000" max="9534000"/>
+	</body>
+	
+	<body>
+		<name>pc_alpine</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="244" max="270"/><!--26-->
+		<radius min="3178000" max="9534000"/>
+	</body>
+
+</pulsar>

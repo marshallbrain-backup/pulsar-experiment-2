@@ -1,6 +1,7 @@
 package main.java.com.brain.pulsar.data;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Allows easer conversion between different units of measurement
@@ -10,37 +11,42 @@ import java.math.BigDecimal;
  */
 public class Distance {
 	
-	/**
-	 * Converts a double of the oldType a long of the newType
-	 * 
-	 * @param distance
-	 *            The distance being converted
-	 * @param oldScale
-	 *            The scientific notation of the distance being converted
-	 * @param oldType
-	 *            The type of units being converted from
-	 * @param newType
-	 *            The type of units being converted to
-	 * @return The distance in the new units
-	 */
-	public static Distance convert(double distance, int oldScale, DistanceType oldType, DistanceType newType) {
-		
-		// Do not switch newType and oldType
-		BigDecimal converted = BigDecimal.valueOf(distance * newType.getValueInverse() * oldType.getValue());
-		converted = converted.scaleByPowerOfTen(-oldScale);
-		
-		int scale = converted.scale();
-		long normalized = converted.scaleByPowerOfTen(scale).longValueExact();
-		
-		return new Distance(normalized, scale, newType);
-		
-	}
-	
 	private final int scale;
 	
 	private final long amount;
 	
 	private final DistanceType type;
+	
+	/**
+	 * Creates a new Distance using a long
+	 * 
+	 * @param distance
+	 *            The distance as a long
+	 * @param type
+	 *            The unit of measurement that the long is in
+	 */
+	public Distance(long distance, DistanceType type) {
+		
+		this.type = type;
+		amount = distance;
+		scale = 0;
+	}
+	
+	/**
+	 * Creates a new Distance using a double
+	 * 
+	 * @param distance
+	 *            The distance as a double
+	 * @param type
+	 *            The unit of measurement that the double is in
+	 */
+	public Distance(double distance, DistanceType type) {
+		
+		Distance converted = convert(distance, 0, type, type);
+		amount = converted.amount;
+		this.type = converted.type;
+		scale = converted.scale;
+	}
 	
 	/**
 	 * Clone the given distance
@@ -53,37 +59,6 @@ public class Distance {
 		amount = distance.amount;
 		type = distance.type;
 		scale = distance.scale;
-	}
-	
-	/**
-	 * Converts a distance in meters to a distance of the given type
-	 * 
-	 * @param distance
-	 *            The distance
-	 * @param type
-	 *            The unit of measurement that the long is in
-	 */
-	public Distance(double distance, DistanceType type) {
-		
-		Distance converted = convert(distance, 0, DistanceType.METER, type);
-		amount = converted.amount;
-		this.type = converted.type;
-		scale = converted.scale;
-	}
-	
-	/**
-	 * Creates a new Distance
-	 * 
-	 * @param distance
-	 *            The distance
-	 * @param type
-	 *            The unit of measurement that the long is in
-	 */
-	public Distance(long distance, DistanceType type) {
-		
-		this.type = type;
-		amount = distance;
-		scale = 0;
 	}
 	
 	/**
@@ -157,7 +132,48 @@ public class Distance {
 	 */
 	public double getDistance() {
 		
-		return amount * type.getValue();
+		return amount * Math.pow(10, -scale) * type.getValue();
+	}
+	
+	/**
+	 * Converts a double of the oldType a long of the newType
+	 * 
+	 * @param distance
+	 *            The distance being converted
+	 * @param oldScale
+	 *            The scientific notation of the distance being converted
+	 * @param oldType
+	 *            The type of units being converted from
+	 * @param newType
+	 *            The type of units being converted to
+	 * @return The distance in the new units
+	 */
+	public static Distance convert(double distance, int oldScale, DistanceType oldType, DistanceType newType) {
+		
+		// Do not switch newType and oldType
+		BigDecimal converted = BigDecimal.valueOf(distance * newType.getValueInverse() * oldType.getValue());
+		converted = converted.scaleByPowerOfTen(-oldScale);
+		
+		int scale = converted.scale();
+		long normalized = converted.scaleByPowerOfTen(scale).longValueExact();
+		
+		return new Distance(normalized, scale, newType);
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		
+		BigDecimal value = BigDecimal.valueOf(amount);
+		value = value.movePointLeft(scale);
+		value = value.setScale(2, RoundingMode.CEILING);
+		
+		return "Distance [amount=" + value + ", type=" + type + "]";
 	}
 	
 }

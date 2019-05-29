@@ -132,9 +132,13 @@ public class GameLoop implements Runnable {
 			// Is called once a second
 			if ((lastUpdateTime / 1000000) - (lastSecond / 1000000) >= 1000) {
 				
-//				System.out.println("TPS - " + String.valueOf(tps));
-//				System.out.println("FPS - " + String.valueOf(fps));
-//				System.out.println();
+				if(tps < 60 || fps < 60) {
+
+					System.out.println("TPS - " + String.valueOf(tps));
+					System.out.println("FPS - " + String.valueOf(fps));
+					System.out.println();
+					
+				}
 				
 				tps = 0;
 				fps = 0;

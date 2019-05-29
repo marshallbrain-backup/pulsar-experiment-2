@@ -17,26 +17,35 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import main.java.com.brain.ion.Ion;
 import main.java.com.brain.ion.RenderCall;
+import main.java.com.brain.ion.SettingEntry;
 import main.java.com.brain.ion.TickCall;
 import main.java.com.brain.ion.XmlParser;
+import main.java.com.brain.ion.graphics.VectorGraphics;
+import main.java.com.brain.ion.input.Mouse;
 import main.java.com.brain.pulsar.files.DataContainer;
+import main.java.com.brain.pulsar.ui.Ui;
 import main.java.com.brain.pulsar.universe.BodyType;
 import main.java.com.brain.pulsar.universe.StarSystem;
 import main.java.com.brain.pulsar.universe.StarSystemType;
 
 /**
- * The main class for the game. Handels initialization of the game engien as
- * well as handeling game tick and render calls
+ * The main class for the game. Handles initialization of the game engine as
+ * well as handling game tick and render calls
  * 
  * @author Marshall Brain
  */
 public class Pulsar implements TickCall, RenderCall {
 	
+	private Map<SettingEntry, String> settings;
+	
 	private StarSystem mainSystem;
+	private Ui ui;
+	private Mouse mouse;
 	
 	private Canvas screen;
 	
@@ -46,14 +55,52 @@ public class Pulsar implements TickCall, RenderCall {
 	public Pulsar() {
 		
 		screen = new Canvas();
-		
 		Ion ion = new Ion(this, this, screen);
 		
 		init();
+		
+		settings = ion.getSettings();
 		ion.start();
 		
 	}
 	
+	/**
+	 * Initialization of the game
+	 */
+	private void init() {
+		
+		try {
+			cloneResorses();
+		} catch (URISyntaxException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		List<DataContainer> data = new ArrayList<>();
+		
+		// The Type classes are there for the
+		// @XmlAnyElement tag in DataContainer
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
+		
+		getXmlFiles(new File("common"), dataTypes, data);
+		DataContainer common = new DataContainer(data);
+		
+		// Seperation into list is done this way instead of doing it by folder name
+		// to allow the ability to oraganize them any way the user wants
+		List<BodyType> typeBodys = common.getMatchData(BodyType.class);
+		List<StarSystemType> typeSytems = common.getMatchData(StarSystemType.class);
+		
+		mainSystem = new StarSystem(typeBodys, typeSytems);
+		
+		ui = new Ui(mainSystem);
+		
+		mouse = new Mouse();
+		
+		screen.addMouseListener(mouse);
+		screen.addMouseMotionListener(mouse);
+		screen.addMouseWheelListener(mouse);
+		
+	}
+
 	/**
 	 * Clone the folder to a different location, mainly should be used for cloning a
 	 * folder located in the jar to a folder outside the jar.
@@ -64,7 +111,7 @@ public class Pulsar implements TickCall, RenderCall {
 	 *            The destination folder
 	 * @throws IOException
 	 */
-	private void cloneFolder(URI jarUri, File rootPath) throws IOException {
+	private static void cloneFolder(URI jarUri, File rootPath) throws IOException {
 		
 		Path jarPath = getJarPath(jarUri);
 		
@@ -113,9 +160,13 @@ public class Pulsar implements TickCall, RenderCall {
 	private void cloneResorses() throws URISyntaxException, IOException {
 		
 		URI commonOld = getClass().getResource("/resorses/common/").toURI();
+		URI gfxOld = getClass().getResource("/resorses/gfx/").toURI();
+		
 		File commonNew = new File("common");
+		File gfxNew = new File("gfx");
 		
 		cloneFolder(commonOld, commonNew);
+		cloneFolder(gfxOld, gfxNew);
 		
 	}
 	
@@ -127,7 +178,7 @@ public class Pulsar implements TickCall, RenderCall {
 	 * @return The {@link Path} to the location from the {@link URI}
 	 * @throws IOException
 	 */
-	private Path getJarPath(URI jarPath) throws IOException {
+	private static Path getJarPath(URI jarPath) throws IOException {
 		
 		if (jarPath.getScheme().equals("jar")) {
 			
@@ -144,7 +195,7 @@ public class Pulsar implements TickCall, RenderCall {
 	}
 	
 	/**
-	 * Goes through every file in the spesified folder and converts them to a list
+	 * Goes through every file in the specified folder and converts them to a list
 	 * of {@link DataContainer}.
 	 * 
 	 * @param folder
@@ -152,11 +203,11 @@ public class Pulsar implements TickCall, RenderCall {
 	 * @param classList
 	 *            The class list for {@link XmlParser}
 	 * @param dataList
-	 *            The list of {@link DataContainer} to add the responces from
+	 *            The list of {@link DataContainer} to add the responses from
 	 *            {@link XmlParser} to
 	 * @see XmlParser
 	 */
-	private void getXmlFiles(File folder, Class<?>[] classList, List<DataContainer> dataList) {
+	private static void getXmlFiles(File folder, Class<?>[] classList, List<DataContainer> dataList) {
 		
 		for (File f : folder.listFiles()) {
 			
@@ -170,32 +221,17 @@ public class Pulsar implements TickCall, RenderCall {
 		
 	}
 	
-	/**
-	 * Initialization of the game
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.TickCall#tick()
 	 */
-	private void init() {
+	@Override
+	public synchronized void tick() {
 		
-		try {
-			cloneResorses();
-		} catch (URISyntaxException | IOException e) {
-			e.printStackTrace();
-		}
+		mouse.poll();
 		
-		List<DataContainer> data = new ArrayList<>();
-		
-		// The Type classes are there for the
-		// @XmlAnyElement tag in DataContainer
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
-		
-		getXmlFiles(new File("common"), dataTypes, data);
-		DataContainer common = new DataContainer(data);
-		
-		// Seperation into list is done this way instead of doing it by folder name
-		// to allow the ability to oraganize them any way the user wants
-		List<BodyType> typeBodys = common.getMatchData(BodyType.class);
-		List<StarSystemType> typeSytems = common.getMatchData(StarSystemType.class);
-		
-		mainSystem = new StarSystem(typeBodys, typeSytems);
+		ui.tick(mouse);
 		
 	}
 	
@@ -209,22 +245,15 @@ public class Pulsar implements TickCall, RenderCall {
 		
 		BufferStrategy bs = screen.getBufferStrategy();
 		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+		VectorGraphics vg = new VectorGraphics(g, settings);
 		
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, screen.getWidth(), screen.getHeight());
 		
+		ui.render(vg);
+		
 		g.dispose();
 		bs.show();
-		
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see main.java.com.brain.ion.TickCall#tick()
-	 */
-	@Override
-	public synchronized void tick() {
 		
 	}
 	

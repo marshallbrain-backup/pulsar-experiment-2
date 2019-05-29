@@ -37,13 +37,14 @@ public class Body {
 	/**
 	 * Clones a Body
 	 * 
-	 * @param clone The Body to clone
+	 * @param clone
+	 *            The Body to clone
 	 */
 	public Body(Body clone) {
 		
 		init();
 		
-		if(clone == null) {
+		if (clone == null) {
 			return;
 		}
 		
@@ -66,7 +67,7 @@ public class Body {
 	 * @param distance
 	 *            The distance from the parent this is orbiting at
 	 */
-	public Body(Body parent, int distance) {
+	public Body(Body parent, double distance) {
 		
 		init();
 		
@@ -94,7 +95,7 @@ public class Body {
 		type = starType;
 		
 		temperatureEmission = type.getRandomTemp();
-		radius = new Distance(type.getRandomRadius(), DistanceType.SOLAR_RADIUS);
+		radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(type.getRadiusUnit()));
 		distance = new Distance(0, DistanceType.AU);
 		angle = 0;
 		
@@ -122,7 +123,13 @@ public class Body {
 		
 		this.distance = new Distance(distance, DistanceType.AU);
 		temperatureEmission = type.getRandomTemp();
-		radius = new Distance(type.getRandomRadius(), DistanceType.SOLAR_RADIUS);
+		
+		String unitType = type.getRadiusUnit();
+		if (unitType.equals("NONE")) {
+			unitType = "METER";
+		}
+		
+		radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(unitType));
 		angle = random.nextDouble() * 360;
 		
 		temperature = temperatureEmission;
@@ -145,7 +152,7 @@ public class Body {
 		
 		random = new Random();
 	}
-
+	
 	/**
 	 * @return The angle the body is at.
 	 */
@@ -163,20 +170,28 @@ public class Body {
 	}
 	
 	/**
+	 * @return returns the name of the type of body
+	 */
+	public String getId() {
+		
+		return type.getName();
+	}
+	
+	/**
 	 * Gets the distance between two bodies.
 	 * 
 	 * @param body1
 	 * @param body2
 	 * @return The distance between body1 and body2
 	 */
-	private Distance getDistance(Body body1, Body body2) {
+	private static Distance getDistance(Body body1, Body body2) {
 		
 		double[] polar1 = getPolar(body1);
 		double[] polar2 = getPolar(body2);
 		
 		double[] polar = getPolar(polar1, polar2);
 		
-		return new Distance(polar[0], DistanceType.AU);
+		return new Distance(polar[0], DistanceType.METER).convert(DistanceType.AU);
 		
 	}
 	
@@ -185,7 +200,7 @@ public class Body {
 	 * @return A array of two doubles that are the distance and angle from the
 	 *         system core that the given planet is at
 	 */
-	private double[] getPolar(Body body) {
+	private static double[] getPolar(Body body) {
 		
 		Body pare = body.parent;
 		
@@ -204,7 +219,7 @@ public class Body {
 	 * @param polar2
 	 * @return Adds the two polar coordinates together
 	 */
-	private double[] getPolar(double[] polar1, double[] polar2) {
+	private static double[] getPolar(double[] polar1, double[] polar2) {
 		
 		double r1 = polar1[0];
 		double r2 = polar2[0];
@@ -247,10 +262,12 @@ public class Body {
 			if (b != this && b.temperatureEmission > 0) {
 				
 				long t = b.temperatureEmission;
-				Distance d = getDistance(new Body(this), new Body(b));
-				Distance r = b.radius;
+				Distance orbit = getDistance(new Body(this), new Body(b));
+				Distance size = b.radius;
+				double d = orbit.getDistance();
+				double r = size.getDistance();
 				
-				double tem = t * Math.sqrt(r.getDistance() / (2 * d.getDistance()));
+				double tem = t * Math.sqrt(r / (2 * d));
 				temperature += Math.round(tem);
 				
 			}
@@ -264,26 +281,63 @@ public class Body {
 	 * 
 	 * @param typeBodys
 	 *            The list of bodies that can be assigned
+	 * @return If the body has a type
 	 */
-	public void setType(List<BodyType> typeBodys) {
+	public boolean setType(List<BodyType> typeBodys) {
 		
 		if (type == null) {
 			
 			List<BodyType> sutable = new ArrayList<>();
+			List<Double> probabilityList = new ArrayList<>();
+			double total = 0;
 			
 			for (BodyType b : typeBodys) {
-				if (b.inTemperatureRange(temperature)) {
+				if (b.inTemperatureRange(temperature) && b.isSuitable()) {
 					sutable.add(b);
+					probabilityList.add(b.getSpawnChance());
+					total += b.getSpawnChance();
 				}
 			}
 			
-			// TODO should be based on spawn chance
-			// isSuitable()
-			type = sutable.get(0);
-			radius = new Distance(type.getRandomRadius(), DistanceType.SOLAR_RADIUS);
+			if (sutable.isEmpty()) {
+				return false;
+			}
+			
+			double chance = random.nextDouble() * total;
+			int id = 0;
+			for (int i = 0; i < probabilityList.size(); i++) {
+				chance -= probabilityList.get(i);
+				if (chance <= 0) {
+					id = i;
+					break;
+				}
+			}
+			
+			type = sutable.get(id);
+			String unitType = type.getRadiusUnit();
+			if (unitType.equals("NONE")) {
+				unitType = "METER";
+			}
+			radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(unitType));
 			
 		}
 		
+		return true;
+		
+	}
+	
+	@Override
+	public String toString() {
+		
+		return "Body [type=" + type + ", temperature=" + temperature + ", distance=" + distance + "]";
+	}
+	
+	/**
+	 * @return The parent of the body
+	 */
+	public Body getParent() {
+		
+		return parent;
 	}
 	
 }

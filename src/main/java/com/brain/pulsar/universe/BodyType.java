@@ -18,10 +18,10 @@ public class BodyType {
 	
 	@XmlElement(name = "spawn_odds")
 	private double spawnOdds;
-	@XmlElement(defaultValue = "true")
-	private boolean suitable;
 	
-	@XmlElement(defaultValue = "true")
+	@XmlElement()
+	private boolean suitable;
+	@XmlElement()
 	private boolean colonizable;
 	
 	@XmlElement
@@ -38,7 +38,6 @@ public class BodyType {
 	@XmlElement(name = "temp_set")
 	private Range tempSet;
 	
-	
 	private Random random;
 	
 	/**
@@ -46,17 +45,21 @@ public class BodyType {
 	 */
 	public BodyType() {
 		
+		suitable = true;
+		colonizable = true;
+		
 		random = new Random();
 	}
 	
 	/**
 	 * Clones a BodyType
 	 * 
-	 * @param clone The BodyType to clone
+	 * @param clone
+	 *            The BodyType to clone
 	 */
 	public BodyType(BodyType clone) {
 		
-		if(clone == null) {
+		if (clone == null) {
 			return;
 		}
 		
@@ -79,7 +82,7 @@ public class BodyType {
 	 *            The number to convert
 	 * @return The converted double
 	 */
-	private double convert(String n) {
+	private static double convert(String n) {
 		
 		String[] s = n.split("e");
 		
@@ -159,14 +162,12 @@ public class BodyType {
 	/**
 	 * @return A random radius that is within the set range
 	 */
-	public long getRandomRadius() {
+	public double getRandomRadius() {
 		
 		double min = convert(radius.getMin());
 		double max = convert(radius.getMax());
 		
-		double r = ((max - min) * random.nextDouble()) + min;
-		
-		return Math.round(r);
+		return ((max - min) * random.nextDouble()) + min;
 		
 	}
 	
@@ -205,11 +206,34 @@ public class BodyType {
 	}
 	
 	/**
-	 * @return Whether the planet is suitable for generation based on temperature of a body
+	 * @return Whether the planet is suitable for generation based on temperature of
+	 *         a body
 	 */
 	public boolean isSuitable() {
 		
 		return suitable;
+	}
+	
+	/**
+	 * @return What units the radius is in
+	 */
+	public String getRadiusUnit() {
+		
+		return radius.getUnits();
+	}
+	
+	/**
+	 * @return The chance the body type has to spawn
+	 */
+	public Double getSpawnChance() {
+		
+		return spawnOdds;
+	}
+	
+	@Override
+	public String toString() {
+		
+		return "BodyType [name=" + name + "]";
 	}
 	
 }

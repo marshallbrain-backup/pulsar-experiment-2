@@ -1,7 +1,11 @@
 package test.java.com.brain.pulsar.universe;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -58,7 +62,7 @@ class StarSystemTest {
 	
 	static void testPlanets(List<Body> planets) {
 
-		int distance = 1;
+		double distance = 1;
 		for(Body b: planets) {
 			
 			BodyTest.testBodyPropertys(b,
@@ -66,7 +70,56 @@ class StarSystemTest {
 					new Distance(distance, DistanceType.AU), new Distance(distance, DistanceType.AU),
 					0L, 10000L,
 					0.0, 360.0);
-			distance++;
+			distance += 0.5;
+			
+		}
+		
+	}
+	
+	@Test
+	void MassSystemGeneration() {
+		
+		Class<?>[] dataTypes = new Class<?>[]{
+			DataContainer.class, 
+			BodyType.class, StarSystemType.class
+			};
+		
+		List<DataContainer> uncompresed = new ArrayList<>();
+		getXmlFiles(new File("common"), dataTypes, uncompresed);
+		
+		DataContainer common = new DataContainer(uncompresed);
+		
+		List<BodyType> typeBodys = common.getMatchData(BodyType.class);
+		List<StarSystemType> typeSystems = common.getMatchData(StarSystemType.class);
+		
+		List<StarSystem> galaxy = new ArrayList<>();
+		Map<String, Integer> bodyCount = new HashMap<>();
+		for(int i = 0; i < 100; i++) {
+			
+			StarSystem ss = new StarSystem(typeBodys, typeSystems);
+			for(Body b: ss.getBodyList()) {
+				int count = bodyCount.getOrDefault(b.getId(), 0);
+				bodyCount.put(b.getId(), count+1);
+			}
+			galaxy.add(ss);
+			
+		}
+		
+		for(Entry<String, Integer> e: bodyCount.entrySet()) {
+			System.out.println(e.getKey() + " - " + e.getValue());
+		}
+		
+	}
+	
+	void getXmlFiles(File folder, Class<?>[] classList, List<DataContainer> dataList) {
+		
+		for (File f : folder.listFiles()) {
+			
+			if (f.isDirectory()) {
+				getXmlFiles(f, classList, dataList);
+			} else if (f.isFile()) {
+				dataList.add((DataContainer) XmlParser.getXml(f, classList));
+			}
 			
 		}
 		
@@ -90,7 +143,7 @@ class StarSystemTest {
 			"	<body>\r\n" + 
 			"		<name>sc_b_star</name>\r\n" + 
 			"		<suitable>false</suitable>\r\n" + 
-			"		<radius min=\"3\" max=\"6\"/>\r\n" + 
+			"		<radius min=\"3\" max=\"6\" units=\"SOLAR_RADIUS\"/>\r\n" + 
 			"		<temp_set min=\"10e3\" max=\"20e3\"/>\r\n" + 
 			"		<colonizable>false</colonizable>\r\n" + 
 			"	</body>\r\n" + 
@@ -105,7 +158,7 @@ class StarSystemTest {
 			"		<tag></tag>\r\n" + 
 			"		<spawn_odds>1</spawn_odds>\r\n" + 
 			"		<temp_range min=\"0\" max=\"10000\"/>\r\n" + 
-			"		<radius min=\"12\" max=\"25\"/>\r\n" + 
+			"		<radius min=\"3\" max=\"6\" units=\"SOLAR_RADIUS\"/>\r\n" + 
 			"		<moon_size min=\"10\" max=\"15\"/>\r\n" + 
 			"	</body>\r\n" + 
 			"\r\n" + 

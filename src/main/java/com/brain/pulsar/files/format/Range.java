@@ -14,21 +14,25 @@ public class Range {
 	private String max;
 	@XmlAttribute
 	private String min;
+	@XmlAttribute
+	private String units;
 	
 	/**
 	 * 
 	 */
 	public Range() {
+		
 	}
 	
 	/**
 	 * Clones a Range
 	 * 
-	 * @param clone The Range to clone
+	 * @param clone
+	 *            The Range to clone
 	 */
 	public Range(Range clone) {
 		
-		if(clone == null) {
+		if (clone == null) {
 			return;
 		}
 		
@@ -66,6 +70,7 @@ public class Range {
 			if (this == compare) {
 				equals = true;
 			} else {
+				
 				equals = true;
 				if (!min.equals(compare.min)) {
 					equals = false;
@@ -83,9 +88,7 @@ public class Range {
 	}
 	
 	/**
-	 * Returns the max value
-	 * 
-	 * @return
+	 * @return the max value
 	 */
 	public String getMax() {
 		
@@ -98,6 +101,19 @@ public class Range {
 	public String getMin() {
 		
 		return min;
+	}
+	
+	/**
+	 * @return The units that the numbers are in
+	 */
+	public String getUnits() {
+		
+		if (units == null) {
+			return "NONE";
+		}
+		
+		return units;
+		
 	}
 	
 }

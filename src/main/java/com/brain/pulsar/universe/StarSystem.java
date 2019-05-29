@@ -2,6 +2,7 @@ package main.java.com.brain.pulsar.universe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The object that contains the information about a star system.
@@ -15,10 +16,14 @@ public class StarSystem {
 	private List<Body> starList;
 	private List<Body> planetList;
 	private List<Body> moonList;
-
+	
+	private Random random;
+	
 	/**
-	 * @param typeBodys A list of body types
-	 * @param typeSytems A list of the systems that this system could be
+	 * @param typeBodys
+	 *            A list of body types
+	 * @param typeSytems
+	 *            A list of the systems that this system could be
 	 */
 	public StarSystem(List<BodyType> typeBodys, List<StarSystemType> typeSytems) {
 		
@@ -28,11 +33,30 @@ public class StarSystem {
 		starList = new ArrayList<>();
 		planetList = new ArrayList<>();
 		moonList = new ArrayList<>();
+		random = new Random();
 		
-		StarSystemType systemType = typeSytems.get(0);
+		List<Double> probabilityList = new ArrayList<>();
+		double total = 0;
 		
-		for(BodyType b: typeBodys) {
-			if(b.getName().equals(systemType.getBody())) {
+		for (StarSystemType s : typeSytems) {
+			probabilityList.add(s.getSpawnChance());
+			total += s.getSpawnChance();
+		}
+		
+		double chance = random.nextDouble() * total;
+		int id = 0;
+		for (int i = 0; i < probabilityList.size(); i++) {
+			chance -= probabilityList.get(i);
+			if (chance <= 0) {
+				id = i;
+				break;
+			}
+		}
+		
+		StarSystemType systemType = typeSytems.get(id);
+		
+		for (BodyType b : typeBodys) {
+			if (b.getName().equals(systemType.getBody())) {
 				starType = b;
 			}
 		}
@@ -43,12 +67,12 @@ public class StarSystem {
 		starList.add(star);
 		
 		int planetCount = systemType.getPlanetCount();
-		int distance = 1;
-		for(int i = 0; i < planetCount; i++) {
+		double distance = 1;
+		for (int i = 0; i < planetCount; i++) {
 			
 			Body p = new Body(star, distance);
 			planetList.add(p);
-			distance++;
+			distance += 0.5;
 			
 		}
 		
@@ -56,30 +80,30 @@ public class StarSystem {
 		bodyList.addAll(planetList);
 		bodyList.addAll(moonList);
 		
-		for(Body b: bodyList) {
+		List<Body> remove = new ArrayList<>();
+		for (Body b : bodyList) {
 			
 			b.nTemperatureCalc(bodyList);
-			b.setType(typeBodys);
+			boolean s = b.setType(typeBodys);
+			
+			if (!s) {
+				remove.add(b);
+			}
 			
 		}
 		
+		bodyList.removeAll(remove);
 		
 	}
-
+	
 	/**
 	 * @return The list of stars that are in the system
 	 */
 	public List<Body> getStarList() {
 		
-		List<Body> list = new ArrayList<>();
-		
-		for(Body b: starList) {
-			list.add(new Body(b));
-		}
-		
-		return list;
+		return new ArrayList<>(starList);
 	}
-
+	
 	/**
 	 * Generates a list of all bodies that are orbiting a star.
 	 * 
@@ -87,13 +111,15 @@ public class StarSystem {
 	 */
 	public List<Body> getPlanetList() {
 		
-		List<Body> list = new ArrayList<>();
+		return new ArrayList<>(planetList);
+	}
+	
+	/**
+	 * @return A list of all bodys in a system
+	 */
+	public List<Body> getBodyList() {
 		
-		for(Body b: planetList) {
-			list.add(new Body(b));
-		}
-		
-		return list;
+		return new ArrayList<>(bodyList);
 	}
 	
 }
