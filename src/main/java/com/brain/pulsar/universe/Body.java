@@ -1,6 +1,5 @@
 package main.java.com.brain.pulsar.universe;
 
-import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +14,7 @@ import main.java.com.brain.pulsar.data.DistanceType;
  *
  */
 public class Body {
-
+	
 	private long temperature;
 	private long temperatureEmission;
 	
@@ -38,13 +37,14 @@ public class Body {
 	/**
 	 * Clones a Body
 	 * 
-	 * @param clone The Body to clone
+	 * @param clone
+	 *            The Body to clone
 	 */
 	public Body(Body clone) {
 		
 		init();
 		
-		if(clone == null) {
+		if (clone == null) {
 			return;
 		}
 		
@@ -123,9 +123,9 @@ public class Body {
 		
 		this.distance = new Distance(distance, DistanceType.AU);
 		temperatureEmission = type.getRandomTemp();
-
+		
 		String unitType = type.getRadiusUnit();
-		if(unitType.equals("NONE")) {
+		if (unitType.equals("NONE")) {
 			unitType = "METER";
 		}
 		
@@ -152,7 +152,7 @@ public class Body {
 		
 		random = new Random();
 	}
-
+	
 	/**
 	 * @return The angle the body is at.
 	 */
@@ -169,10 +169,14 @@ public class Body {
 		return new Distance(distance);
 	}
 	
+	/**
+	 * @return returns the name of the type of body
+	 */
 	public String getId() {
+		
 		return type.getName();
 	}
-
+	
 	/**
 	 * Gets the distance between two bodies.
 	 * 
@@ -277,6 +281,7 @@ public class Body {
 	 * 
 	 * @param typeBodys
 	 *            The list of bodies that can be assigned
+	 * @return If the body has a type
 	 */
 	public boolean setType(List<BodyType> typeBodys) {
 		
@@ -294,15 +299,15 @@ public class Body {
 				}
 			}
 			
-			if(sutable.isEmpty()) {
+			if (sutable.isEmpty()) {
 				return false;
 			}
 			
 			double chance = random.nextDouble() * total;
 			int id = 0;
-			for(int i = 0; i < probabilityList.size(); i++) {
+			for (int i = 0; i < probabilityList.size(); i++) {
 				chance -= probabilityList.get(i);
-				if(chance <= 0) {
+				if (chance <= 0) {
 					id = i;
 					break;
 				}
@@ -310,7 +315,7 @@ public class Body {
 			
 			type = sutable.get(id);
 			String unitType = type.getRadiusUnit();
-			if(unitType.equals("NONE")) {
+			if (unitType.equals("NONE")) {
 				unitType = "METER";
 			}
 			radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(unitType));
@@ -320,16 +325,18 @@ public class Body {
 		return true;
 		
 	}
-
+	
 	@Override
 	public String toString() {
 		
 		return "Body [type=" + type + ", temperature=" + temperature + ", distance=" + distance + "]";
 	}
-
+	
+	/**
+	 * @return The parent of the body
+	 */
 	public Body getParent() {
 		
-		// TODO Auto-generated method stub
 		return parent;
 	}
 	
