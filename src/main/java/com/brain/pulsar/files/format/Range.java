@@ -21,16 +21,18 @@ public class Range {
 	 * 
 	 */
 	public Range() {
+		
 	}
 	
 	/**
 	 * Clones a Range
 	 * 
-	 * @param clone The Range to clone
+	 * @param clone
+	 *            The Range to clone
 	 */
 	public Range(Range clone) {
 		
-		if(clone == null) {
+		if (clone == null) {
 			return;
 		}
 		
@@ -68,6 +70,7 @@ public class Range {
 			if (this == compare) {
 				equals = true;
 			} else {
+				
 				equals = true;
 				if (!min.equals(compare.min)) {
 					equals = false;
@@ -85,9 +88,7 @@ public class Range {
 	}
 	
 	/**
-	 * Returns the max value
-	 * 
-	 * @return
+	 * @return the max value
 	 */
 	public String getMax() {
 		
@@ -101,10 +102,13 @@ public class Range {
 		
 		return min;
 	}
-
+	
+	/**
+	 * @return The units that the numbers are in
+	 */
 	public String getUnits() {
 		
-		if(units == null) {
+		if (units == null) {
 			return "METER";
 		}
 		
