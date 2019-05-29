@@ -142,7 +142,7 @@ class BodyTest {
 			"\r\n" + 
 			"	<body>\r\n" + 
 			"		<name>sc_b_star ueauoueo</name>\r\n" + 
-			"		<radius min=\"3\" max=\"6\"/>\r\n" + 
+			"		<radius min=\"3\" max=\"6\" units=\"SOLAR_RADIUS\"/>\r\n" + 
 			"		<temp_set min=\"10e3\" max=\"20e3\"/>\r\n" + 
 			"		<colonizable>false</colonizable>\r\n" + 
 			"	</body>\r\n" + 
