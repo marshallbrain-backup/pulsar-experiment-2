@@ -7,6 +7,12 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Holds data about a circle vector from an xml file
+ * 
+ * @author Marshall Brain
+ *
+ */
 @XmlRootElement(name = "circle")
 public class Circle implements Vector {
 	
@@ -22,9 +28,19 @@ public class Circle implements Vector {
 	
 	private Map<String, String> style;
 	
+	/**
+	 * Base constructor
+	 */
 	public Circle() {
+	
 	}
 	
+	/**
+	 * Clones the circle
+	 * 
+	 * @param base
+	 *            The circle to clone
+	 */
 	public Circle(Circle base) {
 		
 		centerX = base.centerX;
@@ -34,11 +50,16 @@ public class Circle implements Vector {
 		style = base.style;
 		
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getShape()
+	 */
 	@Override
 	public Shape getShape() {
 		
-		if(radius <= 0) {
+		if (radius <= 0) {
 			radius = 1;
 		}
 		
@@ -53,20 +74,31 @@ public class Circle implements Vector {
 		return new Ellipse2D.Float(x, y, w, h);
 		
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getStyle()
+	 */
 	@Override
 	public Map<String, String> getStyle() {
 		
-		if(style == null) {
+		if (style == null) {
 			style = convertStyle(styleString);
 		}
 		
 		return style;
 		
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#copyVector()
+	 */
 	@Override
 	public Vector copyVector() {
+		
 		return new Circle(this);
 	}
 	
