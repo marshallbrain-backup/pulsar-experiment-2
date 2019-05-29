@@ -82,7 +82,7 @@ public class BodyType {
 	 *            The number to convert
 	 * @return The converted double
 	 */
-	private double convert(String n) {
+	private static double convert(String n) {
 		
 		String[] s = n.split("e");
 		
@@ -167,9 +167,7 @@ public class BodyType {
 		double min = convert(radius.getMin());
 		double max = convert(radius.getMax());
 		
-		double r = ((max - min) * random.nextDouble()) + min;
-		
-		return r;
+		return ((max - min) * random.nextDouble()) + min;
 		
 	}
 	

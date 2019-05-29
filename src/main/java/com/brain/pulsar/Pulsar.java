@@ -3,7 +3,6 @@ package main.java.com.brain.pulsar;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.IOException;
@@ -112,7 +111,7 @@ public class Pulsar implements TickCall, RenderCall {
 	 *            The destination folder
 	 * @throws IOException
 	 */
-	private void cloneFolder(URI jarUri, File rootPath) throws IOException {
+	private static void cloneFolder(URI jarUri, File rootPath) throws IOException {
 		
 		Path jarPath = getJarPath(jarUri);
 		
@@ -175,7 +174,7 @@ public class Pulsar implements TickCall, RenderCall {
 	 * @return The {@link Path} to the location from the {@link URI}
 	 * @throws IOException
 	 */
-	private Path getJarPath(URI jarPath) throws IOException {
+	private static Path getJarPath(URI jarPath) throws IOException {
 		
 		if (jarPath.getScheme().equals("jar")) {
 			
@@ -204,7 +203,7 @@ public class Pulsar implements TickCall, RenderCall {
 	 *            {@link XmlParser} to
 	 * @see XmlParser
 	 */
-	private void getXmlFiles(File folder, Class<?>[] classList, List<DataContainer> dataList) {
+	private static void getXmlFiles(File folder, Class<?>[] classList, List<DataContainer> dataList) {
 		
 		for (File f : folder.listFiles()) {
 			

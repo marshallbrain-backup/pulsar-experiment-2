@@ -184,7 +184,7 @@ public class Body {
 	 * @param body2
 	 * @return The distance between body1 and body2
 	 */
-	private Distance getDistance(Body body1, Body body2) {
+	private static Distance getDistance(Body body1, Body body2) {
 		
 		double[] polar1 = getPolar(body1);
 		double[] polar2 = getPolar(body2);
@@ -200,7 +200,7 @@ public class Body {
 	 * @return A array of two doubles that are the distance and angle from the
 	 *         system core that the given planet is at
 	 */
-	private double[] getPolar(Body body) {
+	private static double[] getPolar(Body body) {
 		
 		Body pare = body.parent;
 		
@@ -219,7 +219,7 @@ public class Body {
 	 * @param polar2
 	 * @return Adds the two polar coordinates together
 	 */
-	private double[] getPolar(double[] polar1, double[] polar2) {
+	private static double[] getPolar(double[] polar1, double[] polar2) {
 		
 		double r1 = polar1[0];
 		double r2 = polar2[0];

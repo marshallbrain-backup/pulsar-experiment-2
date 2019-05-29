@@ -89,7 +89,7 @@ public class StarSystemUi {
 				break;
 			}
 		}
-		//Unsets the zoom target if a planet was not clicked
+		// Unsets the zoom target if a planet was not clicked
 		if (!hover && m.buttonClicked(1)) {
 			zoomTarget = null;
 			System.out.println("target unset");
@@ -155,12 +155,12 @@ public class StarSystemUi {
 		g.moveTranslate(moveOffset.getX() * scale, moveOffset.getY() * scale);
 		g.moveTranslate(zoomOffset.getX() * scale, zoomOffset.getY() * scale);
 		
-		//TODO Handle planet's orbits and the body's themselves separately
+		// TODO Handle planet's orbits and the body's themselves separately
 		for (BodyUi b : bodyList) {
 			b.render(g, scale);
 		}
 		
-		//keeps the tooltip on top
+		// keeps the tooltip on top
 		for (BodyUi b : bodyList) {
 			b.renderToolTip(g);
 		}
