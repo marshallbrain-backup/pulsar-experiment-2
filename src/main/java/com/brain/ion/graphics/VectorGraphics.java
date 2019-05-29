@@ -89,6 +89,7 @@ public class VectorGraphics {
 			if (f.isFile()) {
 				IonXmlRoot xr = (IonXmlRoot) XmlParser.getXml(f, classes);
 				
+				//TODO find all text vectors and preload their font metrics
 				for (VectorGroup vg : xr.getVectorGroups()) {
 					vectors.put(vg.getPath(), vg);
 				}
