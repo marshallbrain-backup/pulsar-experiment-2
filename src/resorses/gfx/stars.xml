@@ -1,0 +1,56 @@
+<ion>
+	<vector_layer type="body" id="sc_b_star">
+		<circle
+			style="fill:#a183ff;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="sc_a_star">
+		<circle
+			style="fill:#71bbff;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="sc_f_star">
+		<circle
+			style="fill:#fffff5;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="sc_g_star">
+		<circle
+			style="fill:#fff93b;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="sc_k_star">
+		<circle
+			style="fill:#ffbc21;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="sc_m_star">
+		<circle
+			style="fill:#ff2424;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+</ion>
