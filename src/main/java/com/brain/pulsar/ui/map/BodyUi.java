@@ -71,9 +71,6 @@ public class BodyUi {
 		double distanceRatio = g.getWindowWidth() / Distance.convert(20, 0, DistanceType.AU, DistanceType.METER).getDistance();
 		distanceRatio *= scale;
 		
-		double parentX = body.getParent().getX() * distanceRatio;
-		double parentY = body.getParent().getY() * distanceRatio;
-		
 		double radius = body.getRadius().convert(DistanceType.METER).getDistance() * distanceRatio;
 		double distance = body.getDistance().convert(DistanceType.METER).getDistance() * distanceRatio;
 		
@@ -88,7 +85,7 @@ public class BodyUi {
 		style.put("stroke-opacity", "1");
 		style.put("stroke-width", "2");
 		
-		Ellipse2D orbit = new Ellipse2D.Double(parentX-distance, parentY-distance, distance*2, distance*2);
+		Ellipse2D orbit = new Ellipse2D.Double(-distance, -distance, distance*2, distance*2);
 		Arc2D orbitArc = new Arc2D.Double(orbit.getBounds2D(), body.getAngle(), 360, Arc2D.OPEN);
 		Point2D curveStart = orbitArc.getStartPoint();
 		

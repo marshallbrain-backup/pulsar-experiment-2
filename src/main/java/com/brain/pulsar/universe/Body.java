@@ -321,26 +321,6 @@ public class Body {
 		
 	}
 
-	public double getX() {
-		double x = Math.cos(angle) * distance.convert(DistanceType.METER).getDistance();
-		double offsetX = 0;
-		if(parent != null) {
-			offsetX = parent.getX();
-		}
-		return x + offsetX;
-	}
-
-	public double getY() {
-		
-		double y = Math.sin(angle) * distance.convert(DistanceType.METER).getDistance();
-		double offsetY = 0;
-		if(parent != null) {
-			offsetY = parent.getY();
-		}
-		return y + offsetY;
-		
-	}
-
 	@Override
 	public String toString() {
 		
