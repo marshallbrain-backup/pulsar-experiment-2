@@ -75,7 +75,11 @@ public class Ion {
 		
 	}
 	
-	public Map<SettingEntry, String> getSettings(){
+	/**
+	 * @return The map containing the settings for the game
+	 */
+	public Map<SettingEntry, String> getSettings() {
+		
 		return settings;
 	}
 	
