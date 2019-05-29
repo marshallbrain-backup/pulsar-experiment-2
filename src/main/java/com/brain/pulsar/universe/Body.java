@@ -123,7 +123,13 @@ public class Body {
 		
 		this.distance = new Distance(distance, DistanceType.AU);
 		temperatureEmission = type.getRandomTemp();
-		radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(type.getRadiusUnit()));
+
+		String unitType = type.getRadiusUnit();
+		if(unitType.equals("NONE")) {
+			unitType = "METER";
+		}
+		
+		radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(unitType));
 		angle = random.nextDouble() * 360;
 		
 		temperature = temperatureEmission;
@@ -303,7 +309,11 @@ public class Body {
 			}
 			
 			type = sutable.get(id);
-			radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(type.getRadiusUnit()));
+			String unitType = type.getRadiusUnit();
+			if(unitType.equals("NONE")) {
+				unitType = "METER";
+			}
+			radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(unitType));
 			
 		}
 		

@@ -109,7 +109,7 @@ public class Range {
 	public String getUnits() {
 		
 		if (units == null) {
-			return "METER";
+			return "NONE";
 		}
 		
 		return units;
