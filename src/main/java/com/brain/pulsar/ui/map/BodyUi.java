@@ -33,14 +33,16 @@ public class BodyUi {
 	private boolean renderToolTip;
 	
 	private Body body;
+	private BodyUi parant;
 	private VectorGroup vectorLayer;
 	private VectorGroup toolTipVector;
 	private Area lastRendered;
 	private Point toolTipPosition;
 
-	public BodyUi(Body b, VectorGroup vg, VectorGroup toolTip) {
+	public BodyUi(Body b, VectorGroup vg, VectorGroup toolTip, BodyUi p) {
 		
 		body = b;
+		parant = p;
 		vectorLayer = vg;
 		toolTipVector = toolTip;
 		
@@ -85,7 +87,13 @@ public class BodyUi {
 		style.put("stroke-opacity", "1");
 		style.put("stroke-width", "2");
 		
-		Ellipse2D orbit = new Ellipse2D.Double(-distance, -distance, distance*2, distance*2);
+		
+		Point2D origin = new Point2D.Double(0, 0);
+		if(parant != null) {
+			origin = parant.getCenter();
+		}
+		
+		Ellipse2D orbit = new Ellipse2D.Double(origin.getX()-distance, origin.getY()-distance, distance*2, distance*2);
 		Arc2D orbitArc = new Arc2D.Double(orbit.getBounds2D(), body.getAngle(), 360, Arc2D.OPEN);
 		Point2D curveStart = orbitArc.getStartPoint();
 		

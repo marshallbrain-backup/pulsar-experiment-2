@@ -45,9 +45,20 @@ public class StarSystemUi {
 		
 		VectorGroup base = bodys.getOrDefault("", new VectorGroup());
 		VectorGroup baseToolTip = toolTip.getOrDefault("", new VectorGroup());
+		
+		Map<Body, BodyUi> bodyUiMap = new HashMap<>();
 		for(Body b: starSystem.getBodyList()) {
-			bodyList.add(new BodyUi(b, bodys.getOrDefault(b.getId(), base), toolTip.getOrDefault(b.getId(), baseToolTip)));
+			
+			BodyUi ui = new BodyUi(b, 
+					bodys.getOrDefault(b.getId(), base), 
+					toolTip.getOrDefault(b.getId(), baseToolTip),
+					bodyUiMap.get(b.getParent())
+					);
+			bodyUiMap.put(b, ui);
+			bodyList.add(ui);
+			
 			System.out.println(b);
+			
 		}
 		
 	}
