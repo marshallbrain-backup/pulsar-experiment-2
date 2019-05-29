@@ -7,6 +7,12 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Holds data about a rectangle vector from an xml file
+ * 
+ * @author Marshall Brain
+ *
+ */
 @XmlRootElement(name = "rect")
 public class Rectangle implements Vector {
 	
@@ -22,9 +28,19 @@ public class Rectangle implements Vector {
 	
 	private Map<String, String> style;
 	
+	/**
+	 * Base constructor
+	 */
 	public Rectangle() {
+	
 	}
 	
+	/**
+	 * Clones the rectangle
+	 * 
+	 * @param base
+	 *            The rectangle to clone
+	 */
 	public Rectangle(Rectangle base) {
 		
 		x = base.x;
@@ -35,35 +51,51 @@ public class Rectangle implements Vector {
 		style = base.style;
 		
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getShape()
+	 */
 	@Override
 	public Shape getShape() {
 		
-		if(width <= 0) {
+		if (width <= 0) {
 			width = 1;
 		}
 		
-		if(hight <= 0) {
+		if (hight <= 0) {
 			hight = 1;
 		}
 		
 		return new Rectangle2D.Double(x, y, width, hight);
 		
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getStyle()
+	 */
 	@Override
 	public Map<String, String> getStyle() {
 		
-		if(style == null) {
+		if (style == null) {
 			style = convertStyle(styleString);
 		}
 		
 		return style;
 		
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see main.java.com.brain.ion.graphics.vectors.Vector#copyVector()
+	 */
 	@Override
 	public Vector copyVector() {
+		
 		return new Rectangle(this);
 	}
 	
