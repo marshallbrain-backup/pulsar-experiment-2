@@ -160,9 +160,13 @@ public class Pulsar implements TickCall, RenderCall {
 	private void cloneResorses() throws URISyntaxException, IOException {
 		
 		URI commonOld = getClass().getResource("/resorses/common/").toURI();
+		URI gfxOld = getClass().getResource("/resorses/gfx/").toURI();
+		
 		File commonNew = new File("common");
+		File gfxNew = new File("gfx");
 		
 		cloneFolder(commonOld, commonNew);
+		cloneFolder(gfxOld, gfxNew);
 		
 	}
 	
