@@ -15,8 +15,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "rect")
 public class Rectangle implements Vector {
-	
+
+	@XmlAttribute
 	private int x;
+	@XmlAttribute
 	private int y;
 	@XmlAttribute(name = "w")
 	private int width;
