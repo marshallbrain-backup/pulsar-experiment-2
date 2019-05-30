@@ -1,4 +1,4 @@
-package main.java.com.brain.pulsar.files;
+package com.brain.pulsar.xml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class DataContainer {
 	 * Empty constructor
 	 */
 	public DataContainer() {
-	
+		
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class DataContainer {
 		data = new ArrayList<>();
 		
 		for (DataContainer dc : dataList) {
-			if(dc.data != null) {
+			if (dc.data != null) {
 				data.addAll(dc.data);
 			}
 		}

@@ -1,4 +1,4 @@
-package main.java.com.brain.pulsar;
+package com.brain.pulsar;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -20,18 +20,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import main.java.com.brain.ion.Ion;
-import main.java.com.brain.ion.RenderCall;
-import main.java.com.brain.ion.SettingEntry;
-import main.java.com.brain.ion.TickCall;
-import main.java.com.brain.ion.XmlParser;
-import main.java.com.brain.ion.graphics.VectorGraphics;
-import main.java.com.brain.ion.input.Mouse;
-import main.java.com.brain.pulsar.files.DataContainer;
-import main.java.com.brain.pulsar.ui.Ui;
-import main.java.com.brain.pulsar.universe.BodyType;
-import main.java.com.brain.pulsar.universe.StarSystem;
-import main.java.com.brain.pulsar.universe.StarSystemType;
+import com.brain.ion.Ion;
+import com.brain.ion.game_loop.RenderCall;
+import com.brain.ion.game_loop.TickCall;
+import com.brain.ion.graphics.VectorGraphics;
+import com.brain.ion.input.Mouse;
+import com.brain.ion.settings.SettingEntry;
+import com.brain.ion.xml.XmlParser;
+import com.brain.pulsar.ui.Ui;
+import com.brain.pulsar.universe.StarSystem;
+import com.brain.pulsar.xml.DataContainer;
+import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.xml.types.StarSystemType;
 
 /**
  * The main class for the game. Handles initialization of the game engine as
@@ -100,7 +100,7 @@ public class Pulsar implements TickCall, RenderCall {
 		screen.addMouseWheelListener(mouse);
 		
 	}
-
+	
 	/**
 	 * Clone the folder to a different location, mainly should be used for cloning a
 	 * folder located in the jar to a folder outside the jar.
@@ -224,7 +224,7 @@ public class Pulsar implements TickCall, RenderCall {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see main.java.com.brain.ion.TickCall#tick()
+	 * @see com.brain.ion.TickCall#tick()
 	 */
 	@Override
 	public synchronized void tick() {
@@ -238,7 +238,7 @@ public class Pulsar implements TickCall, RenderCall {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see main.java.com.brain.ion.RenderCall#render()
+	 * @see com.brain.ion.RenderCall#render()
 	 */
 	@Override
 	public synchronized void render() {

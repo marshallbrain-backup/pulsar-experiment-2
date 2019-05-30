@@ -1,4 +1,4 @@
-package main.java.com.brain.ion.input;
+package com.brain.ion.input;
 
 /**
  * Basic state of input buttons.

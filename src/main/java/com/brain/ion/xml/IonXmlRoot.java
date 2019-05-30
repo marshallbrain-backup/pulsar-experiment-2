@@ -1,4 +1,4 @@
-package main.java.com.brain.ion.graphics;
+package com.brain.ion.xml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import main.java.com.brain.ion.graphics.vectors.VectorGroup;
+import com.brain.ion.graphics.vectors.VectorGroup;
 
 /**
  * The top level class for data from an xml file that is used by the Ion engine.
@@ -24,6 +24,7 @@ public class IonXmlRoot {
 	 * @return The list of VectorGroups
 	 */
 	public List<VectorGroup> getVectorGroups() {
+		
 		return new ArrayList<>(vectors);
 	}
 	

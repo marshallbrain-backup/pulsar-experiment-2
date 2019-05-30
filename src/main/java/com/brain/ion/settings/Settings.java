@@ -1,4 +1,4 @@
-package main.java.com.brain.ion;
+package com.brain.ion.settings;
 
 import java.io.BufferedReader;
 import java.io.File;

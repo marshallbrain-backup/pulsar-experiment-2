@@ -1,4 +1,4 @@
-package main.java.com.brain.ion.graphics.vectors;
+package com.brain.ion.graphics.vectors;
 
 import java.awt.Graphics2D;
 import java.awt.Shape;

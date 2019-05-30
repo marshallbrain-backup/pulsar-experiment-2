@@ -1,4 +1,4 @@
-package main.java.com.brain.ion;
+package com.brain.ion.game_loop;
 
 /**
  * The interface that allows the main game loop to call the tick method of the

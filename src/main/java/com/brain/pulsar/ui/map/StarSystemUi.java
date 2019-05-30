@@ -1,4 +1,4 @@
-package main.java.com.brain.pulsar.ui.map;
+package com.brain.pulsar.ui.map;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import main.java.com.brain.ion.graphics.ScreenPosition;
-import main.java.com.brain.ion.graphics.VectorGraphics;
-import main.java.com.brain.ion.graphics.vectors.VectorGroup;
-import main.java.com.brain.ion.input.Mouse;
-import main.java.com.brain.pulsar.universe.Body;
-import main.java.com.brain.pulsar.universe.StarSystem;
+import com.brain.ion.graphics.ScreenPosition;
+import com.brain.ion.graphics.VectorGraphics;
+import com.brain.ion.graphics.vectors.VectorGroup;
+import com.brain.ion.input.Mouse;
+import com.brain.pulsar.universe.Body;
+import com.brain.pulsar.universe.StarSystem;
 
 /**
  * @author Marshall Brain

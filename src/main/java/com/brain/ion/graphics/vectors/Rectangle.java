@@ -1,4 +1,4 @@
-package main.java.com.brain.ion.graphics.vectors;
+package com.brain.ion.graphics.vectors;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -32,7 +32,7 @@ public class Rectangle implements Vector {
 	 * Base constructor
 	 */
 	public Rectangle() {
-	
+		
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class Rectangle implements Vector {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getShape()
+	 * @see com.brain.ion.graphics.vectors.Vector#getShape()
 	 */
 	@Override
 	public Shape getShape() {
@@ -75,7 +75,7 @@ public class Rectangle implements Vector {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getStyle()
+	 * @see com.brain.ion.graphics.vectors.Vector#getStyle()
 	 */
 	@Override
 	public Map<String, String> getStyle() {
@@ -91,7 +91,7 @@ public class Rectangle implements Vector {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see main.java.com.brain.ion.graphics.vectors.Vector#copyVector()
+	 * @see com.brain.ion.graphics.vectors.Vector#copyVector()
 	 */
 	@Override
 	public Vector copyVector() {

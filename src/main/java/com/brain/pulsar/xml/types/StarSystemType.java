@@ -1,11 +1,11 @@
-package main.java.com.brain.pulsar.universe;
+package com.brain.pulsar.xml.types;
 
 import java.util.Random;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import main.java.com.brain.pulsar.files.format.Range;
+import com.brain.pulsar.xml.elements.Range;
 
 /**
  * Class for storing information about a system type from an xml file.

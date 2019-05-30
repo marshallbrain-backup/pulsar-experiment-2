@@ -1,10 +1,16 @@
-package main.java.com.brain.ion;
+package com.brain.ion;
 
 import java.awt.Canvas;
 import java.util.EnumMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
+
+import com.brain.ion.game_loop.GameLoop;
+import com.brain.ion.game_loop.RenderCall;
+import com.brain.ion.game_loop.TickCall;
+import com.brain.ion.settings.SettingEntry;
+import com.brain.ion.settings.Settings;
 
 /**
  * The primary class for the Ion game engine.

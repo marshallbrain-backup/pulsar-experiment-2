@@ -1,4 +1,4 @@
-package main.java.com.brain.ion.graphics.vectors;
+package com.brain.ion.graphics.vectors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +28,7 @@ public class VectorGroup {
 	 * Base constructor
 	 */
 	public VectorGroup() {
+	
 	}
 	
 	/**
@@ -43,32 +44,33 @@ public class VectorGroup {
 		
 		vectors = new ArrayList<>();
 		
-		for(Vector v: clone.vectors) {
+		for (Vector v : clone.vectors) {
 			vectors.add(v.copyVector());
 		}
 		
 	}
-
+	
 	/**
 	 * @return A list of the vectors in the group
 	 */
-	public List<Vector> getVectors(){
+	public List<Vector> getVectors() {
 		
 		List<Vector> list = new ArrayList<>();
 		
-		for(Vector v: vectors) {
+		for (Vector v : vectors) {
 			list.add(v.copyVector());
 		}
 		
 		return list;
 		
 	}
-
+	
 	/**
 	 * @return Gets the path of the VectorGroup, used to determine what VectorGroup
 	 *         goes to what object with out the need for folders
 	 */
 	public String getPath() {
+		
 		return type + "." + id;
 	}
 	

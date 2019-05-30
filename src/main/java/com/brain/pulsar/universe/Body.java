@@ -1,11 +1,12 @@
-package main.java.com.brain.pulsar.universe;
+package com.brain.pulsar.universe;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import main.java.com.brain.pulsar.data.Distance;
-import main.java.com.brain.pulsar.data.DistanceType;
+import com.brain.pulsar.units.Distance;
+import com.brain.pulsar.units.DistanceUnit;
+import com.brain.pulsar.xml.types.BodyType;
 
 /**
  * Stores information about a cosmic body.
@@ -73,7 +74,7 @@ public class Body {
 		
 		this.parent = parent;
 		
-		this.distance = new Distance(distance, DistanceType.AU);
+		this.distance = new Distance(distance, DistanceUnit.AU);
 		angle = random.nextDouble() * 360;
 		
 	}
@@ -95,8 +96,8 @@ public class Body {
 		type = starType;
 		
 		temperatureEmission = type.getRandomTemp();
-		radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(type.getRadiusUnit()));
-		distance = new Distance(0, DistanceType.AU);
+		radius = new Distance(type.getRandomRadius(), DistanceUnit.valueOf(type.getRadiusUnit()));
+		distance = new Distance(0, DistanceUnit.AU);
 		angle = 0;
 		
 		temperature = temperatureEmission;
@@ -121,7 +122,7 @@ public class Body {
 		this.parent = parent;
 		type = starType;
 		
-		this.distance = new Distance(distance, DistanceType.AU);
+		this.distance = new Distance(distance, DistanceUnit.AU);
 		temperatureEmission = type.getRandomTemp();
 		
 		String unitType = type.getRadiusUnit();
@@ -129,7 +130,7 @@ public class Body {
 			unitType = "METER";
 		}
 		
-		radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(unitType));
+		radius = new Distance(type.getRandomRadius(), DistanceUnit.valueOf(unitType));
 		angle = random.nextDouble() * 360;
 		
 		temperature = temperatureEmission;
@@ -144,8 +145,8 @@ public class Body {
 		temperature = 0;
 		temperatureEmission = 0;
 		angle = 0;
-		distance = new Distance(0, DistanceType.METER);
-		radius = new Distance(0, DistanceType.METER);
+		distance = new Distance(0, DistanceUnit.METER);
+		radius = new Distance(0, DistanceUnit.METER);
 		
 		type = null;
 		parent = null;
@@ -191,7 +192,7 @@ public class Body {
 		
 		double[] polar = getPolar(polar1, polar2);
 		
-		return new Distance(polar[0], DistanceType.METER).convert(DistanceType.AU);
+		return new Distance(polar[0], DistanceUnit.METER).convert(DistanceUnit.AU);
 		
 	}
 	
@@ -318,7 +319,7 @@ public class Body {
 			if (unitType.equals("NONE")) {
 				unitType = "METER";
 			}
-			radius = new Distance(type.getRandomRadius(), DistanceType.valueOf(unitType));
+			radius = new Distance(type.getRandomRadius(), DistanceUnit.valueOf(unitType));
 			
 		}
 		

@@ -1,4 +1,4 @@
-package main.java.com.brain.ion.graphics;
+package com.brain.ion.graphics;
 
 /**
  * List of possible screen origin positions.
@@ -16,5 +16,5 @@ public enum ScreenPosition {
 	 * The origin is in the upper left hand corner of the screen
 	 */
 	ZERO;
-
+	
 }
