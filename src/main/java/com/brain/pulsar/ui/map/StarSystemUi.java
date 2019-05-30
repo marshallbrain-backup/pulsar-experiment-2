@@ -12,6 +12,8 @@ import com.brain.ion.graphics.VectorGraphics;
 import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
 import com.brain.pulsar.ui.view.View;
+import com.brain.pulsar.ui.view.ViewFactory;
+import com.brain.pulsar.ui.view.ViewType;
 import com.brain.pulsar.ui.view.body.BodyOverview;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.universe.StarSystem;
@@ -28,7 +30,7 @@ public class StarSystemUi {
 	private double zoom;
 	
 	private List<BodyUi> bodyList;
-	private List<View> viewList;
+	private ViewFactory viewCreator;
 	
 	private StarSystem starSystem;
 	private Point2D moveOffset;
@@ -44,12 +46,14 @@ public class StarSystemUi {
 	 *            The map of VectorGroups for rendering bodies
 	 * @param tooltipVectors
 	 *            The map of VectorGroups for rendering tooltips
-	 * @param viewList 
+	 * @param viewCreator 
 	 */
+	
+	//TODO fix java doc
 	public StarSystemUi(StarSystem starSystem, Map<String, VectorGroup> bodyVectors,
-			Map<String, VectorGroup> tooltipVectors, List<View> viewList) {
+			Map<String, VectorGroup> tooltipVectors, ViewFactory viewCreator) {
 		
-		this.viewList = viewList;
+		this.viewCreator = viewCreator;
 		this.starSystem = starSystem;
 		
 		moveOffset = new Point2D.Double(0, 0);
@@ -88,7 +92,7 @@ public class StarSystemUi {
 			hover = b.tick(m);
 			if (hover) {
 				if (m.buttonDoubleClicked(1)) {
-					viewList.add(new BodyOverview());
+					viewCreator.create(ViewType.BODY_OVERVIEW, b.getBody());
 					System.out.println("view opened");
 				}
 				if (m.buttonClicked(1)) {
