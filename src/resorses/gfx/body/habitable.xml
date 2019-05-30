@@ -1,0 +1,56 @@
+<ion>
+	<vector_layer type="body" id="pc_continental">
+		<circle
+			style="fill:#05a700;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="pc_desert">
+		<circle
+			style="fill:#ffee76;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="pc_tropical">
+		<circle
+			style="fill:#43ff6b;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="pc_ocean">
+		<circle
+			style="fill:#0df8ff;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="pc_tundra">
+		<circle
+			style="fill:#aaebff;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+	<vector_layer type="body" id="pc_alpine">
+		<circle
+			style="fill:#8db3f5;fill-opacity:1"
+			cx="0"
+			cy="0"
+			r="0"
+		/>
+	</vector_layer>
+	
+</ion>
