@@ -44,8 +44,12 @@ public class VectorGroup {
 		
 		vectors = new ArrayList<>();
 		
-		for (Vector v : clone.vectors) {
-			vectors.add(v.copyVector());
+		for (Object o : clone.vectors) {
+			try {
+				Vector v = (Vector) o;
+				vectors.add(v.copyVector());
+			} catch(ClassCastException e) {
+			}
 		}
 		
 	}
