@@ -1,4 +1,4 @@
-package test.java.com.brain.pulsar.universe;
+package com.brain.pulsar.universe;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,15 +10,12 @@ import java.util.Map.Entry;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import main.java.com.brain.ion.XmlParser;
-import main.java.com.brain.pulsar.data.Distance;
-import main.java.com.brain.pulsar.data.DistanceType;
-import main.java.com.brain.pulsar.files.DataContainer;
-import main.java.com.brain.pulsar.universe.Body;
-import main.java.com.brain.pulsar.universe.BodyType;
-import main.java.com.brain.pulsar.universe.StarSystem;
-import main.java.com.brain.pulsar.universe.StarSystemType;
-
+import com.brain.ion.xml.XmlParser;
+import com.brain.pulsar.units.Distance;
+import com.brain.pulsar.units.DistanceUnit;
+import com.brain.pulsar.xml.DataContainer;
+import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.xml.types.StarSystemType;
 
 class StarSystemTest {
 	
@@ -27,13 +24,10 @@ class StarSystemTest {
 	@BeforeAll
 	static void setUpBeforeClass() {
 		
-		Class<?>[] dataTypes = new Class<?>[]{
-			DataContainer.class, 
-			BodyType.class, StarSystemType.class
-			};
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
 		
 		List<DataContainer> uncompresed = new ArrayList<>();
-		for(String xml: getXmlFiles()) {
+		for (String xml : getXmlFiles()) {
 			uncompresed.add((DataContainer) XmlParser.getXml(xml, dataTypes));
 		}
 		
@@ -50,26 +44,22 @@ class StarSystemTest {
 		StarSystem one = new StarSystem(typeBodys, typeSystems);
 		
 		List<Body> stars = one.getStarList();
-		BodyTest.testBodyPropertys(stars.get(0),
-				new Distance(3, DistanceType.SOLAR_RADIUS), new Distance(6, DistanceType.SOLAR_RADIUS),
-				new Distance(0, DistanceType.AU), new Distance(0, DistanceType.AU),
-				10000L, 20000L,
-				0.0, 360.0);
+		BodyTest.testBodyPropertys(stars.get(0), new Distance(3, DistanceUnit.SOLAR_RADIUS),
+				new Distance(6, DistanceUnit.SOLAR_RADIUS), new Distance(0, DistanceUnit.AU),
+				new Distance(0, DistanceUnit.AU), 10000L, 20000L, 0.0, 360.0);
 		
 		testPlanets(one.getPlanetList());
 		
 	}
 	
 	static void testPlanets(List<Body> planets) {
-
+		
 		double distance = 1;
-		for(Body b: planets) {
+		for (Body b : planets) {
 			
-			BodyTest.testBodyPropertys(b,
-					new Distance(3, DistanceType.SOLAR_RADIUS), new Distance(6, DistanceType.SOLAR_RADIUS),
-					new Distance(distance, DistanceType.AU), new Distance(distance, DistanceType.AU),
-					0L, 10000L,
-					0.0, 360.0);
+			BodyTest.testBodyPropertys(b, new Distance(3, DistanceUnit.SOLAR_RADIUS),
+					new Distance(6, DistanceUnit.SOLAR_RADIUS), new Distance(distance, DistanceUnit.AU),
+					new Distance(distance, DistanceUnit.AU), 0L, 10000L, 0.0, 360.0);
 			distance += 0.5;
 			
 		}
@@ -79,10 +69,7 @@ class StarSystemTest {
 	@Test
 	void MassSystemGeneration() {
 		
-		Class<?>[] dataTypes = new Class<?>[]{
-			DataContainer.class, 
-			BodyType.class, StarSystemType.class
-			};
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
 		
 		List<DataContainer> uncompresed = new ArrayList<>();
 		getXmlFiles(new File("common"), dataTypes, uncompresed);
@@ -94,18 +81,18 @@ class StarSystemTest {
 		
 		List<StarSystem> galaxy = new ArrayList<>();
 		Map<String, Integer> bodyCount = new HashMap<>();
-		for(int i = 0; i < 100; i++) {
+		for (int i = 0; i < 100; i++) {
 			
 			StarSystem ss = new StarSystem(typeBodys, typeSystems);
-			for(Body b: ss.getBodyList()) {
+			for (Body b : ss.getBodyList()) {
 				int count = bodyCount.getOrDefault(b.getId(), 0);
-				bodyCount.put(b.getId(), count+1);
+				bodyCount.put(b.getId(), count + 1);
 			}
 			galaxy.add(ss);
 			
 		}
 		
-		for(Entry<String, Integer> e: bodyCount.entrySet()) {
+		for (Entry<String, Integer> e : bodyCount.entrySet()) {
 			System.out.println(e.getKey() + " - " + e.getValue());
 		}
 		
@@ -137,41 +124,19 @@ class StarSystemTest {
 		
 	}
 	
-	private static String starsXml = 
-			"<pulsar>\r\n" + 
-			"\r\n" + 
-			"	<body>\r\n" + 
-			"		<name>sc_b_star</name>\r\n" + 
-			"		<suitable>false</suitable>\r\n" + 
-			"		<radius min=\"3\" max=\"6\" units=\"SOLAR_RADIUS\"/>\r\n" + 
-			"		<temp_set min=\"10e3\" max=\"20e3\"/>\r\n" + 
-			"		<colonizable>false</colonizable>\r\n" + 
-			"	</body>\r\n" + 
-			"</pulsar>";
+	private static String starsXml = "<pulsar>\r\n" + "\r\n" + "	<body>\r\n" + "		<name>sc_b_star</name>\r\n"
+			+ "		<suitable>false</suitable>\r\n" + "		<radius min=\"3\" max=\"6\" units=\"SOLAR_RADIUS\"/>\r\n"
+			+ "		<temp_set min=\"10e3\" max=\"20e3\"/>\r\n" + "		<colonizable>false</colonizable>\r\n"
+			+ "	</body>\r\n" + "</pulsar>";
 	
-	private static String planetsXml = 
-			"<pulsar>\r\n" + 
-			"\r\n" + 
-			"	<body>\r\n" + 
-			"		<name>pc_continental</name>\r\n" + 
-			"		<climate>wet</climate>\r\n" + 
-			"		<tag></tag>\r\n" + 
-			"		<spawn_odds>1</spawn_odds>\r\n" + 
-			"		<temp_range min=\"0\" max=\"10000\"/>\r\n" + 
-			"		<radius min=\"3\" max=\"6\" units=\"SOLAR_RADIUS\"/>\r\n" + 
-			"		<moon_size min=\"10\" max=\"15\"/>\r\n" + 
-			"	</body>\r\n" + 
-			"\r\n" + 
-			"</pulsar>";
+	private static String planetsXml = "<pulsar>\r\n" + "\r\n" + "	<body>\r\n" + "		<name>pc_continental</name>\r\n"
+			+ "		<climate>wet</climate>\r\n" + "		<tag></tag>\r\n" + "		<spawn_odds>1</spawn_odds>\r\n"
+			+ "		<temp_range min=\"0\" max=\"10000\"/>\r\n"
+			+ "		<radius min=\"3\" max=\"6\" units=\"SOLAR_RADIUS\"/>\r\n"
+			+ "		<moon_size min=\"10\" max=\"15\"/>\r\n" + "	</body>\r\n" + "\r\n" + "</pulsar>";
 	
-	private static String systemsXml = 
-			"<pulsar>\r\n" + 
-			"\r\n" + 
-			"	<system>\r\n" + 
-			"		<body>sc_b_star</body>\r\n" + 
-			"		<spawn_odds>10</spawn_odds>\r\n" + 
-			"		<planets_num min=\"4\" max=\"10\"/>\r\n" + 
-			"	</system>\r\n" + 
-			"</pulsar>";
+	private static String systemsXml = "<pulsar>\r\n" + "\r\n" + "	<system>\r\n" + "		<body>sc_b_star</body>\r\n"
+			+ "		<spawn_odds>10</spawn_odds>\r\n" + "		<planets_num min=\"4\" max=\"10\"/>\r\n"
+			+ "	</system>\r\n" + "</pulsar>";
 	
 }

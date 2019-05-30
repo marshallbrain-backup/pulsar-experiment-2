@@ -1,8 +1,11 @@
-package main.java.com.brain.pulsar.universe;
+package com.brain.pulsar.universe;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.xml.types.StarSystemType;
 
 /**
  * The object that contains the information about a star system.

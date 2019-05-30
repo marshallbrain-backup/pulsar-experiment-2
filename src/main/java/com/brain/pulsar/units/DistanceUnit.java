@@ -1,4 +1,4 @@
-package main.java.com.brain.pulsar.data;
+package com.brain.pulsar.units;
 
 /**
  * Stores information about conversions for different unit types
@@ -6,23 +6,20 @@ package main.java.com.brain.pulsar.data;
  * @author Marshall Brain
  *
  */
-public enum DistanceType {
+public enum DistanceUnit {
 	
 	/**
-	 * The astronomical unit. Used to measure distances in a star system.
-	 * 1 AU is the distance between earth and the sun.
-	 * 1 AU = 149597870700 meters
+	 * The astronomical unit. Used to measure distances in a star system. 1 AU is
+	 * the distance between earth and the sun. 1 AU = 149597870700 meters
 	 */
 	AU(149597870700L, 0),
 	/**
-	 * The meter
-	 * 1 meter = 1 meter
+	 * The meter 1 meter = 1 meter
 	 */
 	METER(1L, 0),
 	/**
-	 * The solar radius. Used to measure the radiuses of stars.
-	 * 1 solar radius is the radius of the sun.
-	 * 1 AU = 695500000 meters
+	 * The solar radius. Used to measure the radiuses of stars. 1 solar radius is
+	 * the radius of the sun. 1 AU = 695500000 meters
 	 */
 	SOLAR_RADIUS(695500000L, 0);
 	
@@ -37,7 +34,7 @@ public enum DistanceType {
 	 *            The scientific notation that the number is in. Allows for
 	 *            decimals.
 	 */
-	private DistanceType(long n, int e) {
+	private DistanceUnit(long n, int e) {
 		
 		number = n;
 		exponent = e;

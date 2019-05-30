@@ -1,11 +1,8 @@
-package test.java.com.brain.ion;
+package com.brain.ion.settings;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
-import main.java.com.brain.ion.Settings;
-
 
 class SettingsTest {
 	

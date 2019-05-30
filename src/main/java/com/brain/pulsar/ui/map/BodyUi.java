@@ -1,4 +1,4 @@
-package main.java.com.brain.pulsar.ui.map;
+package com.brain.pulsar.ui.map;
 
 import java.awt.Point;
 import java.awt.Shape;
@@ -14,14 +14,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import main.java.com.brain.ion.graphics.VectorGraphics;
-import main.java.com.brain.ion.graphics.vectors.Text;
-import main.java.com.brain.ion.graphics.vectors.Vector;
-import main.java.com.brain.ion.graphics.vectors.VectorGroup;
-import main.java.com.brain.ion.input.Mouse;
-import main.java.com.brain.pulsar.data.Distance;
-import main.java.com.brain.pulsar.data.DistanceType;
-import main.java.com.brain.pulsar.universe.Body;
+import com.brain.ion.graphics.VectorGraphics;
+import com.brain.ion.graphics.vectors.Text;
+import com.brain.ion.graphics.vectors.Vector;
+import com.brain.ion.graphics.vectors.VectorGroup;
+import com.brain.ion.input.Mouse;
+import com.brain.pulsar.units.Distance;
+import com.brain.pulsar.units.DistanceUnit;
+import com.brain.pulsar.universe.Body;
 
 /**
  * Handles the rendering of a body to the screen.
@@ -102,12 +102,12 @@ public class BodyUi {
 		
 		// Gets the ratio of the screen width in pixels to the screen width in meters.
 		double distanceRatio = g.getWindowWidth()
-				/ Distance.convert(20, 0, DistanceType.AU, DistanceType.METER).getDistance();
+				/ Distance.convert(20, 0, DistanceUnit.AU, DistanceUnit.METER).getDistance();
 		distanceRatio *= scale;
 		
 		// Converts meters to pixels at the given ratio
-		double radius = body.getRadius().convert(DistanceType.METER).getDistance() * distanceRatio;
-		double distance = body.getDistance().convert(DistanceType.METER).getDistance() * distanceRatio;
+		double radius = body.getRadius().convert(DistanceUnit.METER).getDistance() * distanceRatio;
+		double distance = body.getDistance().convert(DistanceUnit.METER).getDistance() * distanceRatio;
 		
 		if (radius < 10) {
 			radius = 10;
@@ -124,7 +124,7 @@ public class BodyUi {
 		if (parent != null) {
 			origin = parent.getCenter();
 			
-			AffineTransform screenAT ;
+			AffineTransform screenAT;
 			try {
 				screenAT = g.getAffineTransform().createInverse();
 				origin.setLocation(origin.getX() + screenAT.getTranslateX(), origin.getY() + screenAT.getTranslateY());

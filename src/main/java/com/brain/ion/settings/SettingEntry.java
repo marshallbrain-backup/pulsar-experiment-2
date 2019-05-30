@@ -1,4 +1,4 @@
-package main.java.com.brain.ion;
+package com.brain.ion.settings;
 
 /**
  * Enum that is used to retrieve a setting from the EnumMap used to store

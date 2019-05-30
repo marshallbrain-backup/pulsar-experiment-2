@@ -1,4 +1,4 @@
-package main.java.com.brain.pulsar;
+package com.brain.pulsar;
 
 /**
  * The class that initializes the game.
@@ -18,8 +18,8 @@ public class PulsarBootstrap {
 		
 	}
 	
-	//TODO Organize files
-	//TODO Simplify build path
-	//TODO Comment
+	// TODO Organize files
+	// TODO Simplify build path
+	// TODO Comment
 	
 }

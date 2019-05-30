@@ -1,4 +1,4 @@
-package main.java.com.brain.pulsar.data;
+package com.brain.pulsar.units;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,7 +15,7 @@ public class Distance {
 	
 	private final long amount;
 	
-	private final DistanceType type;
+	private final DistanceUnit type;
 	
 	/**
 	 * Creates a new Distance using a long
@@ -25,7 +25,7 @@ public class Distance {
 	 * @param type
 	 *            The unit of measurement that the long is in
 	 */
-	public Distance(long distance, DistanceType type) {
+	public Distance(long distance, DistanceUnit type) {
 		
 		this.type = type;
 		amount = distance;
@@ -40,7 +40,7 @@ public class Distance {
 	 * @param type
 	 *            The unit of measurement that the double is in
 	 */
-	public Distance(double distance, DistanceType type) {
+	public Distance(double distance, DistanceUnit type) {
 		
 		Distance converted = convert(distance, 0, type, type);
 		amount = converted.amount;
@@ -71,7 +71,7 @@ public class Distance {
 	 * @param type
 	 *            The unit of measurement that the long is in
 	 */
-	public Distance(long distance, int scale, DistanceType type) {
+	public Distance(long distance, int scale, DistanceUnit type) {
 		
 		this.type = type;
 		this.scale = scale;
@@ -85,7 +85,7 @@ public class Distance {
 	 *            The unit type being converted to
 	 * @return A new distance of the given type
 	 */
-	public Distance convert(DistanceType newType) {
+	public Distance convert(DistanceUnit newType) {
 		
 		return convert(amount, scale, type, newType);
 	}
@@ -104,8 +104,8 @@ public class Distance {
 		
 		if (o instanceof Distance) {
 			
-			Distance d1 = convert(DistanceType.METER);
-			Distance d2 = ((Distance) o).convert(DistanceType.METER);
+			Distance d1 = convert(DistanceUnit.METER);
+			Distance d2 = ((Distance) o).convert(DistanceUnit.METER);
 			
 			if (d1.amount != d2.amount) {
 				return false;
@@ -117,7 +117,7 @@ public class Distance {
 				return false;
 			}
 			
-			return (d1.type == DistanceType.METER);
+			return (d1.type == DistanceUnit.METER);
 			
 		}
 		
@@ -148,7 +148,7 @@ public class Distance {
 	 *            The type of units being converted to
 	 * @return The distance in the new units
 	 */
-	public static Distance convert(double distance, int oldScale, DistanceType oldType, DistanceType newType) {
+	public static Distance convert(double distance, int oldScale, DistanceUnit oldType, DistanceUnit newType) {
 		
 		// Do not switch newType and oldType
 		BigDecimal converted = BigDecimal.valueOf(distance * newType.getValueInverse() * oldType.getValue());

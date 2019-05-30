@@ -1,4 +1,4 @@
-package main.java.com.brain.ion.graphics.vectors;
+package com.brain.ion.graphics.vectors;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlValue;
  */
 @XmlRootElement(name = "text")
 public class Text implements Vector {
-
+	
 	@XmlAttribute(name = "padding_x")
 	private int paddingX;
 	@XmlAttribute(name = "padding_y")
@@ -35,12 +35,13 @@ public class Text implements Vector {
 	
 	private Map<String, String> style;
 	
-	private  Font font = null;
+	private Font font = null;
 	
 	/**
 	 * Base constructor
 	 */
 	public Text() {
+	
 	}
 	
 	/**
@@ -64,36 +65,44 @@ public class Text implements Vector {
 	 * @return The padding that the text should have
 	 */
 	public Point getPading() {
-		return new Point(paddingX*2, paddingY*2);
+		
+		return new Point(paddingX * 2, paddingY * 2);
 	}
-
+	
 	/**
-	 * @param newText The new text
+	 * @param newText
+	 *            The new text
 	 */
 	public void setText(String newText) {
+		
 		textValue = newText;
 		textFormated = newText;
 	}
-
-	/* (non-Javadoc)
-	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getShape()
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.brain.ion.graphics.vectors.Vector#getShape()
 	 */
 	@Override
 	public Shape getShape() {
+		
 		return null;
 	}
-
-	/* (non-Javadoc)
-	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getShape(java.awt.Graphics2D)
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.brain.ion.graphics.vectors.Vector#getShape(java.awt.Graphics2D)
 	 */
 	@Override
 	public Shape getShape(Graphics2D g) {
 		
-		if(textFormated == null) {
-			textFormated = textValue.replaceAll("\\s+","");
+		if (textFormated == null) {
+			textFormated = textValue.replaceAll("\\s+", "");
 		}
 		
-		if(font == null) {
+		if (font == null) {
 			
 			String type = getStyle().getOrDefault("font-family", "Open Sans");
 			String size = getStyle().getOrDefault("font-size", "14");
@@ -109,26 +118,31 @@ public class Text implements Vector {
 		return v.getOutline(paddingX - 2, (int) Math.ceil(paddingY + b.getHeight() - fontMetrics.getDescent()) + 2);
 		
 	}
-
-	/* (non-Javadoc)
-	 * @see main.java.com.brain.ion.graphics.vectors.Vector#getStyle()
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.brain.ion.graphics.vectors.Vector#getStyle()
 	 */
 	@Override
 	public Map<String, String> getStyle() {
 		
-		if(style == null) {
+		if (style == null) {
 			style = convertStyle(styleString);
 		}
 		
 		return style;
 		
 	}
-
-	/* (non-Javadoc)
-	 * @see main.java.com.brain.ion.graphics.vectors.Vector#copyVector()
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.brain.ion.graphics.vectors.Vector#copyVector()
 	 */
 	@Override
 	public Vector copyVector() {
+		
 		return new Text(this);
 	}
 	

@@ -1,4 +1,4 @@
-package main.java.com.brain.pulsar.ui;
+package com.brain.pulsar.ui;
 
 import java.io.File;
 import java.util.HashMap;
@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import main.java.com.brain.ion.graphics.VectorGraphics;
-import main.java.com.brain.ion.graphics.vectors.VectorGroup;
-import main.java.com.brain.ion.input.Mouse;
-import main.java.com.brain.pulsar.ui.map.StarSystemUi;
-import main.java.com.brain.pulsar.universe.StarSystem;
+import com.brain.ion.graphics.VectorGraphics;
+import com.brain.ion.graphics.vectors.VectorGroup;
+import com.brain.ion.input.Mouse;
+import com.brain.pulsar.ui.map.StarSystemUi;
+import com.brain.pulsar.universe.StarSystem;
 
 /**
  * @author Marshall Brain

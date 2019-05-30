@@ -1,4 +1,4 @@
-package main.java.com.brain.ion.graphics;
+package com.brain.ion.graphics;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,12 +10,13 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import main.java.com.brain.ion.SettingEntry;
-import main.java.com.brain.ion.XmlParser;
-import main.java.com.brain.ion.graphics.vectors.Circle;
-import main.java.com.brain.ion.graphics.vectors.Rectangle;
-import main.java.com.brain.ion.graphics.vectors.Text;
-import main.java.com.brain.ion.graphics.vectors.VectorGroup;
+import com.brain.ion.graphics.vectors.Circle;
+import com.brain.ion.graphics.vectors.Rectangle;
+import com.brain.ion.graphics.vectors.Text;
+import com.brain.ion.graphics.vectors.VectorGroup;
+import com.brain.ion.settings.SettingEntry;
+import com.brain.ion.xml.IonXmlRoot;
+import com.brain.ion.xml.XmlParser;
 
 /**
  * A graphics class for dealing with vectors form an xml.
@@ -89,7 +90,7 @@ public class VectorGraphics {
 			if (f.isFile()) {
 				IonXmlRoot xr = (IonXmlRoot) XmlParser.getXml(f, classes);
 				
-				//TODO find all text vectors and preload their font metrics
+				// TODO find all text vectors and preload their font metrics
 				for (VectorGroup vg : xr.getVectorGroups()) {
 					vectors.put(vg.getPath(), vg);
 				}

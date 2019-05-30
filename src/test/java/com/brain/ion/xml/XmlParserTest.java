@@ -1,6 +1,6 @@
-package test.java.com.brain.ion;
+package com.brain.ion.xml;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,12 +10,10 @@ import java.lang.reflect.Field;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import main.java.com.brain.ion.XmlParser;
-import main.java.com.brain.pulsar.files.DataContainer;
-import main.java.com.brain.pulsar.files.format.Range;
-import main.java.com.brain.pulsar.universe.BodyType;
-import main.java.com.brain.pulsar.universe.StarSystemType;
-
+import com.brain.pulsar.xml.DataContainer;
+import com.brain.pulsar.xml.elements.Range;
+import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.xml.types.StarSystemType;
 
 class XmlParserTest {
 	
@@ -25,7 +23,7 @@ class XmlParserTest {
 		File commonTest = new File("XmlTestFiles");
 		commonTest.mkdir();
 		commonTest.deleteOnExit();
-	
+		
 	}
 	
 	@Test
@@ -71,7 +69,8 @@ class XmlParserTest {
 	@Test
 	void xmlToSystem() throws NoSuchFieldException, IllegalAccessException {
 		
-		StarSystemType xmlSystem = ((DataContainer) loadXmlFile("system", systemXml)).getMatchData(StarSystemType.class).get(0);
+		StarSystemType xmlSystem = ((DataContainer) loadXmlFile("system", systemXml)).getMatchData(StarSystemType.class)
+				.get(0);
 		StarSystemType setSystem = new StarSystemType();
 		
 		Field spawnOdds = StarSystemType.class.getDeclaredField("spawnOdds");
@@ -96,7 +95,7 @@ class XmlParserTest {
 		f.deleteOnExit();
 		
 		try (PrintWriter out = new PrintWriter(f)) {
-		    out.print(text);
+			out.print(text);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -105,36 +104,17 @@ class XmlParserTest {
 		
 	}
 	
-	private static Class<?>[] dataTypes = new Class<?>[]{
-		DataContainer.class, 
-		BodyType.class, StarSystemType.class
-		};
+	private static Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
 	
-	private static String bodyXml = 
-			"<pulsar>\r\n" + 
-			"\r\n" + 
-			"	<body>\r\n" + 
-			"		<name>pc_continental</name>\r\n" + 
-			"		<climate>wet</climate>\r\n" + 
-			"		<suitable>false</suitable>\r\n" + 
-			"		<colonizable>false</colonizable>\r\n" + 
-			"		<spawn_odds>1</spawn_odds>\r\n" + 
-			"		<temp_set min=\"10e3\" max=\"20e3\"/>\r\n" + 
-			"		<temp_range min=\"0\" max=\"10000\"/>\r\n" + 
-			"		<radius min=\"12\" max=\"25\"/>\r\n" + 
-			"		<moon_size min=\"10\" max=\"15\"/>\r\n" + 
-			"	</body>\r\n" + 
-			"\r\n" + 
-			"</pulsar>";
+	private static String bodyXml = "<pulsar>\r\n" + "\r\n" + "	<body>\r\n" + "		<name>pc_continental</name>\r\n"
+			+ "		<climate>wet</climate>\r\n" + "		<suitable>false</suitable>\r\n"
+			+ "		<colonizable>false</colonizable>\r\n" + "		<spawn_odds>1</spawn_odds>\r\n"
+			+ "		<temp_set min=\"10e3\" max=\"20e3\"/>\r\n" + "		<temp_range min=\"0\" max=\"10000\"/>\r\n"
+			+ "		<radius min=\"12\" max=\"25\"/>\r\n" + "		<moon_size min=\"10\" max=\"15\"/>\r\n"
+			+ "	</body>\r\n" + "\r\n" + "</pulsar>";
 	
-	private static String systemXml = 
-			"<pulsar>\r\n" + 
-			"\r\n" + 
-			"	<system>\r\n" + 
-			"		<body>sc_b_star</body>\r\n" + 
-			"		<spawn_odds>10</spawn_odds>\r\n" + 
-			"		<planets_num min=\"4\" max=\"10\"/>\r\n" + 
-			"	</system>\r\n" + 
-			"</pulsar>";
+	private static String systemXml = "<pulsar>\r\n" + "\r\n" + "	<system>\r\n" + "		<body>sc_b_star</body>\r\n"
+			+ "		<spawn_odds>10</spawn_odds>\r\n" + "		<planets_num min=\"4\" max=\"10\"/>\r\n"
+			+ "	</system>\r\n" + "</pulsar>";
 	
 }

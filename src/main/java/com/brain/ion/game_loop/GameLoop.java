@@ -1,4 +1,4 @@
-package main.java.com.brain.ion;
+package com.brain.ion.game_loop;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -6,6 +6,8 @@ import java.awt.event.WindowEvent;
 import java.util.Map;
 
 import javax.swing.JFrame;
+
+import com.brain.ion.settings.SettingEntry;
 
 /**
  * The class that contains the main loop for a game.
@@ -36,7 +38,8 @@ public class GameLoop implements Runnable {
 	 * @param screen
 	 *            The canvas that the game is drawn in
 	 */
-	public GameLoop(JFrame frame, Map<SettingEntry, String> settings, TickCall tickCall, RenderCall renderCall, Canvas screen) {
+	public GameLoop(JFrame frame, Map<SettingEntry, String> settings, TickCall tickCall, RenderCall renderCall,
+			Canvas screen) {
 		
 		this.settings = settings;
 		mainFrame = frame;
@@ -132,8 +135,8 @@ public class GameLoop implements Runnable {
 			// Is called once a second
 			if ((lastUpdateTime / 1000000) - (lastSecond / 1000000) >= 1000) {
 				
-				if(tps < 60 || fps < 60) {
-
+				if (tps < 60 || fps < 60) {
+					
 					System.out.println("TPS - " + String.valueOf(tps));
 					System.out.println("FPS - " + String.valueOf(fps));
 					System.out.println();
