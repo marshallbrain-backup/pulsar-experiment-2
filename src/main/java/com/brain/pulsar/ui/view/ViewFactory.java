@@ -34,7 +34,7 @@ public class ViewFactory {
 		
 		Body targetBody = (Body) paramaters[0];
 		
-		Map<String, VectorGroup> view = IonXmlRoot.getVectorGroups(views, "view.*", false);
+		Map<String, VectorGroup> view = IonXmlRoot.getVectorGroups(views, "view_body\\..*", true);
 		
 		viewList.add(new BodyOverview(targetBody, view));
 		
