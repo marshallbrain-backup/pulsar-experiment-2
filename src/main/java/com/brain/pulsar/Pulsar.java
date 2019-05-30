@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +103,31 @@ public class Pulsar implements TickCall, RenderCall {
 	}
 	
 	/**
+	 * Clones folders from inside the jar file into the folder the file is located
+	 * 
+	 * Current folders that are cloned
+	 * <ul>
+	 * <li>common</li>
+	 * </ul>
+	 * 
+	 * @throws URISyntaxException
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private void cloneResorses() throws URISyntaxException, IOException {
+		
+		URI commonOld = PulsarBootstrap.class.getResource("/resorses/common").toURI();
+		URI gfxOld = PulsarBootstrap.class.getResource("/resorses/gfx").toURI();
+		
+		File commonNew = new File("common");
+		File gfxNew = new File("gfx");
+		
+		cloneFolder(commonOld, commonNew);
+		cloneFolder(gfxOld, gfxNew);
+		
+	}
+	
+	/**
 	 * Clone the folder to a different location, mainly should be used for cloning a
 	 * folder located in the jar to a folder outside the jar.
 	 * 
@@ -144,32 +170,7 @@ public class Pulsar implements TickCall, RenderCall {
 		}
 		
 	}
-	
-	/**
-	 * Clones folders from inside the jar file into the folder the file is located
-	 * 
-	 * Current folders that are cloned
-	 * <ul>
-	 * <li>common</li>
-	 * </ul>
-	 * 
-	 * @throws URISyntaxException
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
-	private void cloneResorses() throws URISyntaxException, IOException {
-		
-		URI commonOld = getClass().getResource("/resorses/common/").toURI();
-		URI gfxOld = getClass().getResource("/resorses/gfx/").toURI();
-		
-		File commonNew = new File("common");
-		File gfxNew = new File("gfx");
-		
-		cloneFolder(commonOld, commonNew);
-		cloneFolder(gfxOld, gfxNew);
-		
-	}
-	
+
 	/**
 	 * Converts a {@link URI} to a {@link Path}
 	 * 
@@ -181,12 +182,16 @@ public class Pulsar implements TickCall, RenderCall {
 	private static Path getJarPath(URI jarPath) throws IOException {
 		
 		if (jarPath.getScheme().equals("jar")) {
+
+			FileSystem fileSystem;
 			
-			try (FileSystem fileSystem = FileSystems.getFileSystem(jarPath)) {
-				return fileSystem.getPath(jarPath.toString().substring(jarPath.toString().lastIndexOf('!') + 1));
+			try {
+				fileSystem = FileSystems.getFileSystem(jarPath);
 			} catch (FileSystemNotFoundException e) {
-				e.printStackTrace();
+				fileSystem = FileSystems.newFileSystem(jarPath, Collections.<String, Object>emptyMap());
 			}
+			
+			return fileSystem.getPath(jarPath.toString().substring(jarPath.toString().lastIndexOf("!")+1));
 			
 		}
 		
