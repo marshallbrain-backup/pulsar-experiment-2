@@ -1,0 +1,35 @@
+<pulsar>
+	
+	<body>
+		<name>pc_molten</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="973" max="4000"/>
+		<radius min="1000000" max="9534000"/>
+		<colonizable>false</colonizable>
+	</body>
+	
+	<body>
+		<name>pc_barren</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="283" max="973"/>
+		<radius min="1000000" max="9534000"/>
+		<colonizable>false</colonizable>
+	</body>
+	
+	<body>
+		<name>pc_barren_cold</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="266" max="283"/>
+		<radius min="1000000" max="9534000"/>
+		<colonizable>false</colonizable>
+	</body>
+	
+	<body>
+		<name>pc_frozen</name>
+		<spawn_odds>1</spawn_odds>
+		<temp_range min="0" max="266"/>
+		<radius min="1000000" max="9534000"/>
+		<colonizable>false</colonizable>
+	</body>
+
+</pulsar>
