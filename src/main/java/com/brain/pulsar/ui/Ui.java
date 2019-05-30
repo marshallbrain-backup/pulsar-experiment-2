@@ -14,6 +14,7 @@ import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
 import com.brain.pulsar.ui.map.StarSystemUi;
 import com.brain.pulsar.ui.view.View;
+import com.brain.pulsar.ui.view.ViewFactory;
 import com.brain.pulsar.universe.StarSystem;
 
 public class Ui {
@@ -38,7 +39,9 @@ public class Ui {
 		
 		vg.clear();
 		
-		map = new StarSystemUi(mainSystem, bodys, bodyToolTip, viewList);
+		ViewFactory viewCreator = new ViewFactory(viewList);
+		
+		map = new StarSystemUi(mainSystem, bodys, bodyToolTip, viewCreator);
 		
 	}
 	
