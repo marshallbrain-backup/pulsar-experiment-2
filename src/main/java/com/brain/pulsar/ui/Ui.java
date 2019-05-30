@@ -1,24 +1,25 @@
 package com.brain.pulsar.ui;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import com.brain.ion.graphics.ScreenPosition;
 import com.brain.ion.graphics.VectorGraphics;
 import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
 import com.brain.pulsar.ui.map.StarSystemUi;
+import com.brain.pulsar.ui.view.View;
 import com.brain.pulsar.universe.StarSystem;
 
-/**
- * @author Marshall Brain
- *
- */
 public class Ui {
 	
 	private StarSystemUi map;
+	private List<View> viewList;
 	
 	/**
 	 * Creates a new Ui
@@ -28,6 +29,8 @@ public class Ui {
 	 */
 	public Ui(StarSystem mainSystem) {
 		
+		viewList = new ArrayList<>();
+		
 		Map<String, VectorGroup> vg = VectorGraphics.loadVectors(new File("gfx"));
 		
 		Map<String, VectorGroup> bodys = getGroups(vg, "body\\..*", true);
@@ -35,7 +38,7 @@ public class Ui {
 		
 		vg.clear();
 		
-		map = new StarSystemUi(mainSystem, bodys, bodyToolTip);
+		map = new StarSystemUi(mainSystem, bodys, bodyToolTip, viewList);
 		
 	}
 	
@@ -48,6 +51,19 @@ public class Ui {
 	public void tick(Mouse m) {
 		
 		map.tick(m);
+		
+		for(View v: viewList) {
+			v.tick();
+		}
+		
+		cleanViewList();
+		
+	}
+	
+	private void cleanViewList() {
+		
+		
+		
 	}
 	
 	/**
@@ -59,6 +75,12 @@ public class Ui {
 	public void render(VectorGraphics g) {
 		
 		map.render(g);
+		
+		g.setTranslate(ScreenPosition.ZERO);
+		
+		for(View v: viewList) {
+			v.render(g);
+		}
 		
 	}
 	
