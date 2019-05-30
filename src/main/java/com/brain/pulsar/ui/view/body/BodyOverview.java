@@ -32,14 +32,22 @@ public class BodyOverview implements View {
 		
 		windowCode = g.getParentCode();
 		
+		g.moveTranslate(150, 100);
+		
 		VectorGroup frame = vectorGroups.get("frame");
 		
 		for(Vector v: frame.getVectors()) {
 			g.draw(v.getShape(), v.getStyle());
 		}
 		
+		VectorGroup header = vectorGroups.get("header");
+		
+		for(Vector v: header.getVectors()) {
+			g.draw(v.getShape(), v.getStyle());
+		}
+		
 	}
-
+	
 	@Override
 	public int getWindowCode() {
 		return windowCode;
