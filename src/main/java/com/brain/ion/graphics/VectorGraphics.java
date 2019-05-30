@@ -26,6 +26,8 @@ import com.brain.ion.xml.XmlParser;
  */
 public class VectorGraphics {
 	
+	private int hashcode;
+	
 	private Graphics2D graphics;
 	private AffineTransform currentTransform;
 	
@@ -38,11 +40,15 @@ public class VectorGraphics {
 	 *            The graphics to draw with
 	 * @param s
 	 *            The settings for the game
+	 * @param hashcode 
 	 */
-	public VectorGraphics(Graphics2D g, Map<SettingEntry, String> s) {
+	
+	//TODO fix doc
+	public VectorGraphics(Graphics2D g, Map<SettingEntry, String> s, int hashcode) {
 		
 		graphics = g;
 		settings = s;
+		this.hashcode = hashcode;
 		
 		g.clipRect(0, 0, getWindowWidth(), getWindowHeight());
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -248,6 +254,10 @@ public class VectorGraphics {
 	public Graphics2D getGraphics() {
 		
 		return (Graphics2D) graphics.create();
+	}
+	
+	public int getParentCode() {
+		return hashcode;
 	}
 	
 }
