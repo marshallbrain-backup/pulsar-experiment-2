@@ -76,6 +76,15 @@ public class StarSystemUi {
 			
 		}
 		
+		viewCreator.create(ViewType.BODY_OVERVIEW, bodyList.get(0).getBody());
+		
+//		for(BodyUi b: bodyList) {
+//			if(b.getBody().hasColony()) {
+//				viewCreator.create(ViewType.BODY_OVERVIEW, b.getBody());
+//				break;
+//			}
+//		}
+		
 	}
 	
 	/**
