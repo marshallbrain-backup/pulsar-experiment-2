@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.brain.ion.graphics.vectors.Circle;
+import com.brain.ion.graphics.vectors.Path;
 import com.brain.ion.graphics.vectors.Rectangle;
 import com.brain.ion.graphics.vectors.Text;
 import com.brain.ion.graphics.vectors.VectorGroup;
@@ -65,7 +66,7 @@ public class VectorGraphics {
 	public static Map<String, VectorGroup> loadVectors(File gfx) {
 		
 		Map<String, VectorGroup> vectors = new HashMap<>();
-		Class<?>[] classes = { IonXmlRoot.class, VectorGroup.class, Circle.class, Rectangle.class, Text.class };
+		Class<?>[] classes = { IonXmlRoot.class, VectorGroup.class, Circle.class, Rectangle.class, Text.class, Path.class };
 		
 		readFiles(gfx, vectors, classes);
 		
