@@ -7,5 +7,7 @@ public interface View {
 	void tick();
 
 	void render(VectorGraphics g);
+
+	int getWindowCode();
 	
 }
