@@ -1,17 +1,23 @@
-package main.java.com.brain.ion;
+package com.brain.ion;
 
 import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.image.BufferStrategy;
 import java.util.EnumMap;
 import java.util.Map;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
+import com.brain.ion.game_loop.GameLoop;
+import com.brain.ion.game_loop.RenderCall;
+import com.brain.ion.game_loop.TickCall;
+import com.brain.ion.settings.SettingEntry;
+import com.brain.ion.settings.Settings;
+
+/**
+ * The primary class for the Ion game engine.
+ * 
+ * @author Marshall Brain
+ *
+ */
 public class Ion {
 	
 	private Map<SettingEntry, String> settings;
@@ -19,15 +25,33 @@ public class Ion {
 	private JFrame mainFrame;
 	private GameLoop gameLoop;
 	
-	public Ion(TickCall t, RenderCall r, Canvas s) {
+	/**
+	 * Initialization of the Ion game engine
+	 * 
+	 * @param tickCall
+	 *            The object to call the tick method from
+	 * @param renderCall
+	 *            The object to call the render method from
+	 * @param screen
+	 *            The canvas that the game is drawn in
+	 */
+	public Ion(TickCall tickCall, RenderCall renderCall, Canvas screen) {
 		
-		init(t, r, s);
+		init(tickCall, renderCall, screen);
 		
 	}
 	
-	private void init(TickCall t, RenderCall r, Canvas s) {
+	/**
+	 * @param tickCall
+	 *            The object to call the tick method from
+	 * @param renderCall
+	 *            The object to call the render method from
+	 * @param screen
+	 *            The canvas that the game is drawn in
+	 */
+	private void init(TickCall tickCall, RenderCall renderCall, Canvas screen) {
 		
-		settings = new EnumMap<SettingEntry, String>(SettingEntry.class);
+		settings = new EnumMap<>(SettingEntry.class);
 		mainFrame = new JFrame();
 		
 		initSettings();
@@ -37,29 +61,15 @@ public class Ion {
 		mainFrame.setResizable(false);
 		mainFrame.setVisible(true);
 		
-		gameLoop = new GameLoop(mainFrame, settings, t, r, s);
+		gameLoop = new GameLoop(mainFrame, settings, tickCall, renderCall, screen);
 		
 		mainFrame.pack();
 		
-//		c.createBufferStrategy(2);
-//		BufferStrategy bs = c.getBufferStrategy();
-//		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-//		
-//		g.dispose();
-//		bs.show();
-		
-//		do {
-//		    try{
-//		        g2 = (Graphics2D) bs.getDrawGraphics();
-//		        drawWhatEver(g2);
-//		    } finally {
-//		           g2.dispose();
-//		    }
-//		    bs.show();
-//		} while (bs.contentsLost());
-		
 	}
 	
+	/**
+	 * Populates the settings map with all of the game settings
+	 */
 	private void initSettings() {
 		
 		Settings s = new Settings();
@@ -71,8 +81,21 @@ public class Ion {
 		
 	}
 	
+	/**
+	 * @return The map containing the settings for the game
+	 */
+	public Map<SettingEntry, String> getSettings() {
+		
+		return settings;
+	}
+	
+	/**
+	 * Starts the main game loop
+	 */
 	public void start() {
+		
 		gameLoop.start();
+		
 	}
 	
 }

@@ -1,0 +1,39 @@
+<pulsar>
+
+	<system>
+		<body>sc_b_star</body>
+		<spawn_odds>8</spawn_odds>
+		<planets_num min="4" max="10"/>
+	</system>
+
+	<system>
+		<body>sc_a_star</body>
+		<spawn_odds>10</spawn_odds>
+		<planets_num min="4" max="10"/>
+	</system>
+
+	<system>
+		<body>sc_f_star</body>
+		<spawn_odds>15</spawn_odds>
+		<planets_num min="4" max="10"/>
+	</system>
+
+	<system>
+		<body>sc_g_star</body>
+		<spawn_odds>30</spawn_odds>
+		<planets_num min="4" max="10"/>
+	</system>
+
+	<system>
+		<body>sc_k_star</body>
+		<spawn_odds>20</spawn_odds>
+		<planets_num min="4" max="10"/>
+	</system>
+
+	<system>
+		<body>sc_m_star</body>
+		<spawn_odds>20</spawn_odds>
+		<planets_num min="4" max="10"/>
+	</system>
+
+</pulsar>

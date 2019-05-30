@@ -1,0 +1,51 @@
+<pulsar>
+	
+	<body>
+		<name>sc_b_star</name>
+		<radius min="3" max="6" units="SOLAR_RADIUS"/>
+		<temp_set min="10e3" max="20e3"/>
+		<suitable>false</suitable>
+		<colonizable>false</colonizable>
+	</body>
+
+	<body>
+		<name>sc_a_star</name>
+		<radius min="1.5" max="2" units="SOLAR_RADIUS"/>
+		<temp_set min="7e3" max="10e3"/>
+		<suitable>false</suitable >
+		<colonizable>false</colonizable>
+	</body>
+	
+	<body>
+		<name>sc_f_star</name>
+		<radius min="1.15" max="1.4" units="SOLAR_RADIUS"/>
+		<temp_set min="6e3" max="7e3"/>
+		<suitable>false</suitable >
+		<colonizable>false</colonizable>
+	</body>
+	
+	<body>
+		<name>sc_g_star</name>
+		<radius min="0.96" max="1.15" units="SOLAR_RADIUS"/>
+		<temp_set min="5.2e3" max="6e3"/>
+		<suitable>false</suitable >
+		<colonizable>false</colonizable>
+	</body>
+	
+	<body>
+		<name>sc_k_star</name>
+		<radius min="0.7" max="0.96" units="SOLAR_RADIUS"/>
+		<temp_set min="3.7e3" max="5.2e3"/>
+		<suitable>false</suitable >
+		<colonizable>false</colonizable>
+	</body>
+	
+	<body>
+		<name>sc_m_star</name>
+		<radius min="0.4" max="0.7" units="SOLAR_RADIUS"/>
+		<temp_set min="2.4e3" max="3.7e3"/>
+		<suitable>false</suitable >
+		<colonizable>false</colonizable>
+	</body>
+
+</pulsar>
