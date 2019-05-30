@@ -1,16 +1,21 @@
 package com.brain.pulsar.ui.view;
 
 import java.util.List;
+import java.util.Map;
 
+import com.brain.ion.graphics.vectors.VectorGroup;
+import com.brain.ion.xml.IonXmlRoot;
 import com.brain.pulsar.ui.view.body.BodyOverview;
 import com.brain.pulsar.universe.Body;
 
 public class ViewFactory {
 	
 	private List<View> viewList;
+	private Map<String, VectorGroup> views;
 	
-	public ViewFactory(List<View> viewList) {
+	public ViewFactory(List<View> viewList, Map<String, VectorGroup> views) {
 		this.viewList = viewList;
+		this.views = views;
 	}
 
 	public void create(ViewType targetView, Object... paramaters) {
@@ -29,7 +34,9 @@ public class ViewFactory {
 		
 		Body targetBody = (Body) paramaters[0];
 		
-		viewList.add(new BodyOverview(targetBody));
+		Map<String, VectorGroup> view = IonXmlRoot.getVectorGroups(views, "view.*", false);
+		
+		viewList.add(new BodyOverview(targetBody, view));
 		
 	}
 	
