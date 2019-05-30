@@ -2,6 +2,7 @@ package com.brain.pulsar.ui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,8 +67,24 @@ public class Ui {
 	}
 	
 	private void cleanViewList() {
-		
-		
+
+		List<Integer> hashCodes = new ArrayList<>();
+		for(int i = viewList.size()-1; i >= 0; i--) {
+			
+			View v = viewList.get(i);
+			
+			if(v.getWindowCode() == 0) {
+				continue;
+			}
+			
+			if(hashCodes.contains(v.getWindowCode())) {
+				viewList.remove(i);
+				System.out.println("removed view");
+			} else {
+				hashCodes.add(v.getWindowCode());
+			}
+			
+		}
 		
 	}
 	
