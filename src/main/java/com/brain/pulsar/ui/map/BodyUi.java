@@ -245,5 +245,9 @@ public class BodyUi {
 		}
 		
 	}
+
+	public Body getBody() {
+		return body;
+	}
 	
 }
