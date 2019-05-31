@@ -207,7 +207,6 @@ public class BodyUi {
 			offset.translate(p.getX(), p.getY());
 			
 			Shape text = null;
-			Point padding = new Point();
 			Map<Shape, Map<String, String>> shapeList = new LinkedHashMap<>();
 			for (Vector v : tooltipVG.getVectors()) {
 				
@@ -217,21 +216,18 @@ public class BodyUi {
 					
 					Text textVector = ((Text) v);
 					textVector.setText(body.getId());
-					padding = textVector.getPading();
 					
 					s = v.getShape(g.getGraphics());
-					s = offset.createTransformedShape(s);
-					text = s;
+					text = offset.createTransformedShape(s);
+					
+					Rectangle2D bounds = s.getBounds2D();
+					offset.scale(bounds.getX()*2 + bounds.getWidth(), bounds.getY()*2 + bounds.getHeight());
+					
+					s = text;
 					
 				}
 				shapeList.put(s, v.getStyle());
 				
-			}
-			
-			// Scales the other vectors to fit around the text
-			if (text != null) {
-				Rectangle2D bounds = text.getBounds2D();
-				offset.scale(padding.getX() + bounds.getWidth() + 1, padding.getY() + bounds.getHeight() + 1);
 			}
 			
 			for (Entry<Shape, Map<String, String>> e : shapeList.entrySet()) {
