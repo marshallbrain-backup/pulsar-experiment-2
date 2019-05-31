@@ -216,10 +216,9 @@ public class BodyUi {
 				
 				if (v instanceof Text) {
 					
-					Text textVector = ((Text) v);
-					textVector.setText(body.getId());
+					Text textVector = ((Text) v).setText(body.getName());
 					
-					s = v.getShape(g.getGraphics());
+					s = textVector.getShape(g.getGraphics());
 					text = offset.createTransformedShape(s);
 					
 					Rectangle2D bounds = s.getBounds2D();
@@ -233,11 +232,13 @@ public class BodyUi {
 			}
 			
 			for (Entry<Shape, Map<String, String>> e : shapeList.entrySet()) {
+				
 				Shape shape = e.getKey();
 				if (shape != text) {
 					shape = offset.createTransformedShape(shape);
 				}
 				g.draw(shape, e.getValue());
+				
 			}
 			
 		}

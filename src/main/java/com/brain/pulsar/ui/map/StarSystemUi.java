@@ -66,8 +66,8 @@ public class StarSystemUi {
 		Map<Body, BodyUi> bodyUiMap = new HashMap<>();
 		for (Body b : starSystem.getBodyList()) {
 			
-			BodyUi ui = new BodyUi(b, bodyVectors.getOrDefault(b.getId(), base),
-					tooltipVectors.getOrDefault(b.getId(), baseTooltip), bodyUiMap.get(b.getParent()));
+			BodyUi ui = new BodyUi(b, bodyVectors.getOrDefault(b.getName(), base),
+					tooltipVectors.getOrDefault(b.getName(), baseTooltip), bodyUiMap.get(b.getParent()));
 			
 			bodyUiMap.put(b, ui);
 			bodyList.add(ui);
