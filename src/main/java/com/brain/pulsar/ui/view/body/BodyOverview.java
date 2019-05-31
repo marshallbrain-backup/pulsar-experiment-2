@@ -47,6 +47,11 @@ public class BodyOverview implements View {
 	@Override
 	public void render(VectorGraphics g) {
 		
+		if(windowCode == 0) {
+			windowCode = g.getParentCode();
+			return;
+		}
+		
 		Map<Shape, Map<String, String>> shapes = new LinkedHashMap<>();
 		
 		lastRendered.reset();
@@ -70,7 +75,7 @@ public class BodyOverview implements View {
 		g.moveTranslate(info.getOrigin());
 		
 		Vector infoFrame = info.getVectorById("frame");
-		Vector colonyType = info.getVectorById("colony_type");
+		Vector colonyType = ((Text)info.getVectorById("colony_type")).setText(body.getName());
 		Vector planetType = info.getVectorById("planet_type");
 		
 		Vector[] infoShapeList = new Vector[] {colonyType, planetType};
