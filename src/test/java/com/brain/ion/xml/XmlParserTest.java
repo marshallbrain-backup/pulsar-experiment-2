@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.elements.Range;
 import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.xml.types.DistrictType;
 import com.brain.pulsar.xml.types.StarSystemType;
 
 class XmlParserTest {
@@ -89,6 +90,23 @@ class XmlParserTest {
 		
 	}
 	
+	@Test
+	void xmlToDistrict() throws NoSuchFieldException, IllegalAccessException {
+		
+		DistrictType xmlDistrict = ((DataContainer) loadXmlFile("district", DISTRICTS)).getMatchData(DistrictType.class)
+				.get(0);
+		DistrictType setDistrict = new DistrictType();
+		
+		Field baseBuildtime = DistrictType.class.getDeclaredField("baseBuildtime");
+		
+		baseBuildtime.setAccessible(true);
+		
+		baseBuildtime.set(setDistrict, 480);
+		
+		assertEquals(setDistrict, xmlDistrict);
+		
+	}
+	
 	static Object loadXmlFile(String name, String text) {
 		
 		File f = new File("XmlTestFiles\\" + name + ".xml");
@@ -104,7 +122,7 @@ class XmlParserTest {
 		
 	}
 	
-	private static Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
+	private static Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class, DistrictType.class };
 	
 	private static String bodyXml = "<pulsar>\r\n" + "\r\n" + "	<body>\r\n" + "		<name>pc_continental</name>\r\n"
 			+ "		<climate>wet</climate>\r\n" + "		<suitable>false</suitable>\r\n"
@@ -112,9 +130,40 @@ class XmlParserTest {
 			+ "		<temp_set min=\"10e3\" max=\"20e3\"/>\r\n" + "		<temp_range min=\"0\" max=\"10000\"/>\r\n"
 			+ "		<radius min=\"12\" max=\"25\"/>\r\n" + "		<moon_size min=\"10\" max=\"15\"/>\r\n"
 			+ "	</body>\r\n" + "\r\n" + "</pulsar>";
-	
 	private static String systemXml = "<pulsar>\r\n" + "\r\n" + "	<system>\r\n" + "		<body>sc_b_star</body>\r\n"
 			+ "		<spawn_odds>10</spawn_odds>\r\n" + "		<planets_num min=\"4\" max=\"10\"/>\r\n"
 			+ "	</system>\r\n" + "</pulsar>";
+	private static final String DISTRICTS = 
+			"<pulsar>\r\n" + 
+			"	\r\n" + 
+			"	<district>\r\n" + 
+			"	\r\n" + 
+			"			<base_buildtime>480</base_buildtime>\r\n" + 
+			"			\r\n" + 
+			"			<potential>\r\n" + 
+			"				<tag>standard_city</tag>\r\n" + 
+			"			</potential>\r\n" + 
+			"			\r\n" + 
+			"			<starting>\r\n" + 
+			"				<tag>standard_city</tag>\r\n" + 
+			"			</starting>\r\n" + 
+			"			\r\n" + 
+			"			<resources>\r\n" + 
+			"			\r\n" + 
+			"				<cost>\r\n" + 
+			"					<resources type=\"mineral\">300</resources>\r\n" + 
+			"				</cost>\r\n" + 
+			"				<upkeep>\r\n" + 
+			"					<resources type=\"energy\">1</resources>\r\n" + 
+			"				</upkeep>\r\n" + 
+			"				<production>\r\n" + 
+			"					<resources type=\"housing\">5</resources>\r\n" + 
+			"				</production>\r\n" + 
+			"				\r\n" + 
+			"			</resources>\r\n" + 
+			"			\r\n" + 
+			"	</district>\r\n" + 
+			"	\r\n" + 
+			"</pulsar>";
 	
 }
