@@ -1,0 +1,13 @@
+<ion>
+
+	<vector_layer type="view_body" id="frame">
+		<rect
+			style="stroke:#000000;stroke-opacity:1;stroke-width:5"
+			x="0"
+			y="0"
+			w="820"
+			h="720"
+		/>
+	</vector_layer>
+	
+</ion>

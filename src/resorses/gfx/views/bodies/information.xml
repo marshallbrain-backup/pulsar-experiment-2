@@ -1,0 +1,46 @@
+<ion>
+
+	<vector_layer type="view_body" id="header">
+		<path
+			style="stroke:#000000;stroke-opacity:1;stroke-width:3"
+			p="m 65,10 v 5.3594 l 20,11.5469 v 46.1875 l -20,11.5468 v 10.3594 h -55 v 165 h 595 v -250 z"
+			x="10"
+			y="10"
+		/>
+		<path
+			style="stroke:#000000;stroke-opacity:1;stroke-width:3"
+			p="m 45,90 l -35,-19.7927 v -40.4146 l 35.4146,-20.2072 l 35,20.2073 v 40.4146 z"
+			x="10"
+			y="10"
+		/>	
+	</vector_layer>
+	
+	<vector_layer
+		type="view_body" 
+		id="basic_info"
+		x="10"
+		y="95"
+		>
+		<rect
+			id="frame"
+			style="stroke:#000000;stroke-opacity:1;stroke-width:3"
+			w="105"
+			h="45"
+		/>
+		<text
+			id="colony_type"
+			style="fill:#000000;fill-opacity:1;font-size:18;font-family:Open Sans"
+			padding_x="5"
+			x="0"
+			y="5"
+		>Error</text>
+		<text
+			id="planet_type"
+			style="fill:#000000;fill-opacity:1;font-size:18;font-family:Open Sans"
+			padding_x="5"
+			x="0"
+			y="25"
+		>Error</text>
+	</vector_layer>
+	
+</ion>
