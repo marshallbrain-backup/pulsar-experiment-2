@@ -56,10 +56,16 @@ public class Ui {
 	 */
 	public void tick(Mouse m) {
 		
-		map.tick(m);
+		boolean action = false;
 		
 		for(View v: viewList) {
-			v.tick();
+			if(!action && v.tick(m)) {
+				action = true;
+			}
+		}
+		
+		if(!action) {
+			map.tick(m);
 		}
 		
 		cleanViewList();
