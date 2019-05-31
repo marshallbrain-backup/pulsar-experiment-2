@@ -32,12 +32,14 @@ public class Text implements Vector {
 	private int paddingX;
 	@XmlAttribute(name = "padding_y")
 	private int paddingY;
-	
+
+	@XmlAttribute
+	private String id;
+	@XmlAttribute(name = "style")
+	private String styleString;
 	@XmlValue
 	private String textValue;
 	private String textFormated;
-	@XmlAttribute(name = "style")
-	private String styleString;
 	
 	private Map<String, String> style;
 	
@@ -47,6 +49,8 @@ public class Text implements Vector {
 	 * Base constructor
 	 */
 	public Text() {
+		
+		id = "";
 	}
 	
 	/**
@@ -65,6 +69,7 @@ public class Text implements Vector {
 		style = base.style;
 		x = base.x;
 		y = base.y;
+		id = base.id;
 		
 	}
 	
@@ -76,6 +81,11 @@ public class Text implements Vector {
 		
 		textValue = newText;
 		textFormated = newText;
+	}
+	
+	public Point getPadding() {
+		
+		return new Point(paddingX, paddingY);
 	}
 	
 	/*
@@ -153,6 +163,12 @@ public class Text implements Vector {
 	public Vector copyVector() {
 		
 		return new Text(this);
+	}
+	
+	@Override
+	public String getId() {
+		
+		return id;
 	}
 	
 }

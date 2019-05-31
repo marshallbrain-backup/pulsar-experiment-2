@@ -19,7 +19,9 @@ public class Path implements Vector {
 	private int offsetX;
 	@XmlAttribute(name = "y")
 	private int offsetY;
-	
+
+	@XmlAttribute
+	private String id;
 	@XmlAttribute(name = "style")
 	private String styleString;
 	@XmlAttribute(name = "p")
@@ -30,6 +32,8 @@ public class Path implements Vector {
 	private Path2D path;
 	
 	public Path() {
+		
+		id = "";
 	}
 	
 	public Path(Path clone) {
@@ -40,6 +44,7 @@ public class Path implements Vector {
 		pathString = clone.pathString;
 		style = clone.style;
 		path = clone.path;
+		id = clone.id;
 		
 	}
 	
@@ -149,6 +154,12 @@ public class Path implements Vector {
 	public Vector copyVector() {
 
 		return new Path(this);
+	}
+	
+	@Override
+	public String getId() {
+		
+		return id;
 	}
 	
 }
