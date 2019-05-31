@@ -1,10 +1,15 @@
 package com.brain.pulsar.ui.view.body;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.brain.ion.graphics.VectorGraphics;
+import com.brain.ion.graphics.vectors.Text;
 import com.brain.ion.graphics.vectors.Vector;
 import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
@@ -42,6 +47,8 @@ public class BodyOverview implements View {
 	@Override
 	public void render(VectorGraphics g) {
 		
+		Map<Shape, Map<String, String>> shapes = new LinkedHashMap<>();
+		
 		lastRendered.reset();
 		windowCode = g.getParentCode();
 		g.moveTranslate(150, 100);
@@ -62,8 +69,39 @@ public class BodyOverview implements View {
 		
 		g.moveTranslate(info.getOrigin());
 		
-		for(Vector v: info.getVectors()) {
-			g.draw(v.getShape(g.getGraphics()), v.getStyle());
+		Vector infoFrame = info.getVectorById("frame");
+		Vector colonyType = info.getVectorById("colony_type");
+		Vector planetType = info.getVectorById("planet_type");
+		
+		Vector[] infoShapeList = new Vector[] {colonyType, planetType};
+		
+		double max = 0;
+		for(Vector v: infoShapeList) {
+			
+			Shape s = v.getShape(g.getGraphics());
+			shapes.put(s, v.getStyle());
+			
+			Rectangle2D b = s.getBounds2D();
+			double w = b.getX() + b.getWidth();
+			if(v instanceof Text) {
+				w += ((Text) v).getPadding().getX();
+			}
+			if(max < w) {
+				max = w;
+			}
+			
+		}
+		
+		Shape infoFrameShape = infoFrame.getShape();
+		
+		AffineTransform infoFrameAT = new AffineTransform();
+		infoFrameAT.scale(1/infoFrameShape.getBounds2D().getWidth(), 1);
+		infoFrameAT.scale(max, 1);
+		
+		shapes.put(infoFrameAT.createTransformedShape(infoFrameShape), infoFrame.getStyle());
+		
+		for(Entry<Shape, Map<String, String>> e: shapes.entrySet()) {
+			g.draw(e.getKey(), e.getValue());
 		}
 		
 		lastRendered.add(g.resetAreaRendering());
