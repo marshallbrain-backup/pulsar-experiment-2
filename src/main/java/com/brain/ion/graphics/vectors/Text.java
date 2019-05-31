@@ -73,14 +73,14 @@ public class Text implements Vector {
 		
 	}
 	
-	/**
-	 * @param newText
-	 *            The new text
-	 */
-	public void setText(String newText) {
+	public Text setText(String newText) {
 		
-		textValue = newText;
-		textFormated = newText;
+		Text newTextVector = new Text(this);
+		
+		newTextVector.textValue = newText;
+		newTextVector.textFormated = null;
+		return newTextVector;
+		
 	}
 	
 	public Point getPadding() {
