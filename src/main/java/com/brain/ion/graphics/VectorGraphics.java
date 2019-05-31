@@ -3,9 +3,11 @@ package com.brain.ion.graphics;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -210,6 +212,10 @@ public class VectorGraphics {
 		currentTransform.translate(x, y);
 		
 	}
+
+	public void moveTranslate(Point origin) {
+		currentTransform.translate(origin.getX(), origin.getY());
+	}
 	
 	/**
 	 * Converts a string representation of a color in hex into a {@link Color}.
@@ -259,6 +265,13 @@ public class VectorGraphics {
 	
 	public int getParentCode() {
 		return hashcode;
+	}
+
+	public void beginAreaRendering() {
+	}
+
+	public Area resetAreaRendering() {
+		return null;
 	}
 	
 }
