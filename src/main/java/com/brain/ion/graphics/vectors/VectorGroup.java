@@ -2,7 +2,9 @@ package com.brain.ion.graphics.vectors;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -29,12 +31,12 @@ public class VectorGroup {
 	
 	@XmlAnyElement(lax = true)
 	private List<Vector> vectors;
+	private Map<String, Vector> mappedVectors;
 	
 	/**
 	 * Base constructor
 	 */
 	public VectorGroup() {
-	
 	}
 	
 	/**
@@ -88,6 +90,20 @@ public class VectorGroup {
 	
 	public Point getOrigin() {
 		return new Point(x, y);
+	}
+
+	public Vector getVectorById(String id) {
+		
+		if(mappedVectors == null) {
+			
+			mappedVectors = new HashMap<>();
+			for(Vector v: vectors) {
+				mappedVectors.put(v.getId(), v);
+			}
+			
+		}
+		
+		return mappedVectors.get(id);
 	}
 	
 }
