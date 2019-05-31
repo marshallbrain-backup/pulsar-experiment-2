@@ -85,8 +85,8 @@ class StarSystemTest {
 			
 			StarSystem ss = new StarSystem(typeBodys, typeSystems);
 			for (Body b : ss.getBodyList()) {
-				int count = bodyCount.getOrDefault(b.getId(), 0);
-				bodyCount.put(b.getId(), count + 1);
+				int count = bodyCount.getOrDefault(b.getName(), 0);
+				bodyCount.put(b.getName(), count + 1);
 			}
 			galaxy.add(ss);
 			
