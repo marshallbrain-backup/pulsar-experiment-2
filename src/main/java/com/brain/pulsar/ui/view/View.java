@@ -1,10 +1,11 @@
 package com.brain.pulsar.ui.view;
 
 import com.brain.ion.graphics.VectorGraphics;
+import com.brain.ion.input.Mouse;
 
 public interface View {
 
-	void tick();
+	boolean tick(Mouse m);
 
 	void render(VectorGraphics g);
 
