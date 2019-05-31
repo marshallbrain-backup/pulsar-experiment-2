@@ -5,7 +5,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
+import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.util.Map;
 
@@ -22,6 +24,10 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlRootElement(name = "text")
 public class Text implements Vector {
 	
+	@XmlAttribute
+	private int x;
+	@XmlAttribute
+	private int y;
 	@XmlAttribute(name = "padding_x")
 	private int paddingX;
 	@XmlAttribute(name = "padding_y")
@@ -41,7 +47,6 @@ public class Text implements Vector {
 	 * Base constructor
 	 */
 	public Text() {
-	
 	}
 	
 	/**
@@ -58,15 +63,9 @@ public class Text implements Vector {
 		textFormated = base.textFormated;
 		styleString = base.styleString;
 		style = base.style;
+		x = base.x;
+		y = base.y;
 		
-	}
-	
-	/**
-	 * @return The padding that the text should have
-	 */
-	public Point getPading() {
-		
-		return new Point(paddingX * 2, paddingY * 2);
 	}
 	
 	/**
@@ -86,6 +85,15 @@ public class Text implements Vector {
 	 */
 	@Override
 	public Shape getShape() {
+		
+		String error = "USE getShape(Graphics2D g)";
+		
+		System.out.println(error);
+		System.out.println(error);
+		System.out.println(error);
+		System.out.println(error);
+		System.out.println(error);
+		System.out.println(error);
 		
 		return null;
 	}
@@ -113,9 +121,10 @@ public class Text implements Vector {
 		
 		FontMetrics fontMetrics = g.getFontMetrics(font);
 		GlyphVector v = font.createGlyphVector(fontMetrics.getFontRenderContext(), textFormated);
-		Rectangle2D b = v.getVisualBounds();
 		
-		return v.getOutline(paddingX - 2, (int) Math.ceil(paddingY + b.getHeight() - fontMetrics.getDescent()) + 2);
+		//System.out.println(textFormated + " - " + (txt.getAscent() - txt.getDescent()));
+		
+		return v.getOutline(x + paddingX, y + paddingY + fontMetrics.getAscent() - fontMetrics.getDescent() - fontMetrics.getLeading());
 		
 	}
 	
