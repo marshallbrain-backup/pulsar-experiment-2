@@ -1,5 +1,6 @@
 package com.brain.ion.graphics.vectors;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +17,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "vector_layer")
 public class VectorGroup {
 	
-	@XmlAnyElement(lax = true)
-	private List<Vector> vectors;
+	@XmlAttribute
+	private int x;
+	@XmlAttribute
+	private int y;
 	
 	@XmlAttribute
 	private String type;
 	@XmlAttribute
 	private String id;
+	
+	@XmlAnyElement(lax = true)
+	private List<Vector> vectors;
 	
 	/**
 	 * Base constructor
@@ -41,6 +47,8 @@ public class VectorGroup {
 		
 		type = clone.type;
 		id = clone.id;
+		x = clone.x;
+		y = clone.y;
 		
 		vectors = new ArrayList<>();
 		
@@ -76,6 +84,10 @@ public class VectorGroup {
 	public String getPath() {
 		
 		return type + "." + id;
+	}
+	
+	public Point getOrigin() {
+		return new Point(x, y);
 	}
 	
 }
