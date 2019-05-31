@@ -11,6 +11,10 @@ import com.brain.ion.graphics.ScreenPosition;
 import com.brain.ion.graphics.VectorGraphics;
 import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
+import com.brain.pulsar.ui.view.View;
+import com.brain.pulsar.ui.view.ViewFactory;
+import com.brain.pulsar.ui.view.ViewType;
+import com.brain.pulsar.ui.view.body.BodyOverview;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.universe.StarSystem;
 
@@ -26,6 +30,7 @@ public class StarSystemUi {
 	private double zoom;
 	
 	private List<BodyUi> bodyList;
+	private ViewFactory viewCreator;
 	
 	private StarSystem starSystem;
 	private Point2D moveOffset;
@@ -35,17 +40,21 @@ public class StarSystemUi {
 	/**
 	 * Constructs a new StarSystemUi.
 	 * 
-	 * @param mainSystem
+	 * @param starSystem
 	 *            The system being rendered
 	 * @param bodyVectors
 	 *            The map of VectorGroups for rendering bodies
 	 * @param tooltipVectors
 	 *            The map of VectorGroups for rendering tooltips
+	 * @param viewCreator 
 	 */
-	public StarSystemUi(StarSystem mainSystem, Map<String, VectorGroup> bodyVectors,
-			Map<String, VectorGroup> tooltipVectors) {
+	
+	//TODO fix java doc
+	public StarSystemUi(StarSystem starSystem, Map<String, VectorGroup> bodyVectors,
+			Map<String, VectorGroup> tooltipVectors, ViewFactory viewCreator) {
 		
-		starSystem = mainSystem;
+		this.viewCreator = viewCreator;
+		this.starSystem = starSystem;
 		
 		moveOffset = new Point2D.Double(0, 0);
 		zoomOffset = new Point2D.Double(0, 0);
@@ -57,8 +66,8 @@ public class StarSystemUi {
 		Map<Body, BodyUi> bodyUiMap = new HashMap<>();
 		for (Body b : starSystem.getBodyList()) {
 			
-			BodyUi ui = new BodyUi(b, bodyVectors.getOrDefault(b.getId(), base),
-					tooltipVectors.getOrDefault(b.getId(), baseTooltip), bodyUiMap.get(b.getParent()));
+			BodyUi ui = new BodyUi(b, bodyVectors.getOrDefault(b.getName(), base),
+					tooltipVectors.getOrDefault(b.getName(), baseTooltip), bodyUiMap.get(b.getParent()));
 			
 			bodyUiMap.put(b, ui);
 			bodyList.add(ui);
@@ -66,6 +75,15 @@ public class StarSystemUi {
 			System.out.println(b);
 			
 		}
+		
+		viewCreator.create(ViewType.BODY_OVERVIEW, bodyList.get(0).getBody());
+		
+//		for(BodyUi b: bodyList) {
+//			if(b.getBody().hasColony()) {
+//				viewCreator.create(ViewType.BODY_OVERVIEW, b.getBody());
+//				break;
+//			}
+//		}
 		
 	}
 	
@@ -82,6 +100,10 @@ public class StarSystemUi {
 		for (BodyUi b : bodyList) {
 			hover = b.tick(m);
 			if (hover) {
+				if (m.buttonDoubleClicked(1)) {
+					viewCreator.create(ViewType.BODY_OVERVIEW, b.getBody());
+					System.out.println("view opened");
+				}
 				if (m.buttonClicked(1)) {
 					zoomTarget = b;
 					System.out.println("target set");

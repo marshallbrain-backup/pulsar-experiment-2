@@ -1,5 +1,6 @@
 package com.brain.pulsar.ui.map;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -59,6 +60,8 @@ public class BodyUi {
 		this.bodyVG = bodyVG;
 		this.tooltipVG = tooltipVG;
 		
+		lastRendered = new Area();
+		
 	}
 	
 	/**
@@ -99,6 +102,8 @@ public class BodyUi {
 	 *            The zoom factor of the screen
 	 */
 	public void render(VectorGraphics g, double scale) {
+		
+		lastRendered.reset();
 		
 		// Gets the ratio of the screen width in pixels to the screen width in meters.
 		double distanceRatio = g.getWindowWidth()
@@ -169,19 +174,16 @@ public class BodyUi {
 		at.scale(1 / max, 1 / max);
 		at.scale(radius, radius);
 		
-		lastRendered = new Area();
+		g.beginAreaRendering();
 		for (Entry<Shape, Map<String, String>> e : shapeList.entrySet()) {
 			
 			Shape shape = at.createTransformedShape(e.getKey());
-			
-			Area shapeArea = new Area(shape);
-			lastRendered.add(shapeArea);
 			
 			g.draw(shape, e.getValue());
 			
 		}
 		
-		lastRendered = lastRendered.createTransformedArea(g.getAffineTransform());
+		lastRendered.add(g.resetAreaRendering());
 		
 	}
 	
@@ -207,7 +209,6 @@ public class BodyUi {
 			offset.translate(p.getX(), p.getY());
 			
 			Shape text = null;
-			Point padding = new Point();
 			Map<Shape, Map<String, String>> shapeList = new LinkedHashMap<>();
 			for (Vector v : tooltipVG.getVectors()) {
 				
@@ -215,35 +216,37 @@ public class BodyUi {
 				
 				if (v instanceof Text) {
 					
-					Text textVector = ((Text) v);
-					textVector.setText(body.getId());
-					padding = textVector.getPading();
+					Text textVector = ((Text) v).setText(body.getName());
 					
-					s = v.getShape(g.getGraphics());
-					s = offset.createTransformedShape(s);
-					text = s;
+					s = textVector.getShape(g.getGraphics());
+					text = offset.createTransformedShape(s);
+					
+					Rectangle2D bounds = s.getBounds2D();
+					offset.scale(bounds.getX()*2 + bounds.getWidth(), bounds.getY()*2 + bounds.getHeight());
+					
+					s = text;
 					
 				}
 				shapeList.put(s, v.getStyle());
 				
 			}
 			
-			// Scales the other vectors to fit around the text
-			if (text != null) {
-				Rectangle2D bounds = text.getBounds2D();
-				offset.scale(padding.getX() + bounds.getWidth() + 1, padding.getY() + bounds.getHeight() + 1);
-			}
-			
 			for (Entry<Shape, Map<String, String>> e : shapeList.entrySet()) {
+				
 				Shape shape = e.getKey();
 				if (shape != text) {
 					shape = offset.createTransformedShape(shape);
 				}
 				g.draw(shape, e.getValue());
+				
 			}
 			
 		}
 		
+	}
+
+	public Body getBody() {
+		return body;
 	}
 	
 }

@@ -3,6 +3,7 @@ package com.brain.ion.xml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
@@ -33,7 +34,7 @@ public class XmlParser {
 		
 		try {
 			xml = readXmlFile(new FileReader(fileName), classList);
-		} catch (FileNotFoundException | JAXBException e) {
+		} catch (JAXBException | IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -56,7 +57,7 @@ public class XmlParser {
 		
 		try {
 			xml = readXmlFile(new StringReader(xmlString), classList);
-		} catch (JAXBException e) {
+		} catch (JAXBException | IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -73,13 +74,18 @@ public class XmlParser {
 	 *            The list of classes to put the data
 	 * @return The object that contains the data
 	 * @throws JAXBException
+	 * @throws IOException 
 	 */
-	private static Object readXmlFile(Reader reader, Class<?>[] classList) throws JAXBException {
+	private static Object readXmlFile(Reader reader, Class<?>[] classList) throws JAXBException, IOException {
 		
 		JAXBContext context = JAXBContext.newInstance(classList);
 		Unmarshaller um = context.createUnmarshaller();
 		
-		return um.unmarshal(reader);
+		if(reader.ready()) {
+			return um.unmarshal(reader);
+		}
+		
+		return null;
 		
 	}
 	

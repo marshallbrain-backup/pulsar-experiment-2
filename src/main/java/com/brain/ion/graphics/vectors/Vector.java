@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public interface Vector {
 	
+	String getId();
+	
 	/**
 	 * @return A copy of the current vector
 	 */

@@ -22,7 +22,9 @@ public class Circle implements Vector {
 	private int centerY;
 	@XmlAttribute(name = "r")
 	private int radius;
-	
+
+	@XmlAttribute
+	private String id;
 	@XmlAttribute(name = "style")
 	private String styleString;
 	
@@ -33,6 +35,7 @@ public class Circle implements Vector {
 	 */
 	public Circle() {
 		
+		id = "";
 	}
 	
 	/**
@@ -48,6 +51,7 @@ public class Circle implements Vector {
 		radius = base.radius;
 		styleString = base.styleString;
 		style = base.style;
+		id = base.id;
 		
 	}
 	
@@ -100,6 +104,12 @@ public class Circle implements Vector {
 	public Vector copyVector() {
 		
 		return new Circle(this);
+	}
+	
+	@Override
+	public String getId() {
+		
+		return id;
 	}
 	
 }

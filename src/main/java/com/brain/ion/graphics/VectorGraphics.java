@@ -3,14 +3,17 @@ package com.brain.ion.graphics;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.brain.ion.graphics.vectors.Circle;
+import com.brain.ion.graphics.vectors.Path;
 import com.brain.ion.graphics.vectors.Rectangle;
 import com.brain.ion.graphics.vectors.Text;
 import com.brain.ion.graphics.vectors.VectorGroup;
@@ -26,8 +29,11 @@ import com.brain.ion.xml.XmlParser;
  */
 public class VectorGraphics {
 	
+	private int hashcode;
+	
 	private Graphics2D graphics;
 	private AffineTransform currentTransform;
+	private Area trackArea;
 	
 	private Map<SettingEntry, String> settings;
 	
@@ -38,11 +44,15 @@ public class VectorGraphics {
 	 *            The graphics to draw with
 	 * @param s
 	 *            The settings for the game
+	 * @param hashcode 
 	 */
-	public VectorGraphics(Graphics2D g, Map<SettingEntry, String> s) {
+	
+	//TODO fix doc
+	public VectorGraphics(Graphics2D g, Map<SettingEntry, String> s, int hashcode) {
 		
 		graphics = g;
 		settings = s;
+		this.hashcode = hashcode;
 		
 		g.clipRect(0, 0, getWindowWidth(), getWindowHeight());
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -59,7 +69,7 @@ public class VectorGraphics {
 	public static Map<String, VectorGroup> loadVectors(File gfx) {
 		
 		Map<String, VectorGroup> vectors = new HashMap<>();
-		Class<?>[] classes = { IonXmlRoot.class, VectorGroup.class, Circle.class, Rectangle.class, Text.class };
+		Class<?>[] classes = { IonXmlRoot.class, VectorGroup.class, Circle.class, Rectangle.class, Text.class, Path.class };
 		
 		readFiles(gfx, vectors, classes);
 		
@@ -91,8 +101,10 @@ public class VectorGraphics {
 				IonXmlRoot xr = (IonXmlRoot) XmlParser.getXml(f, classes);
 				
 				// TODO find all text vectors and preload their font metrics
-				for (VectorGroup vg : xr.getVectorGroups()) {
-					vectors.put(vg.getPath(), vg);
+				if(xr != null) {
+					for (VectorGroup vg : xr.getVectorGroups()) {
+						vectors.put(vg.getPath(), vg);
+					}
 				}
 				
 			}
@@ -161,6 +173,10 @@ public class VectorGraphics {
 				
 			}
 			
+			if(trackArea != null) {
+				trackArea.add(new Area(s));
+			}
+			
 		}
 		
 	}
@@ -200,6 +216,10 @@ public class VectorGraphics {
 		
 		currentTransform.translate(x, y);
 		
+	}
+
+	public void moveTranslate(Point origin) {
+		currentTransform.translate(origin.getX(), origin.getY());
 	}
 	
 	/**
@@ -246,6 +266,20 @@ public class VectorGraphics {
 	public Graphics2D getGraphics() {
 		
 		return (Graphics2D) graphics.create();
+	}
+	
+	public int getParentCode() {
+		return hashcode;
+	}
+
+	public void beginAreaRendering() {
+		trackArea = new Area();
+	}
+
+	public Area resetAreaRendering() {
+		Area clone = new Area(trackArea);
+		trackArea = null;
+		return clone;
 	}
 	
 }

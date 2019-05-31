@@ -1,24 +1,28 @@
 package com.brain.pulsar.ui;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import com.brain.ion.graphics.ScreenPosition;
 import com.brain.ion.graphics.VectorGraphics;
 import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
+import com.brain.ion.xml.IonXmlRoot;
 import com.brain.pulsar.ui.map.StarSystemUi;
+import com.brain.pulsar.ui.view.View;
+import com.brain.pulsar.ui.view.ViewFactory;
 import com.brain.pulsar.universe.StarSystem;
 
-/**
- * @author Marshall Brain
- *
- */
 public class Ui {
 	
 	private StarSystemUi map;
+	private List<View> viewList;
 	
 	/**
 	 * Creates a new Ui
@@ -28,14 +32,19 @@ public class Ui {
 	 */
 	public Ui(StarSystem mainSystem) {
 		
+		viewList = new ArrayList<>();
+		
 		Map<String, VectorGroup> vg = VectorGraphics.loadVectors(new File("gfx"));
 		
-		Map<String, VectorGroup> bodys = getGroups(vg, "body\\..*", true);
-		Map<String, VectorGroup> bodyToolTip = getGroups(vg, "body_tool_tip\\..*", true);
+		Map<String, VectorGroup> bodys = IonXmlRoot.getVectorGroups(vg, "body\\..*", true);
+		Map<String, VectorGroup> bodyToolTip = IonXmlRoot.getVectorGroups(vg, "body_tool_tip\\..*", true);
+		Map<String, VectorGroup> views = IonXmlRoot.getVectorGroups(vg, "view.*", false);
 		
 		vg.clear();
 		
-		map = new StarSystemUi(mainSystem, bodys, bodyToolTip);
+		ViewFactory viewCreator = new ViewFactory(viewList, views);
+		
+		map = new StarSystemUi(mainSystem, bodys, bodyToolTip, viewCreator);
 		
 	}
 	
@@ -47,7 +56,42 @@ public class Ui {
 	 */
 	public void tick(Mouse m) {
 		
-		map.tick(m);
+		boolean action = false;
+		
+		for(View v: viewList) {
+			if(!action && v.tick(m)) {
+				action = true;
+			}
+		}
+		
+		if(!action) {
+			map.tick(m);
+		}
+		
+		cleanViewList();
+		
+	}
+	
+	private void cleanViewList() {
+
+		List<Integer> hashCodes = new ArrayList<>();
+		for(int i = viewList.size()-1; i >= 0; i--) {
+			
+			View v = viewList.get(i);
+			
+			if(v.getWindowCode() == 0) {
+				continue;
+			}
+			
+			if(hashCodes.contains(v.getWindowCode())) {
+				viewList.remove(i);
+				System.out.println("removed view");
+			} else {
+				hashCodes.add(v.getWindowCode());
+			}
+			
+		}
+		
 	}
 	
 	/**
@@ -60,40 +104,10 @@ public class Ui {
 		
 		map.render(g);
 		
-	}
-	
-	/**
-	 * Gets the group of VectorGroups that have a key matching the regex String.
-	 * 
-	 * @param vg
-	 *            The map of VectorGroups with there corresponding ids as keys
-	 * @param regex
-	 *            The expression to match to
-	 * @param cut
-	 *            Where to cut off the group name from the key
-	 * @return A map with the matching VectorGroups
-	 */
-	private static Map<String, VectorGroup> getGroups(Map<String, VectorGroup> vg, String regex, boolean cut) {
-		
-		Map<String, VectorGroup> group = new HashMap<>();
-		
-		Pattern regexPatern = Pattern.compile(regex);
-		
-		for (Entry<String, VectorGroup> e : vg.entrySet()) {
-			if (regexPatern.matcher(e.getKey()).find()) {
-				
-				String key = e.getKey();
-				
-				if (cut) {
-					key = key.substring(key.indexOf('.') + 1);
-				}
-				
-				group.put(key, new VectorGroup(e.getValue()));
-				
-			}
+		for(View v: viewList) {
+			g.setTranslate(ScreenPosition.ZERO);
+			v.render(g);
 		}
-		
-		return group;
 		
 	}
 	

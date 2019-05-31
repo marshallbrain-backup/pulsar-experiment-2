@@ -21,6 +21,8 @@ public class Body {
 	
 	private double angle;
 	
+	private String name;
+	
 	private Body parent;
 	private Distance distance;
 	private Distance radius;
@@ -173,7 +175,7 @@ public class Body {
 	/**
 	 * @return returns the name of the type of body
 	 */
-	public String getId() {
+	private String getId() {
 		
 		return type.getName();
 	}
@@ -339,6 +341,15 @@ public class Body {
 	public Body getParent() {
 		
 		return parent;
+	}
+
+	public String getName() {
+		
+		if(name != null) {
+			return name;
+		}
+		
+		return getId();
 	}
 	
 }

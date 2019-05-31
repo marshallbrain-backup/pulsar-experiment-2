@@ -1,7 +1,10 @@
 package com.brain.ion.graphics.vectors;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -16,19 +19,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "vector_layer")
 public class VectorGroup {
 	
-	@XmlAnyElement(lax = true)
-	private List<Vector> vectors;
+	@XmlAttribute
+	private int x;
+	@XmlAttribute
+	private int y;
 	
 	@XmlAttribute
 	private String type;
 	@XmlAttribute
 	private String id;
 	
+	@XmlAnyElement(lax = true)
+	private List<Vector> vectors;
+	private Map<String, Vector> mappedVectors;
+	
 	/**
 	 * Base constructor
 	 */
 	public VectorGroup() {
-	
 	}
 	
 	/**
@@ -41,11 +49,17 @@ public class VectorGroup {
 		
 		type = clone.type;
 		id = clone.id;
+		x = clone.x;
+		y = clone.y;
 		
 		vectors = new ArrayList<>();
 		
-		for (Vector v : clone.vectors) {
-			vectors.add(v.copyVector());
+		for (Object o : clone.vectors) {
+			try {
+				Vector v = (Vector) o;
+				vectors.add(v.copyVector());
+			} catch(ClassCastException e) {
+			}
 		}
 		
 	}
@@ -72,6 +86,24 @@ public class VectorGroup {
 	public String getPath() {
 		
 		return type + "." + id;
+	}
+	
+	public Point getOrigin() {
+		return new Point(x, y);
+	}
+
+	public Vector getVectorById(String id) {
+		
+		if(mappedVectors == null) {
+			
+			mappedVectors = new HashMap<>();
+			for(Vector v: vectors) {
+				mappedVectors.put(v.getId(), v);
+			}
+			
+		}
+		
+		return mappedVectors.get(id);
 	}
 	
 }

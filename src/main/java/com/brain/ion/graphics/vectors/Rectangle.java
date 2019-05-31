@@ -15,14 +15,18 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "rect")
 public class Rectangle implements Vector {
-	
+
+	@XmlAttribute
 	private int x;
+	@XmlAttribute
 	private int y;
 	@XmlAttribute(name = "w")
 	private int width;
 	@XmlAttribute(name = "h")
 	private int hight;
-	
+
+	@XmlAttribute
+	private String id;
 	@XmlAttribute(name = "style")
 	private String styleString;
 	
@@ -33,6 +37,7 @@ public class Rectangle implements Vector {
 	 */
 	public Rectangle() {
 		
+		id = "";
 	}
 	
 	/**
@@ -49,6 +54,7 @@ public class Rectangle implements Vector {
 		hight = base.hight;
 		styleString = base.styleString;
 		style = base.style;
+		id = base.id;
 		
 	}
 	
@@ -97,6 +103,12 @@ public class Rectangle implements Vector {
 	public Vector copyVector() {
 		
 		return new Rectangle(this);
+	}
+	
+	@Override
+	public String getId() {
+		
+		return id;
 	}
 	
 }
