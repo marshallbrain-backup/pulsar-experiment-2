@@ -33,6 +33,7 @@ public class VectorGraphics {
 	
 	private Graphics2D graphics;
 	private AffineTransform currentTransform;
+	private Area trackArea;
 	
 	private Map<SettingEntry, String> settings;
 	
@@ -172,6 +173,10 @@ public class VectorGraphics {
 				
 			}
 			
+			if(trackArea != null) {
+				trackArea.add(new Area(s));
+			}
+			
 		}
 		
 	}
@@ -268,10 +273,13 @@ public class VectorGraphics {
 	}
 
 	public void beginAreaRendering() {
+		trackArea = new Area();
 	}
 
 	public Area resetAreaRendering() {
-		return null;
+		Area clone = new Area(trackArea);
+		trackArea = null;
+		return clone;
 	}
 	
 }
