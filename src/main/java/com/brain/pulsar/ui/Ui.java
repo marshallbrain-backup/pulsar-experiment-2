@@ -104,9 +104,8 @@ public class Ui {
 		
 		map.render(g);
 		
-		g.setTranslate(ScreenPosition.ZERO);
-		
 		for(View v: viewList) {
+			g.setTranslate(ScreenPosition.ZERO);
 			v.render(g);
 		}
 		
