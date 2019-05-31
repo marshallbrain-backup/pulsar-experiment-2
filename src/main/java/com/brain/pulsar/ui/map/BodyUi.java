@@ -1,5 +1,6 @@
 package com.brain.pulsar.ui.map;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -59,6 +60,8 @@ public class BodyUi {
 		this.bodyVG = bodyVG;
 		this.tooltipVG = tooltipVG;
 		
+		lastRendered = new Area();
+		
 	}
 	
 	/**
@@ -99,6 +102,8 @@ public class BodyUi {
 	 *            The zoom factor of the screen
 	 */
 	public void render(VectorGraphics g, double scale) {
+		
+		lastRendered.reset();
 		
 		// Gets the ratio of the screen width in pixels to the screen width in meters.
 		double distanceRatio = g.getWindowWidth()
@@ -169,19 +174,16 @@ public class BodyUi {
 		at.scale(1 / max, 1 / max);
 		at.scale(radius, radius);
 		
-		lastRendered = new Area();
+		g.beginAreaRendering();
 		for (Entry<Shape, Map<String, String>> e : shapeList.entrySet()) {
 			
 			Shape shape = at.createTransformedShape(e.getKey());
-			
-			Area shapeArea = new Area(shape);
-			lastRendered.add(shapeArea);
 			
 			g.draw(shape, e.getValue());
 			
 		}
 		
-		lastRendered = lastRendered.createTransformedArea(g.getAffineTransform());
+		lastRendered.add(g.resetAreaRendering());
 		
 	}
 	
