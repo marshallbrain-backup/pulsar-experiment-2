@@ -1,8 +1,12 @@
 package com.brain.pulsar.xml.types;
 
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.brain.pulsar.xml.elements.Range;
@@ -28,6 +32,10 @@ public class BodyType {
 	private String climate;
 	@XmlElement
 	private String name;
+	
+	@XmlElementWrapper(name="tags")
+	@XmlElement(name = "tag")
+	private Set<String> tags;
 	
 	@XmlElement
 	private Range radius;
@@ -176,6 +184,10 @@ public class BodyType {
 	 */
 	public long getRandomTemp() {
 		
+		if(tempSet == null) {
+			return 0;
+		}
+		
 		double min = convert(tempSet.getMin());
 		double max = convert(tempSet.getMax());
 		
@@ -234,6 +246,11 @@ public class BodyType {
 	public String toString() {
 		
 		return "BodyType [name=" + name + "]";
+	}
+
+	public boolean hasTag(String value) {
+		
+		return tags.contains(value);
 	}
 	
 }
