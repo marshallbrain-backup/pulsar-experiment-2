@@ -30,16 +30,5 @@ public class Scope {
 	public BodyType getBodyType() {
 		return bodyType;
 	}
-
-	public boolean contains(Class<?> scopeClass) {
-		
-		if(body != null && scopeClass == body.getClass()) {
-			return true;
-		} else if(bodyType != null && scopeClass == bodyType.getClass()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
 }

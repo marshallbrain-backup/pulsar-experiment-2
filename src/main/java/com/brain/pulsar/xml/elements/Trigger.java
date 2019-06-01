@@ -21,10 +21,6 @@ public class Trigger {
 		
 		TriggerTarget t = TriggerTarget.valueOf(target.toUpperCase());
 		
-		if(!t.valed(s)) {
-			return false;
-		}
-		
 		switch(t.getScopeType()) {
 			case BODY_TYPE:
 				return targetBodyType(t, s.getBodyType());
@@ -35,6 +31,10 @@ public class Trigger {
 	}
 	
 	private boolean targetBodyType(TriggerTarget targ, BodyType type) {
+		
+		if(type == null) {
+			return false;
+		}
 		
 		switch(targ) {
 			case HAS_TYPE_TAG:

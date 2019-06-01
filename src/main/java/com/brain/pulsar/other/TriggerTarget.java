@@ -11,11 +11,6 @@ public enum TriggerTarget {
 		scopeType = t;
 	}
 	
-	public boolean valed(Scope s) {
-		
-		return s.contains(scopeType.getScopeClass());
-	}
-	
 	public ScopeType getScopeType() {
 		return scopeType;
 	}
