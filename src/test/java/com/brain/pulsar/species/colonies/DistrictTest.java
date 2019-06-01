@@ -10,19 +10,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.brain.ion.xml.XmlParser;
+import com.brain.pulsar.other.Scope;
+import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.xml.types.DistrictType;
 import com.brain.pulsar.xml.types.StarSystemType;
 
 
 class DistrictTest {
 	
 	private static DataContainer data;
+	private District district;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class };
 		
 		List<DataContainer> uncompresed = new ArrayList<>();
 		for (String xml : getXmlFiles()) {
@@ -35,13 +39,20 @@ class DistrictTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-	
+		
+		BodyType bodyType = data.getMatchData(BodyType.class).get(0);
+		DistrictType districtType = data.getMatchData(DistrictType.class).get(0);
+		
+		Body body = new Body(bodyType, null);
+		district = District.create(districtType, body);
+		
 	}
 	
 	@Test
 	void test() {
 		
-		fail("Not yet implemented");
+		assertNotNull(district);
+		
 	}
 	
 	static List<String> getXmlFiles() {
@@ -49,28 +60,40 @@ class DistrictTest {
 		List<String> list = new ArrayList<>();
 		
 		list.add(DISTRICTS);
+		list.add(BODYS);
 		
 		return list;
 		
 	}
 	
+	private static final String BODYS = 
+			"<pulsar>" + 
+			"	<body>" + 
+			"		<name>pc_continental</name>" + 
+			"		<tags>" + 
+			"			<tag>standard_city</tag>" + 
+			"		</tags>" +
+			"		<spawn_odds>1</spawn_odds>" + 
+			"		<temp_range min=\"283\" max=\"300\"/><!--17-->" + 
+			"		<radius min=\"3178000\" max=\"9534000\"/>" + 
+			"		<tag></tag>" + 
+			"	</body>" + 
+			"</pulsar>";
 	private static final String DISTRICTS = 
 			"<pulsar>\r\n" + 
-			"	\r\n" + 
 			"	<district>\r\n" + 
-			"	\r\n" + 
 			"			<base_buildtime>480</base_buildtime>\r\n" + 
-			"			\r\n" + 
 			"			<potential>\r\n" + 
-			"				<tag>standard_city</tag>\r\n" + 
+			"					<trigger name=\"has_type_tag\">\r\n" + 
+			"						standard_city\r\n" + 
+			"					</trigger>\r\n" + 
 			"			</potential>\r\n" + 
-			"			\r\n" + 
 			"			<starting>\r\n" + 
-			"				<tag>standard_city</tag>\r\n" + 
+			"					<trigger name=\"has_type_tag\">\r\n" + 
+			"						standard_city\r\n" + 
+			"					</trigger>\r\n" + 
 			"			</starting>\r\n" + 
-			"			\r\n" + 
 			"			<resources>\r\n" + 
-			"			\r\n" + 
 			"				<cost>\r\n" + 
 			"					<resources type=\"mineral\">300</resources>\r\n" + 
 			"				</cost>\r\n" + 
@@ -80,11 +103,8 @@ class DistrictTest {
 			"				<production>\r\n" + 
 			"					<resources type=\"housing\">5</resources>\r\n" + 
 			"				</production>\r\n" + 
-			"				\r\n" + 
 			"			</resources>\r\n" + 
-			"			\r\n" + 
 			"	</district>\r\n" + 
-			"	\r\n" + 
 			"</pulsar>";
 	
 }
