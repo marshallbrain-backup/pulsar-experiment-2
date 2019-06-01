@@ -351,5 +351,10 @@ public class Body {
 		
 		return getId();
 	}
+
+	public BodyType getType() {
+		
+		return type;
+	}
 	
 }
