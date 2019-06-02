@@ -18,11 +18,11 @@ public class DistrictType {
 	@XmlElement(name = "base_buildtime")
 	private int baseBuildtime;
 	
-	@XmlElementWrapper(name="potential")
+	@XmlElementWrapper
 	@XmlElement(name = "trigger")
 	private List<Trigger> potential;
 	
-	@XmlElementWrapper(name="potential")
+	@XmlElementWrapper
 	@XmlElement(name = "trigger")
 	private List<Trigger> starting;
 	
@@ -38,7 +38,17 @@ public class DistrictType {
 		}
 		
 		return false;
+	}
+
+	public boolean isStarting(Scope bodyType) {
 		
+		for(Trigger t: potential) {
+			if(t.isCondition(bodyType)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -64,6 +74,11 @@ public class DistrictType {
 	public String toString() {
 		
 		return "DistrictType [baseBuildtime=" + baseBuildtime + "]";
+	}
+
+	public Operations getOperations() {
+		
+		return new Operations(operations);
 	}
 	
 }
