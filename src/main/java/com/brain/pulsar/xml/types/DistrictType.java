@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.brain.ion.xml.StringTrimAdapter;
 import com.brain.pulsar.other.Scope;
+import com.brain.pulsar.xml.elements.Operations;
 import com.brain.pulsar.xml.elements.Trigger;
 
 @XmlRootElement(name = "district")
@@ -20,6 +21,13 @@ public class DistrictType {
 	@XmlElementWrapper(name="potential")
 	@XmlElement(name = "trigger")
 	private List<Trigger> potential;
+	
+	@XmlElementWrapper(name="potential")
+	@XmlElement(name = "trigger")
+	private List<Trigger> starting;
+	
+	@XmlElement
+	private Operations operations;
 
 	public boolean isPotential(Scope bodyType) {
 		
@@ -47,13 +55,6 @@ public class DistrictType {
 		}
 		DistrictType other = (DistrictType) obj;
 		if (baseBuildtime != other.baseBuildtime) {
-			return false;
-		}
-		if (potential == null) {
-			if (other.potential != null) {
-				return false;
-			}
-		} else if (!potential.equals(other.potential)) {
 			return false;
 		}
 		return true;
