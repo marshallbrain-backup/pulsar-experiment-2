@@ -1,9 +1,15 @@
 package com.brain.pulsar.species.colonies;
 
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +19,7 @@ import com.brain.ion.xml.XmlParser;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
+import com.brain.pulsar.xml.elements.Resource;
 import com.brain.pulsar.xml.types.BodyType;
 import com.brain.pulsar.xml.types.DistrictType;
 import com.brain.pulsar.xml.types.StarSystemType;
@@ -49,9 +56,30 @@ class DistrictTest {
 	}
 	
 	@Test
-	void test() {
+	void creation() {
 		
 		assertNotNull(district);
+	}
+	
+	@Test
+	void income() {
+		
+		Resource a = new Resource(8, "housing");
+		Resource b = new Resource(4, "energy");
+		Map<Resource, Resource> correctTotal = new HashMap<>();
+		correctTotal.put(a, a);
+		correctTotal.put(b, b);
+		
+		a = new Resource(3, "housing");
+		b = new Resource(5, "energy");
+		Map<Resource, Resource> total = new HashMap<>();
+		total.put(a, a);
+		total.put(b, b);
+		
+		Map<Resource, Resource> income = ResourceCoordinator.calculateIncome(district);
+		total = ResourceCoordinator.calculateTotal(total, income);
+		
+		assertThat(total.keySet(), containsInAnyOrder(correctTotal.keySet().toArray()));
 		
 	}
 	
@@ -93,17 +121,17 @@ class DistrictTest {
 			"						standard_city\r\n" + 
 			"					</trigger>\r\n" + 
 			"			</starting>\r\n" + 
-			"			<resources>\r\n" + 
+			"			<operations>\r\n" + 
 			"				<cost>\r\n" + 
-			"					<resources type=\"mineral\">300</resources>\r\n" + 
+			"					<resource type=\"mineral\">300</resource>\r\n" + 
 			"				</cost>\r\n" + 
 			"				<upkeep>\r\n" + 
-			"					<resources type=\"energy\">1</resources>\r\n" + 
+			"					<resource type=\"energy\">1</resource>\r\n" + 
 			"				</upkeep>\r\n" + 
 			"				<production>\r\n" + 
-			"					<resources type=\"housing\">5</resources>\r\n" + 
+			"					<resource type=\"housing\">5</resource>\r\n" + 
 			"				</production>\r\n" + 
-			"			</resources>\r\n" + 
+			"			</operations>\r\n" + 
 			"	</district>\r\n" + 
 			"</pulsar>";
 	
