@@ -83,6 +83,23 @@ class DistrictTest {
 		
 	}
 	
+	@Test
+	void construction() {
+		
+		Resource a = new Resource(400, "mineral");
+		Map<Resource, Resource> total = new HashMap<>();
+		total.put(a, a);
+		
+		ConstructionCoordinator constructor = new ConstructionCoordinator(total);
+		
+		constructor.addToQueue(district);
+		assertEquals(1, district.getQueuedAmount());
+		
+		constructor.tick();
+		assertEquals(1, district.getAmount());
+		
+	}
+	
 	static List<String> getXmlFiles() {
 		
 		List<String> list = new ArrayList<>();
