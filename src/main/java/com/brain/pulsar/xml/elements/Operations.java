@@ -48,23 +48,26 @@ public class Operations {
 	}
 
 	public List<Resource> getUpkeep() {
-		
-		List<Resource> newUpkeep = new ArrayList<>();
-		for(Resource r: upkeep) {
-			newUpkeep.add(new Resource(-r.getAmount(), r.getType()));
-		}
-		
-		return newUpkeep;
+		return cloneList(upkeep);
 	}
 
 	public List<Resource> getProduction() {
+		return cloneList(production);
+	}
+
+	public List<Resource> getCost() {
+		return cloneList(cost);
+	}
+	
+	private static List<Resource> cloneList(List<Resource> list) {
 		
-		List<Resource> newProduction = new ArrayList<>();
-		for(Resource r: production) {
-			newProduction.add(new Resource(r.getAmount(), r.getType()));
+		List<Resource> newList = new ArrayList<>();
+		for(Resource r: list) {
+			newList.add(new Resource(r.getAmount(), r.getType()));
 		}
 		
-		return newProduction;
+		return newList;
+		
 	}
 	
 }
