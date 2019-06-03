@@ -9,7 +9,10 @@ import com.brain.pulsar.xml.elements.Operations;
 import com.brain.pulsar.xml.elements.Resource;
 import com.brain.pulsar.xml.types.DistrictType;
 
-public class District implements Transactional {
+public class District implements Transactional, Constructible {
+	
+	private int amount;
+	private int queuedAmount;
 	
 	private DistrictType type;
 
@@ -42,6 +45,41 @@ public class District implements Transactional {
 		income.addAll(ops.getProduction());
 		
 		return income;
+	}
+
+	public int getQueuedAmount() {
+		
+		return queuedAmount;
+	}
+
+	public int getAmount() {
+		
+		return amount;
+	}
+
+	@Override
+	public List<Resource> getBuildCost() {
+		
+		Operations ops = type.getOperations();
+		
+		return new ArrayList<>(ops.getCost());
+	}
+
+	@Override
+	public void queueBuild() {
+		
+		queuedAmount++;
+		
+	}
+
+	@Override
+	public void finnishBuild() {
+		
+		if(queuedAmount > 0) {
+			amount++;
+			queuedAmount--;
+		}
+		
 	}
 	
 	
