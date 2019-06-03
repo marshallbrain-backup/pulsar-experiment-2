@@ -22,16 +22,20 @@ public class Resource {
 		this.type = type;
 	}
 
-	public static Resource append(Resource res1, Resource res2) {
+	public Resource append(Resource res) {
+		return append(res, 1);
+	}
+
+	public Resource append(Resource res, int i) {
 		
-		if(!res1.equals(res2)) {
+		if(!equals(res)) {
 			return null;
 		}
 		
-		double amount = res1.amount + res2.amount;
-		String type = res1.type;
+		double newAmount = amount + res.amount;
+		String newType = type;
 		
-		return new Resource(amount, type);
+		return new Resource(newAmount, newType);
 	}
 
 	public String getType() {
