@@ -36,7 +36,7 @@ public class ResourceCoordinator {
 		
 		if(map.containsKey(r)) {
 			Resource base = map.remove(r);
-			base = Resource.append(base, r);
+			base = base.append(r);
 			if(base.getAmount() != 0) {
 				map.put(base, base);
 			}
