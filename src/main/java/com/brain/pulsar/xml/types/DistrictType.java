@@ -18,6 +18,9 @@ public class DistrictType {
 	@XmlElement(name = "base_buildtime")
 	private int baseBuildtime;
 	
+	@XmlElement
+	private String name;
+	
 	@XmlElementWrapper
 	@XmlElement(name = "trigger")
 	private List<Trigger> potential;
@@ -79,6 +82,12 @@ public class DistrictType {
 	public Operations getOperations() {
 		
 		return new Operations(operations);
+	}
+
+	public String getId() {
+		
+		// TODO Auto-generated method stub
+		return "district." + name;
 	}
 	
 }
