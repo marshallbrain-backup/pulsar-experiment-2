@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import com.brain.ion.xml.XmlParser;
 import com.brain.pulsar.other.Scope;
+import com.brain.pulsar.species.ResourceBucket;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.elements.Resource;
@@ -64,39 +65,22 @@ class DistrictTest {
 	@Test
 	void income() {
 		
-		Resource a = new Resource(8, "housing");
-		Resource b = new Resource(4, "energy");
-		Map<Resource, Resource> correctTotal = new HashMap<>();
-		correctTotal.put(a, a);
-		correctTotal.put(b, b);
+		List<Resource> upkeep = new ArrayList<>();
+		upkeep.add(new Resource(1, "energy"));
 		
-		a = new Resource(3, "housing");
-		b = new Resource(5, "energy");
-		Map<Resource, Resource> total = new HashMap<>();
-		total.put(a, a);
-		total.put(b, b);
+		List<Resource> production = new ArrayList<>();
+		production.add(new Resource(5, "housing"));
 		
-		Map<Resource, Resource> income = ResourceCoordinator.calculateIncome(district);
-		total = ResourceCoordinator.calculateTotal(total, income);
+		ResourceBucket bucket = new ResourceBucket("district.basic_city", upkeep, production);
 		
-		assertThat(total.keySet(), containsInAnyOrder(correctTotal.keySet().toArray()));
+		ResourceBucket b = district.getResources();
+		
+		assertEquals(bucket, b);
 		
 	}
 	
 	@Test
 	void construction() {
-		
-		Resource a = new Resource(400, "mineral");
-		Map<Resource, Resource> total = new HashMap<>();
-		total.put(a, a);
-		
-		ConstructionCoordinator constructor = new ConstructionCoordinator(total);
-		
-		constructor.addToQueue(district);
-		assertEquals(1, district.getQueuedAmount());
-		
-		constructor.tick();
-		assertEquals(1, district.getAmount());
 		
 	}
 	
@@ -127,28 +111,29 @@ class DistrictTest {
 	private static final String DISTRICTS = 
 			"<pulsar>\r\n" + 
 			"	<district>\r\n" + 
-			"			<base_buildtime>480</base_buildtime>\r\n" + 
-			"			<potential>\r\n" + 
-			"					<trigger name=\"has_type_tag\">\r\n" + 
-			"						standard_city\r\n" + 
-			"					</trigger>\r\n" + 
-			"			</potential>\r\n" + 
-			"			<starting>\r\n" + 
-			"					<trigger name=\"has_type_tag\">\r\n" + 
-			"						standard_city\r\n" + 
-			"					</trigger>\r\n" + 
-			"			</starting>\r\n" + 
-			"			<operations>\r\n" + 
-			"				<cost>\r\n" + 
-			"					<resource type=\"mineral\">300</resource>\r\n" + 
-			"				</cost>\r\n" + 
-			"				<upkeep>\r\n" + 
-			"					<resource type=\"energy\">1</resource>\r\n" + 
-			"				</upkeep>\r\n" + 
-			"				<production>\r\n" + 
-			"					<resource type=\"housing\">5</resource>\r\n" + 
-			"				</production>\r\n" + 
-			"			</operations>\r\n" + 
+			"		<name>basic_city</name>\r\n" + 
+			"		<base_buildtime>480</base_buildtime>\r\n" + 
+			"		<potential>\r\n" + 
+			"				<trigger name=\"has_type_tag\">\r\n" + 
+			"					standard_city\r\n" + 
+			"				</trigger>\r\n" + 
+			"		</potential>\r\n" + 
+			"		<starting>\r\n" + 
+			"				<trigger name=\"has_planet_tag\">\r\n" + 
+			"					standard_city\r\n" + 
+			"				</trigger>\r\n" + 
+			"		</starting>\r\n" + 
+			"		<operations>\r\n" + 
+			"			<cost>\r\n" + 
+			"				<resource type=\"mineral\">300</resource>\r\n" + 
+			"			</cost>\r\n" + 
+			"			<upkeep>\r\n" + 
+			"				<resource type=\"energy\">1</resource>\r\n" + 
+			"			</upkeep>\r\n" + 
+			"			<production>\r\n" + 
+			"				<resource type=\"housing\">5</resource>\r\n" + 
+			"			</production>\r\n" + 
+			"		</operations>\r\n" + 
 			"	</district>\r\n" + 
 			"</pulsar>";
 	
