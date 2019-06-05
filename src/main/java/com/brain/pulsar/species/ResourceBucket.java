@@ -1,5 +1,6 @@
 package com.brain.pulsar.species;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,9 +25,31 @@ public class ResourceBucket {
 		this.id = id;
 		this.amount = amount;
 		
+		if(upkeep == null) {
+			upkeep = new ArrayList<>();
+		}
+		if(production == null) {
+			production = new ArrayList<>();
+		}
+
 		this.upkeep = Collections.unmodifiableList(upkeep);
 		this.production = Collections.unmodifiableList(production);
 		
+	}
+
+	public List<Resource> getRefinedTotal() {
+		
+		List<Resource> compleat = new ArrayList<>();
+		
+		for(Resource r: upkeep) {
+			compleat.add(r.modify(-1));
+		}
+		
+		for(Resource r: production) {
+			compleat.add(r.modify(1));
+		}
+		
+		return compleat;
 	}
 
 	@Override
