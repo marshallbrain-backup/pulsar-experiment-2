@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import com.brain.ion.xml.XmlParser;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.species.ResourceBucket;
+import com.brain.pulsar.species.ResourceMaster;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.elements.Resource;
@@ -82,6 +83,21 @@ class DistrictTest {
 	@Test
 	void construction() {
 		
+		ResourceMaster bank = new ResourceMaster();
+		
+		List<Resource> positive = new ArrayList<>();
+		positive.add(new Resource(500, "mineral"));
+		
+		ResourceBucket bucket = new ResourceBucket("district.basic_city", null, positive);
+		bank.transaction(bucket);
+		
+		ConstructionCoordinator cc = new ConstructionCoordinator();
+		
+		assertTrue(cc.addToQueue(district, bank));
+		assertTrue(cc.tick(1000));
+		
+		assertEquals(district.getAmount(), 1);
+		
 	}
 	
 	static List<String> getXmlFiles() {
@@ -110,31 +126,43 @@ class DistrictTest {
 			"</pulsar>";
 	private static final String DISTRICTS = 
 			"<pulsar>\r\n" + 
+			"\r\n" + 
 			"	<district>\r\n" + 
+			"	\r\n" + 
 			"		<name>basic_city</name>\r\n" + 
+			"	\r\n" + 
 			"		<base_buildtime>480</base_buildtime>\r\n" + 
+			"		\r\n" + 
 			"		<potential>\r\n" + 
 			"				<trigger name=\"has_type_tag\">\r\n" + 
 			"					standard_city\r\n" + 
 			"				</trigger>\r\n" + 
 			"		</potential>\r\n" + 
+			"		\r\n" + 
 			"		<starting>\r\n" + 
 			"				<trigger name=\"has_planet_tag\">\r\n" + 
 			"					standard_city\r\n" + 
 			"				</trigger>\r\n" + 
 			"		</starting>\r\n" + 
+			"		\r\n" + 
+			"		<cost>\r\n" + 
+			"			<resource type=\"mineral\">300</resource>\r\n" + 
+			"		</cost>\r\n" + 
+			"		\r\n" + 
 			"		<operations>\r\n" + 
-			"			<cost>\r\n" + 
-			"				<resource type=\"mineral\">300</resource>\r\n" + 
-			"			</cost>\r\n" + 
+			"		\r\n" + 
+			"\r\n" + 
 			"			<upkeep>\r\n" + 
 			"				<resource type=\"energy\">1</resource>\r\n" + 
 			"			</upkeep>\r\n" + 
 			"			<production>\r\n" + 
 			"				<resource type=\"housing\">5</resource>\r\n" + 
 			"			</production>\r\n" + 
+			"			\r\n" + 
 			"		</operations>\r\n" + 
+			"			\r\n" + 
 			"	</district>\r\n" + 
+			"	\r\n" + 
 			"</pulsar>";
 	
 }
