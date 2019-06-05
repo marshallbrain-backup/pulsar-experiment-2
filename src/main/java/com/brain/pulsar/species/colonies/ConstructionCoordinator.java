@@ -1,53 +1,53 @@
 package com.brain.pulsar.species.colonies;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.function.BooleanSupplier;
 
-import com.brain.pulsar.xml.elements.Resource;
+import com.brain.pulsar.species.ResourceBucket;
+import com.brain.pulsar.species.ResourceMaster;
 
 public class ConstructionCoordinator {
 	
-	private List<Constructible> constructonQueue;
+	private List<ConstrictionEntity> constructionQueue;
 	
-	private Map<Resource, Resource> total;
-
-	public ConstructionCoordinator(Map<Resource, Resource> total) {
-		
-		constructonQueue = new ArrayList<>();
-		this.total = new HashMap<>(total);
+	public ConstructionCoordinator() {
+		constructionQueue = new ArrayList<>();
 	}
 
-	public void tick() {
+	public boolean addToQueue(Constructible district, ResourceMaster total) {
 		
-		Constructible c = constructonQueue.get(0);
-		c.finnishBuild();
+		ResourceBucket cost = district.getCost();
 		
-	}
-
-	public void addToQueue(Constructible district) {
-		
-		if(constructonQueue.add(district)) {
-			
-			district.queueBuild();
-			List<Resource> cost = district.getBuildCost();
-			
-			for(Resource r: cost) {
-				Resource base = total.remove(r);
-				base = base.append(r, -1);
-				total.put(base, base);
-			}
-			
+		if(total.transaction(cost)) {
+			constructionQueue.add(new ConstrictionEntity(district));
+			return true;
 		}
 		
+		return false;
 	}
 
-	public void finnishFromQueue(int index) {
+	public boolean tick(int i) {
 		
-		Constructible district = constructonQueue.remove(index);
-		district.finnishBuild();
+		boolean constructed = false;
+		List<ConstrictionEntity> remove = new ArrayList<>();
 		
+		for(ConstrictionEntity e: constructionQueue) {
+			i = e.removeTime(i);
+			if(e.isFinnished()) {
+				Constructible c = e.getEntity();
+				c.build();
+				remove.add(e);
+				constructed = true;
+			}
+			if(i <= 0) {
+				break;
+			}
+		}
+		
+		return constructed;
 	}
+	
+	
 	
 }

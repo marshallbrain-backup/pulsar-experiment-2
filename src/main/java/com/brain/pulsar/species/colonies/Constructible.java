@@ -1,15 +1,13 @@
 package com.brain.pulsar.species.colonies;
 
-import java.util.List;
-
-import com.brain.pulsar.xml.elements.Resource;
+import com.brain.pulsar.species.ResourceBucket;
 
 public interface Constructible {
 
-	List<Resource> getBuildCost();
+	ResourceBucket getCost();
 
-	void queueBuild();
+	int getBuildTime();
 
-	void finnishBuild();
+	void build();
 	
 }
