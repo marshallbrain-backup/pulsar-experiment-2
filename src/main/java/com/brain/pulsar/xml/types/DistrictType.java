@@ -1,5 +1,6 @@
 package com.brain.pulsar.xml.types;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -10,6 +11,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.brain.ion.xml.StringTrimAdapter;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.xml.elements.Operations;
+import com.brain.pulsar.xml.elements.Resource;
 import com.brain.pulsar.xml.elements.Trigger;
 
 @XmlRootElement(name = "district")
@@ -28,6 +30,10 @@ public class DistrictType {
 	@XmlElementWrapper
 	@XmlElement(name = "trigger")
 	private List<Trigger> starting;
+	
+	@XmlElementWrapper
+	@XmlElement(name = "resource")
+	private List<Resource> cost;
 	
 	@XmlElement
 	private Operations operations;
@@ -84,10 +90,17 @@ public class DistrictType {
 		return new Operations(operations);
 	}
 
-	public String getId() {
+	public List<Resource> getCost() {
 		
-		// TODO Auto-generated method stub
+		return new ArrayList<>(cost);
+	}
+
+	public String getId() {
 		return "district." + name;
+	}
+
+	public int getBuildTime() {
+		return baseBuildtime;
 	}
 	
 }
