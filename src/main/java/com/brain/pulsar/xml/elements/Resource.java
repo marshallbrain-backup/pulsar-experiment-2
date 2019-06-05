@@ -33,9 +33,8 @@ public class Resource {
 		}
 		
 		double newAmount = amount + res.amount;
-		String newType = type;
 		
-		return new Resource(newAmount, newType);
+		return new Resource(newAmount, type);
 	}
 
 	public String getType() {
@@ -44,6 +43,10 @@ public class Resource {
 
 	public double getAmount() {
 		return amount;
+	}
+
+	public Resource modify(double i) {
+		return new Resource(amount*i, type);
 	}
 
 	@Override
