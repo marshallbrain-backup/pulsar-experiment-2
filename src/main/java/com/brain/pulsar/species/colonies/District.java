@@ -5,7 +5,7 @@ import com.brain.pulsar.species.ResourceBucket;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.types.DistrictType;
 
-public class District {
+public class District implements Constructible {
 	
 	private int amount;
 	
@@ -28,6 +28,25 @@ public class District {
 		
 		return new ResourceBucket(type.getId(), type.getOperations().getUpkeep(), type.getOperations().getProduction());
 		
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	@Override
+	public ResourceBucket getCost() {
+		return new ResourceBucket(type.getId(), type.getCost(), null, 1);
+	}
+
+	@Override
+	public int getBuildTime() {
+		return type.getBuildTime();
+	}
+
+	@Override
+	public void build() {
+		amount++;
 	}
 	
 }
