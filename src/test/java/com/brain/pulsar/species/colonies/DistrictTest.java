@@ -50,6 +50,9 @@ class DistrictTest {
 		BodyType bodyType = data.getMatchData(BodyType.class).get(0);
 		DistrictType districtType = data.getMatchData(DistrictType.class).get(0);
 		
+		Body body = new Body(bodyType, null);
+		district = District.create(districtType, body);
+		
 	}
 	
 	@Test
@@ -69,7 +72,34 @@ class DistrictTest {
 		
 	}
 	
-	private static final String BODYS = "";
-	private static final String DISTRICTS = "";
+	private static final String BODYS = "" + 
+			"<pulsar>" + 
+			"	<body>" + 
+			"		<name>pc_continental</name>" + 
+			"		<tags>" + 
+			"			<tag>standard_city</tag>" + 
+			"		</tags>" +
+			"		<spawn_odds>1</spawn_odds>" + 
+			"		<temp_range min=\"283\" max=\"300\"/><!--17-->" + 
+			"		<radius min=\"3178000\" max=\"9534000\"/>" + 
+			"		<tag></tag>" + 
+			"	</body>" + 
+			"</pulsar>";
+	private static final String DISTRICTS = "" + 
+			"<pulsar>" + 
+			"	<district>" + 
+			"		<name>test district 1</name>" + 
+			"		<potential>" + 
+			"			<trigger name=\"has_type_tag\">" + 
+			"				standard_city" + 
+			"			</trigger>" + 
+			"		</potential>" + 
+			"		<starting>" + 
+			"			<trigger name=\"has_type_tag\">" + 
+			"				standard_city" + 
+			"			</trigger>" + 
+			"		</starting>" + 
+			"	</district>" + 
+			"</pulsar>";
 	
 }
