@@ -17,9 +17,6 @@ import com.brain.pulsar.xml.elements.Trigger;
 @XmlRootElement(name = "district")
 public class DistrictType {
 	
-	@XmlElement(name = "base_buildtime")
-	private int baseBuildtime;
-	
 	@XmlElement
 	private String name;
 	
@@ -30,13 +27,6 @@ public class DistrictType {
 	@XmlElementWrapper
 	@XmlElement(name = "trigger")
 	private List<Trigger> starting;
-	
-	@XmlElementWrapper
-	@XmlElement(name = "resource")
-	private List<Resource> cost;
-	
-	@XmlElement
-	private Operations operations;
 
 	public boolean isPotential(Scope bodyType) {
 		
@@ -58,49 +48,6 @@ public class DistrictType {
 		}
 		
 		return false;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof DistrictType)) {
-			return false;
-		}
-		DistrictType other = (DistrictType) obj;
-		if (baseBuildtime != other.baseBuildtime) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		
-		return "DistrictType [baseBuildtime=" + baseBuildtime + "]";
-	}
-
-	public Operations getOperations() {
-		
-		return new Operations(operations);
-	}
-
-	public List<Resource> getCost() {
-		
-		return new ArrayList<>(cost);
-	}
-
-	public String getId() {
-		return "district." + name;
-	}
-
-	public int getBuildTime() {
-		return baseBuildtime;
 	}
 	
 }
