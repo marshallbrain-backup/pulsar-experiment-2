@@ -9,8 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.brain.ion.xml.StringTrimAdapter;
+import com.brain.pulsar.buckets.ResourceBucket;
 import com.brain.pulsar.other.Scope;
-import com.brain.pulsar.xml.elements.Operations;
+import com.brain.pulsar.xml.elements.Job;
 import com.brain.pulsar.xml.elements.Resource;
 import com.brain.pulsar.xml.elements.Trigger;
 
@@ -27,6 +28,18 @@ public class DistrictType {
 	@XmlElementWrapper
 	@XmlElement(name = "trigger")
 	private List<Trigger> starting;
+	
+	@XmlElementWrapper
+	@XmlElement(name = "resource")
+	private List<Resource> upkeep;
+	
+	@XmlElementWrapper
+	@XmlElement(name = "resource")
+	private List<Resource> production;
+	
+	@XmlElementWrapper
+	@XmlElement(name = "job")
+	private List<Job> supply;
 
 	public boolean isPotential(Scope bodyType) {
 		
@@ -48,6 +61,32 @@ public class DistrictType {
 		}
 		
 		return false;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public ResourceBucket getUpkeep() {
+		
+		ResourceBucket bucket = new ResourceBucket(null, "upkeep");
+		
+		for(Resource r: upkeep) {
+			r.makeNegitive();
+		}
+		
+		bucket.addResource(upkeep);
+		
+		return bucket;
+	}
+	
+	public ResourceBucket getProduction() {
+		
+		ResourceBucket bucket = new ResourceBucket(null, "production");
+		
+		bucket.addResource(production);
+		
+		return bucket;
 	}
 	
 }
