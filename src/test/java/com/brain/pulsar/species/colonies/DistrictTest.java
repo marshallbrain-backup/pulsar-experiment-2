@@ -16,19 +16,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.brain.ion.xml.XmlParser;
-import com.brain.pulsar.other.Scope;
+import com.brain.pulsar.buckets.ResourceBucket;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
+import com.brain.pulsar.xml.elements.JobType;
 import com.brain.pulsar.xml.elements.Resource;
+import com.brain.pulsar.xml.elements.ResourceType;
 import com.brain.pulsar.xml.types.BodyType;
 import com.brain.pulsar.xml.types.DistrictType;
-import com.brain.pulsar.xml.types.StarSystemType;
-
 
 class DistrictTest {
 	
 	private static DataContainer data;
 	private District district;
+	private ResourceType resourceType;
+	private JobType jobType;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -61,12 +63,37 @@ class DistrictTest {
 		assertNotNull(district);
 	}
 	
+	@Test
+	void operations() {
+		
+		List<Resource> expected = new ArrayList<>();
+		
+		expected.add(new Resource("energy", 4));
+		expected.add(new Resource("housing", 5));
+		
+		ResourceBucket bucket = district.getOperations();
+		
+		bucket.merge();
+		
+		List<Resource> resources = bucket.getResources();
+		
+		assertThat(resources, containsInAnyOrder(resources.toArray()));
+		
+	}
+	
+	@Test
+	void supply() {
+		
+	}
+	
 	static List<String> getXmlFiles() {
 		
 		List<String> list = new ArrayList<>();
 		
-		list.add(DISTRICTS);
 		list.add(BODYS);
+		list.add(DISTRICTS);
+		list.add(RESORCE_TYPES);
+		list.add(JOB_TYPES);
 		
 		return list;
 		
@@ -99,7 +126,48 @@ class DistrictTest {
 			"				standard_city" + 
 			"			</trigger>" + 
 			"		</starting>" + 
+			"		<upkeep>" + 
+			"			<resource id=\"energy\">" + 
+			"				1" + 
+			"			</resource>" + 
+			"		</upkeep>" + 
+			"		<production>" + 
+			"			<resource id=\"energy\">" + 
+			"				5" + 
+			"			</resource>" + 
+			"			<resource id=\"housing\">" + 
+			"				5" + 
+			"			</resource>" + 
+			"		</production>" + 
+			"		<supply>" + 
+			"			<job id=\"clerk\">" + 
+			"				2" + 
+			"			</job>" + 
+			"		</supply>" + 
 			"	</district>" + 
+			"</pulsar>";
+	private static final String RESORCE_TYPES = "" + 
+			"<pulsar>" + 
+			"	<resorce_type>" + 
+			"		<id>energy</id>" + 
+			"		<root>empire</root>" + 
+			"	</resorce_type>" + 
+			"	<resorce_type>" + 
+			"		<id>housing</id>" + 
+			"		<root>planet</root>" + 
+			"		<static>true</static>" + 
+			"	</resorce_type>" + 
+			"</pulsar>";
+	private static final String JOB_TYPES = "" + 
+			"<pulsar>" + 
+			"	<job_type>" + 
+			"		<id>clerk</id>" + 
+			"		<production>" + 
+			"			<resource id=\"energy\">" + 
+			"				3" + 
+			"			</resource>" + 
+			"		</production>" + 
+			"	</job_type>" + 
 			"</pulsar>";
 	
 }
