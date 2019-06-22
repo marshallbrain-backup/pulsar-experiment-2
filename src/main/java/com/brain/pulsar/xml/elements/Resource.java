@@ -6,47 +6,33 @@ import javax.xml.bind.annotation.XmlValue;
 public class Resource {
 	
 	@XmlValue
-	private final double amount;
-
+	private double amount;
+	
 	@XmlAttribute
-	private final String type;
+	private final String id;
 	
 	public Resource() {
-		amount = 0;
-		type = null;
+		id = null;
 	}
-	
-	public Resource(double amount, String type) {
-		
+
+	public Resource(String id, int amount) {
+		this.id = id;
 		this.amount = amount;
-		this.type = type;
 	}
 
-	public Resource append(Resource res) {
-		return append(res, 1);
-	}
-
-	public Resource append(Resource res, int i) {
+	public void combine(Resource r) {
 		
-		if(!equals(res)) {
-			return null;
+		if(equals(r)) {
+			
+			amount += r.amount;
+			
 		}
 		
-		double newAmount = amount + res.amount;
+	}
+
+	public void makeNegitive() {
 		
-		return new Resource(newAmount, type);
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public Resource modify(double i) {
-		return new Resource(amount*i, type);
+		amount *= -1;
 	}
 
 	@Override
@@ -54,7 +40,7 @@ public class Resource {
 		
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -71,45 +57,14 @@ public class Resource {
 			return false;
 		}
 		Resource other = (Resource) obj;
-		if (type == null) {
-			if (other.type != null) {
+		if (id == null) {
+			if (other.id != null) {
 				return false;
 			}
-		} else if (!type.equals(other.type)) {
+		} else if (!id.equals(other.id)) {
 			return false;
 		}
 		return true;
-	}
-	
-	public boolean equalsExact(Object obj) {
-		
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Resource)) {
-			return false;
-		}
-		Resource other = (Resource) obj;
-		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount)) {
-			return false;
-		}
-		if (type == null) {
-			if (other.type != null) {
-				return false;
-			}
-		} else if (!type.equals(other.type)) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		
-		return "Resource [amount=" + amount + ", type=" + type + "]";
 	}
 	
 }
