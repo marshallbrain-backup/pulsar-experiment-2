@@ -19,6 +19,7 @@ import com.brain.ion.xml.XmlParser;
 import com.brain.pulsar.other.ModifierBucket;
 import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceBucket;
+import com.brain.pulsar.other.ResourceCollection;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.elements.JobType;
@@ -74,11 +75,17 @@ class DistrictTest {
 		expected.add(new Resource("energy", 4));
 		expected.add(new Resource("housing", 5));
 		
-		ResourceBucket bucket = district.getOperations();
+		ResourceBucket bucketColony = new ResourceBucket("colony", "standerd");
+		ResourceBucket bucketBody = new ResourceBucket("body", "pc_continental");
 		
-		bucket.merge();
+		bucketColony.combine(district.getOperations());
+		bucketBody.combine(bucketColony);
 		
-		List<Resource> resources = bucket.getResources();
+		ResourceCollection system = new ResourceCollection("system", "single");
+		
+		system.addManager(bucketBody);
+		
+		List<Resource> resources = system.getResources();
 		
 		assertThat(resources, containsInAnyOrder(resources.toArray()));
 		
