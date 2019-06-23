@@ -5,12 +5,11 @@ import java.util.List;
 
 import com.brain.pulsar.xml.elements.Modifier;
 
-public class ResourceBucket {
+public class ResourceBucket implements ResourceManager {
 	
-	private final String name;
-	private final String type;
+	private String name;
+	private String type;
 	
-	private List<ResourceBucket> buckets;
 	private List<Resource> resources;
 
 	public ResourceBucket(String type, String name) {
@@ -18,43 +17,53 @@ public class ResourceBucket {
 		this.name = name;
 		this.type = type;
 		
-		buckets = new ArrayList<>();
 		resources = new ArrayList<>();
 		
 	}
 
-	public void addBucket(ResourceBucket bucket) {
+	public ResourceBucket(List<Resource> r, String type, String name) {
 		
-		buckets.add(bucket);
+		this(type, name);
+		
+		resources.addAll(r);
 	}
 
-	public void merge() {
+	public void addResource(List<Resource> list, String type, String name) {
 		
-		for(ResourceBucket b: buckets) {
+		for(Resource r: list) {
 			
-			b.merge();
+			r.appendChain(type, name);
 			
-			for(Resource r: b.getResources()) {
-				
-				if(resources.contains(r)) {
-					int i = resources.indexOf(r);
-					r.combine(resources.set(i, r));
-					
-				} else {
-					resources.add(r);
-				}
-				
+			int i = resources.indexOf(r);
+			
+			if(i == -1) {
+				resources.add(r);
+			} else {
+				r.combine(resources.set(i, r));
 			}
 			
 		}
 		
 	}
 
-	public void addResource(List<Resource> list) {
+	public void combine(ResourceBucket b) {
 		
-		resources.addAll(list);
+		addResource(b.resources, b.type, b.name);
 	}
 
+	@Override
+	public String getType() {
+		
+		return type;
+	}
+
+	@Override
+	public String getName() {
+		
+		return name;
+	}
+
+	@Override
 	public List<Resource> getResources() {
 		
 		return resources;
