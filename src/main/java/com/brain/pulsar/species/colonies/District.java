@@ -32,8 +32,8 @@ public class District {
 		
 		ResourceBucket operations = new ResourceBucket("district", type.getName());
 		
-		operations.addBucket(type.getUpkeep());
-		operations.addBucket(type.getProduction());
+		operations.combine(type.getUpkeep());
+		operations.combine(type.getProduction());
 		
 		return operations;
 		
