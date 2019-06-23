@@ -70,30 +70,24 @@ public class DistrictType {
 	
 	public ResourceBucket getUpkeep() {
 		
-		ResourceBucket bucket = new ResourceBucket(null, "upkeep");
 		List<Resource> u = new ArrayList<>();
 		
 		for(ResourceBase r: upkeep) {
 			u.add(new Resource(r, true));
 		}
 		
-		bucket.addResource(u);
-		
-		return bucket;
+		return new ResourceBucket(u, "upkeep", null);
 	}
 	
 	public ResourceBucket getProduction() {
 		
-		ResourceBucket bucket = new ResourceBucket(null, "production");
 		List<Resource> p = new ArrayList<>();
 		
-		for(ResourceBase r: upkeep) {
+		for(ResourceBase r: production) {
 			p.add(new Resource(r));
 		}
 		
-		bucket.addResource(p);
-		
-		return bucket;
+		return new ResourceBucket(p, "production", null);
 	}
 	
 }
