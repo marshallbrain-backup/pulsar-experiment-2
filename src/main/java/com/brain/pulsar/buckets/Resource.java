@@ -1,7 +1,9 @@
-package com.brain.pulsar.xml.elements;
+package com.brain.pulsar.buckets;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
+
+import com.brain.pulsar.xml.elements.ResourceBase;
 
 public class Resource {
 	
@@ -15,9 +17,23 @@ public class Resource {
 		id = null;
 	}
 
-	public Resource(String id, int amount) {
+	public Resource(String id, double amount) {
 		this.id = id;
 		this.amount = amount;
+	}
+
+	public Resource(ResourceBase r) {
+		id = r.getId();
+		amount = r.getAmount();
+	}
+
+	public Resource(ResourceBase r, boolean b) {
+		id = r.getId();
+		if(b) {
+			amount = r.getAmount() * -1;
+		} else {
+			amount = r.getAmount();
+		}
 	}
 
 	public void combine(Resource r) {
@@ -28,11 +44,6 @@ public class Resource {
 			
 		}
 		
-	}
-
-	public void makeNegitive() {
-		
-		amount *= -1;
 	}
 
 	@Override

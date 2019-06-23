@@ -3,7 +3,7 @@ package com.brain.pulsar.buckets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.brain.pulsar.xml.elements.Resource;
+import com.brain.pulsar.xml.elements.Modifier;
 
 public class ResourceBucket {
 	

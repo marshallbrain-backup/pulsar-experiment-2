@@ -16,11 +16,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.brain.ion.xml.XmlParser;
+import com.brain.pulsar.buckets.ModifierBucket;
+import com.brain.pulsar.buckets.Resource;
 import com.brain.pulsar.buckets.ResourceBucket;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.elements.JobType;
-import com.brain.pulsar.xml.elements.Resource;
+import com.brain.pulsar.xml.elements.Modifier;
+import com.brain.pulsar.xml.elements.ResourceBase;
 import com.brain.pulsar.xml.elements.ResourceType;
 import com.brain.pulsar.xml.types.BodyType;
 import com.brain.pulsar.xml.types.DistrictType;
@@ -35,7 +38,7 @@ class DistrictTest {
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class };
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, Modifier.class };
 		
 		List<DataContainer> uncompresed = new ArrayList<>();
 		for (String xml : getXmlFiles()) {
@@ -82,6 +85,11 @@ class DistrictTest {
 	}
 	
 	@Test
+	void modifiers() {
+		
+	}
+	
+	@Test
 	void supply() {
 		
 	}
@@ -94,6 +102,7 @@ class DistrictTest {
 		list.add(DISTRICTS);
 		list.add(RESORCE_TYPES);
 		list.add(JOB_TYPES);
+		list.add(MODIFIERS);
 		
 		return list;
 		
@@ -115,7 +124,7 @@ class DistrictTest {
 	private static final String DISTRICTS = "" + 
 			"<pulsar>" + 
 			"	<district>" + 
-			"		<name>test district 1</name>" + 
+			"		<name>district_city</name>" + 
 			"		<potential>" + 
 			"			<trigger name=\"has_type_tag\">" + 
 			"				standard_city" + 
@@ -169,5 +178,13 @@ class DistrictTest {
 			"		</production>" + 
 			"	</job_type>" + 
 			"</pulsar>";
-	
+	private static final String MODIFIERS = "" + 
+			"<pulsar>" + 
+			"	<modifier>" + 
+			"		<id>modifier 1</id>" + 
+			"		<parent>district_city.production</parent>" + 
+			"		<target>energy</target>" + 
+			"		<amount>2</amount>" + 
+			"	</modifier>" + 
+			"</pulsar>";
 }

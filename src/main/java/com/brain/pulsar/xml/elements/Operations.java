@@ -12,10 +12,10 @@ public class Operations {
 	
 	@XmlElementWrapper
 	@XmlElement(name = "resource")
-	private List<Resource> upkeep;
+	private List<ResourceBase> upkeep;
 	@XmlElementWrapper
 	@XmlElement(name = "resource")
-	private List<Resource> production;
+	private List<ResourceBase> production;
 	
 	public Operations() {
 	}
@@ -27,11 +27,11 @@ public class Operations {
 		
 	}
 
-	public List<Resource> getUpkeep() {
+	public List<ResourceBase> getUpkeep() {
 		return new ArrayList<>(upkeep);
 	}
 
-	public List<Resource> getProduction() {
+	public List<ResourceBase> getProduction() {
 		return new ArrayList<>(production);
 	}
 	

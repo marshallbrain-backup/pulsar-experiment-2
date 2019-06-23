@@ -9,10 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.brain.ion.xml.StringTrimAdapter;
+import com.brain.pulsar.buckets.Resource;
 import com.brain.pulsar.buckets.ResourceBucket;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.xml.elements.Job;
-import com.brain.pulsar.xml.elements.Resource;
+import com.brain.pulsar.xml.elements.ResourceBase;
 import com.brain.pulsar.xml.elements.Trigger;
 
 @XmlRootElement(name = "district")
@@ -31,11 +32,11 @@ public class DistrictType {
 	
 	@XmlElementWrapper
 	@XmlElement(name = "resource")
-	private List<Resource> upkeep;
+	private List<ResourceBase> upkeep;
 	
 	@XmlElementWrapper
 	@XmlElement(name = "resource")
-	private List<Resource> production;
+	private List<ResourceBase> production;
 	
 	@XmlElementWrapper
 	@XmlElement(name = "job")
@@ -70,12 +71,13 @@ public class DistrictType {
 	public ResourceBucket getUpkeep() {
 		
 		ResourceBucket bucket = new ResourceBucket(null, "upkeep");
+		List<Resource> u = new ArrayList<>();
 		
-		for(Resource r: upkeep) {
-			r.makeNegitive();
+		for(ResourceBase r: upkeep) {
+			u.add(new Resource(r, true));
 		}
 		
-		bucket.addResource(upkeep);
+		bucket.addResource(u);
 		
 		return bucket;
 	}
@@ -83,8 +85,13 @@ public class DistrictType {
 	public ResourceBucket getProduction() {
 		
 		ResourceBucket bucket = new ResourceBucket(null, "production");
+		List<Resource> p = new ArrayList<>();
 		
-		bucket.addResource(production);
+		for(ResourceBase r: upkeep) {
+			p.add(new Resource(r));
+		}
+		
+		bucket.addResource(p);
 		
 		return bucket;
 	}
