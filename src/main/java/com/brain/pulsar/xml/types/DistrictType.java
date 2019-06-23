@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.brain.ion.xml.StringTrimAdapter;
-import com.brain.pulsar.buckets.Resource;
-import com.brain.pulsar.buckets.ResourceBucket;
+import com.brain.pulsar.other.Resource;
+import com.brain.pulsar.other.ResourceBucket;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.xml.elements.Job;
 import com.brain.pulsar.xml.elements.ResourceBase;

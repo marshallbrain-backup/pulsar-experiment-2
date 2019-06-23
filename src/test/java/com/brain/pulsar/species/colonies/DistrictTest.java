@@ -16,9 +16,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.brain.ion.xml.XmlParser;
-import com.brain.pulsar.buckets.ModifierBucket;
-import com.brain.pulsar.buckets.Resource;
-import com.brain.pulsar.buckets.ResourceBucket;
+import com.brain.pulsar.other.ModifierBucket;
+import com.brain.pulsar.other.Resource;
+import com.brain.pulsar.other.ResourceBucket;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.elements.JobType;

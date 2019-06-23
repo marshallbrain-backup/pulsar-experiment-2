@@ -1,4 +1,4 @@
-package com.brain.pulsar.buckets;
+package com.brain.pulsar.other;
 
 import java.util.ArrayList;
 import java.util.List;

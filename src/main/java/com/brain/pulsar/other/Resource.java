@@ -1,4 +1,4 @@
-package com.brain.pulsar.buckets;
+package com.brain.pulsar.other;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
