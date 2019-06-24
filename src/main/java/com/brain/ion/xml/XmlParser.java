@@ -10,6 +10,7 @@ import java.io.StringReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Parses an xml file or string into an object utilizing the list of classes.
@@ -29,11 +30,15 @@ public class XmlParser {
 	 * @return The object that contains the data from the xml file
 	 */
 	public static Object getXml(File fileName, Class<?>[] classList) {
+		return getXml(fileName, classList, null);
+	}
+	
+	public static Object getXml(File fileName, Class<?>[] classList, XmlAdapter<?, ?>[] adapterList) {
 		
 		Object xml = null;
 		
 		try {
-			xml = readXmlFile(new FileReader(fileName), classList);
+			xml = readXmlFile(new FileReader(fileName), classList, adapterList);
 		} catch (JAXBException | IOException e) {
 			e.printStackTrace();
 		}
@@ -52,11 +57,15 @@ public class XmlParser {
 	 * @return The object that contains the data from the xml file
 	 */
 	public static Object getXml(String xmlString, Class<?>[] classList) {
+		return getXml(xmlString, classList, null);
+	}
+	
+	public static Object getXml(String xmlString, Class<?>[] classList, XmlAdapter<?, ?>[] adapterList) {
 		
 		Object xml = null;
 		
 		try {
-			xml = readXmlFile(new StringReader(xmlString), classList);
+			xml = readXmlFile(new StringReader(xmlString), classList, adapterList);
 		} catch (JAXBException | IOException e) {
 			e.printStackTrace();
 		}
@@ -76,10 +85,16 @@ public class XmlParser {
 	 * @throws JAXBException
 	 * @throws IOException 
 	 */
-	private static Object readXmlFile(Reader reader, Class<?>[] classList) throws JAXBException, IOException {
+	private static Object readXmlFile(Reader reader, Class<?>[] classList, XmlAdapter<?, ?>[] adapterList) throws JAXBException, IOException {
 		
 		JAXBContext context = JAXBContext.newInstance(classList);
 		Unmarshaller um = context.createUnmarshaller();
+		
+		if(adapterList != null) {
+			for(XmlAdapter<?, ?> a: adapterList) {
+				um.setAdapter(a);
+			}
+		}
 		
 		if(reader.ready()) {
 			return um.unmarshal(reader);
