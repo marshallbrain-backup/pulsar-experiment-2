@@ -23,6 +23,11 @@ public class Resource {
 		typeChain = new ArrayList<>();
 	}
 
+	public Resource(Resource r) {
+		
+		this(r.id, r.amount);
+	}
+
 	public Resource(String id, double amount) {
 		
 		this();
@@ -75,6 +80,10 @@ public class Resource {
 	}
 
 	public Resource trim() {
+		
+		if(isChainEmpty()) {
+			return new Resource(this);
+		}
 		
 		List<String> newIdChain = new ArrayList<>(idChain.subList(1, idChain.size()));
 		List<String> newTypeChain = new ArrayList<>(typeChain.subList(1, typeChain.size()));
