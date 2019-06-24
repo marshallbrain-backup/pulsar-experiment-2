@@ -16,12 +16,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.brain.ion.xml.XmlParser;
+import com.brain.pulsar.other.JobCollection;
 import com.brain.pulsar.other.ModifierBucket;
 import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceBucket;
 import com.brain.pulsar.other.ResourceCollection;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
+import com.brain.pulsar.xml.elements.JobBase;
 import com.brain.pulsar.xml.elements.JobType;
 import com.brain.pulsar.xml.elements.Modifier;
 import com.brain.pulsar.xml.elements.ResourceBase;
@@ -39,7 +41,7 @@ class DistrictTest {
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, Modifier.class };
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, Modifier.class, JobType.class};
 		
 		List<DataContainer> uncompresed = new ArrayList<>();
 		for (String xml : getXmlFiles()) {
@@ -75,14 +77,12 @@ class DistrictTest {
 		expected.add(new Resource("energy", 4));
 		expected.add(new Resource("housing", 5));
 		
-		ResourceBucket bucketColony = new ResourceBucket("colony", "standerd");
-		ResourceBucket bucketBody = new ResourceBucket("body", "pc_continental");
-		
-		bucketColony.combine(district.getOperations());
-		bucketBody.combine(bucketColony);
-		
+		ResourceCollection bucketColony = new ResourceCollection("colony", "standerd");
+		ResourceCollection bucketBody = new ResourceCollection("body", "pc_continental");
 		ResourceCollection system = new ResourceCollection("system", "single");
 		
+		bucketColony.addManager(district.getOperations());
+		bucketBody.addManager(bucketColony);
 		system.addManager(bucketBody);
 		
 		List<Resource> resources = system.getResources();
@@ -92,12 +92,24 @@ class DistrictTest {
 	}
 	
 	@Test
-	void modifiers() {
+	void supply() {
+		
+		ResourceCollection bucketColony = new ResourceCollection("colony", "standerd");
+		ResourceCollection bucketBody = new ResourceCollection("body", "pc_continental");
+		ResourceCollection system = new ResourceCollection("system", "single");
+		
+		bucketColony.addManager(district.getSupply());
+		bucketBody.addManager(bucketColony);
+		system.addManager(bucketBody);
+		
+		List<Resource> resources = system.getResources();
+		
+		assertTrue(true);
 		
 	}
 	
 	@Test
-	void supply() {
+	void modifiers() {
 		
 	}
 	
