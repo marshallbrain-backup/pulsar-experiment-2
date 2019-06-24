@@ -18,9 +18,21 @@ public class JobBase {
 	@XmlAttribute
 	private final String id;
 	
+	private JobType jobType;
+	
 	public JobBase() {
 		id = null;
 		amount = 0;
+	}
+
+	public void setType(List<JobType> jobTypes) {
+		
+		for(JobType t: jobTypes) {
+			if(t.getId().equals(id)) {
+				jobType = t;
+			}
+		}
+		
 	}
 
 	public String getId() {
