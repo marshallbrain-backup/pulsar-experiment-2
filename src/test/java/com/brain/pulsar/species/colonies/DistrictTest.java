@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,7 @@ import com.brain.pulsar.other.ResourceBucket;
 import com.brain.pulsar.other.ResourceCollection;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
+import com.brain.pulsar.xml.elements.JobAdapter;
 import com.brain.pulsar.xml.elements.JobBase;
 import com.brain.pulsar.xml.elements.JobType;
 import com.brain.pulsar.xml.elements.Modifier;
@@ -34,19 +37,24 @@ import com.brain.pulsar.xml.types.DistrictType;
 class DistrictTest {
 	
 	private static DataContainer data;
+	private static List<JobBase> jobList;
 	private District district;
 	private ResourceType resourceType;
-	private JobType jobType;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, Modifier.class, JobType.class};
+		JobAdapter jobAdapter = new JobAdapter();
+		
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, JobType.class};		
+		XmlAdapter<?, ?>[] adapterList = new XmlAdapter<?, ?>[] {jobAdapter};
 		
 		List<DataContainer> uncompresed = new ArrayList<>();
 		for (String xml : getXmlFiles()) {
-			uncompresed.add((DataContainer) XmlParser.getXml(xml, dataTypes));
+			uncompresed.add((DataContainer) XmlParser.getXml(xml, dataTypes, adapterList));
 		}
+		
+		jobList = jobAdapter.getJobList();
 		
 		data = new DataContainer(uncompresed);
 	
@@ -57,6 +65,11 @@ class DistrictTest {
 		
 		BodyType bodyType = data.getMatchData(BodyType.class).get(0);
 		DistrictType districtType = data.getMatchData(DistrictType.class).get(0);
+		List<JobType> JobTypes = data.getMatchData(JobType.class);
+		
+		for(JobBase b: jobList) {
+			b.setType(JobTypes);
+		}
 		
 		Body body = new Body(bodyType, null);
 		district = District.create(districtType, body);
@@ -93,16 +106,6 @@ class DistrictTest {
 	
 	@Test
 	void supply() {
-		
-		ResourceCollection bucketColony = new ResourceCollection("colony", "standerd");
-		ResourceCollection bucketBody = new ResourceCollection("body", "pc_continental");
-		ResourceCollection system = new ResourceCollection("system", "single");
-		
-		bucketColony.addManager(district.getSupply());
-		bucketBody.addManager(bucketColony);
-		system.addManager(bucketBody);
-		
-		List<Resource> resources = system.getResources();
 		
 		assertTrue(true);
 		
