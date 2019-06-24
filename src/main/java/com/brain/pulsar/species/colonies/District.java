@@ -1,6 +1,8 @@
 package com.brain.pulsar.species.colonies;
 
+import com.brain.pulsar.other.JobCollection;
 import com.brain.pulsar.other.ResourceBucket;
+import com.brain.pulsar.other.ResourceManager;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.types.DistrictType;
@@ -28,7 +30,7 @@ public class District {
 		return amount;
 	}
 
-	public ResourceBucket getOperations() {
+	public ResourceManager getOperations() {
 		
 		ResourceBucket operations = new ResourceBucket("district", type.getName());
 		
@@ -36,6 +38,12 @@ public class District {
 		operations.combine(type.getProduction());
 		
 		return operations;
+		
+	}
+
+	public ResourceManager getSupply() {
+		
+		return type.getSupply();
 		
 	}
 	
