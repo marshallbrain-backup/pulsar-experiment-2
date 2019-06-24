@@ -15,6 +15,7 @@ import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceBucket;
 import com.brain.pulsar.other.ResourceCollection;
 import com.brain.pulsar.other.Scope;
+import com.brain.pulsar.xml.elements.JobAdapter;
 import com.brain.pulsar.xml.elements.JobBase;
 import com.brain.pulsar.xml.elements.ResourceBase;
 import com.brain.pulsar.xml.elements.Trigger;
@@ -23,6 +24,7 @@ import com.brain.pulsar.xml.elements.Trigger;
 public class DistrictType {
 	
 	@XmlElement
+	@XmlJavaTypeAdapter(value=StringTrimAdapter.class)
 	private String name;
 	
 	@XmlElementWrapper
@@ -43,6 +45,7 @@ public class DistrictType {
 	
 	@XmlElementWrapper
 	@XmlElement(name = "job")
+	@XmlJavaTypeAdapter(value=JobAdapter.class)
 	private List<JobBase> supply;
 
 	public boolean isPotential(Scope bodyType) {
@@ -95,13 +98,7 @@ public class DistrictType {
 	
 	public ResourceCollection getSupply() {
 		
-		ResourceCollection jobCollection = new ResourceCollection("job", "");
-		
-		for(JobBase r: supply) {
-			jobCollection.addManager(new Job(r));
-		}
-		
-		return jobCollection;
+		return null;
 	}
 	
 }
