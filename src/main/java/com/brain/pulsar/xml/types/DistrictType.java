@@ -9,10 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.brain.ion.xml.StringTrimAdapter;
+import com.brain.pulsar.other.Job;
+import com.brain.pulsar.other.JobCollection;
 import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceBucket;
+import com.brain.pulsar.other.ResourceCollection;
 import com.brain.pulsar.other.Scope;
-import com.brain.pulsar.xml.elements.Job;
+import com.brain.pulsar.xml.elements.JobBase;
 import com.brain.pulsar.xml.elements.ResourceBase;
 import com.brain.pulsar.xml.elements.Trigger;
 
@@ -40,7 +43,7 @@ public class DistrictType {
 	
 	@XmlElementWrapper
 	@XmlElement(name = "job")
-	private List<Job> supply;
+	private List<JobBase> supply;
 
 	public boolean isPotential(Scope bodyType) {
 		
@@ -88,6 +91,17 @@ public class DistrictType {
 		}
 		
 		return new ResourceBucket(p, "production", null);
+	}
+	
+	public ResourceCollection getSupply() {
+		
+		ResourceCollection jobCollection = new ResourceCollection("job", "");
+		
+		for(JobBase r: supply) {
+			jobCollection.addManager(new Job(r));
+		}
+		
+		return jobCollection;
 	}
 	
 }
