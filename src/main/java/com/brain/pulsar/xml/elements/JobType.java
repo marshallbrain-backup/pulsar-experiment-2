@@ -3,6 +3,7 @@ package com.brain.pulsar.xml.elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,6 +16,8 @@ public class JobType {
 	
 	@XmlElement
 	private final String id;
+	@XmlElement
+	private final String type;
 	
 	@XmlElementWrapper
 	@XmlElement(name = "resource")
@@ -26,13 +29,20 @@ public class JobType {
 	
 	public JobType() {
 		
+		type = "worker";
+		
 		id = null;
-		upkeep = null;
-		production = null;
+		upkeep = new ArrayList<>();
+		production = new ArrayList<>();
 	}
 	
 	public String getId() {
 		return id;
+	}
+
+	public String getType() {
+		
+		return type;
 	}
 	
 	public ResourceBucket getUpkeep() {
