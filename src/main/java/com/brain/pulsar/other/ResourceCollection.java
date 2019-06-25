@@ -1,10 +1,13 @@
 package com.brain.pulsar.other;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.brain.pulsar.xml.elements.Modifier;
 
 public class ResourceCollection implements ResourceManager {
 	
@@ -38,6 +41,21 @@ public class ResourceCollection implements ResourceManager {
 	}
 
 	@Override
+	public void applyModifiers(List<Modifier> modifiers) {
+		
+		for(Modifier m: modifiers) {
+			
+			String[] pathList = m.getParent().split("\\.");
+			for(String p: Arrays.copyOfRange(pathList, 0, pathList.length-1)) {
+				for(ResourceManager rm: managers.get(p.split(":")[0]).get(p.split(":")[1])) {
+					rm.applyModifiers(modifiers);
+				}
+			}
+		}
+		
+	}
+
+	@Override
 	public String getType() {
 		
 		return type;
@@ -58,6 +76,8 @@ public class ResourceCollection implements ResourceManager {
 			for(List<ResourceManager> list: ids.values()) {
 				for(ResourceManager j: list) {
 					for(Resource r: j.getResources()) {
+						
+						r = r.colapse();
 						
 						int n = l.indexOf(r);
 						

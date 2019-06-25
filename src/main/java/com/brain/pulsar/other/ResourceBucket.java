@@ -1,6 +1,7 @@
 package com.brain.pulsar.other;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.brain.pulsar.xml.elements.Modifier;
@@ -49,6 +50,15 @@ public class ResourceBucket implements ResourceManager {
 	public void combine(ResourceBucket b) {
 		
 		addResource(b.resources, b.type, b.name);
+	}
+
+	@Override
+	public void applyModifiers(List<Modifier> modifiers) {
+		
+		for(Resource r: resources) {
+			r.applyModifier(modifiers);
+		}
+		
 	}
 
 	@Override

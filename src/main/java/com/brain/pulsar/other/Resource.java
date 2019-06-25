@@ -1,11 +1,14 @@
 package com.brain.pulsar.other;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
+import com.brain.pulsar.xml.elements.Modifier;
 import com.brain.pulsar.xml.elements.ResourceBase;
 
 public class Resource {
@@ -17,10 +20,13 @@ public class Resource {
 	private List<String> idChain;
 	private List<String> typeChain;
 	
+	private Map<Modifier, Double> modifierList;
+	
 	public Resource() {
 		
 		idChain = new ArrayList<>();
 		typeChain = new ArrayList<>();
+		modifierList = new HashMap<>();
 	}
 
 	public Resource(Resource r) {
@@ -65,6 +71,10 @@ public class Resource {
 		this.idChain = new ArrayList<>(idChain);
 		
 	}
+	
+	public String getId() {
+		return id;
+	}
 
 	public void combine(Resource r) {
 		
@@ -92,9 +102,34 @@ public class Resource {
 		
 	}
 
+	public Resource colapse() {
+		
+		double finalAmount = amount;
+		
+		for(double m: modifierList.values()) {
+			finalAmount += m;
+		}
+		
+		return new Resource(id, finalAmount);
+		
+	}
+
 	public boolean isChainEmpty() {
 		
 		return typeChain.isEmpty() && idChain.isEmpty();
+	}
+
+	public void applyModifier(List<Modifier> modifiers) {
+		
+		for(Modifier m: modifiers) {
+			
+			String[] pathList = m.getParent().split("\\.");
+			if(typeChain.get(0).equals(pathList[pathList.length-1]) && id.equals(m.getTarget())) {
+				modifierList.put(m, amount*m.getValue());
+			}
+			
+		}
+		
 	}
 
 	@Override
