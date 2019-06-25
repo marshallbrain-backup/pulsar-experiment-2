@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -90,26 +91,30 @@ class DistrictTest {
 		expected.add(new Resource("energy", 4));
 		expected.add(new Resource("housing", 5));
 		
-		ResourceCollection bucketColony = new ResourceCollection("colony", "standerd");
-		ResourceCollection bucketBody = new ResourceCollection("body", "pc_continental");
-		ResourceCollection system = new ResourceCollection("system", "single");
+		ResourceCollection colony = new ResourceCollection("colony", "standerd");
 		
-		bucketColony.addManager(district.getOperations());
-		bucketBody.addManager(bucketColony);
-		system.addManager(bucketBody);
+		colony.addManager(district.getOperations());
 		
-		List<Resource> resources = system.getResources();
+		List<Resource> resources = colony.getResources();
 		
-		assertThat(resources, containsInAnyOrder(resources.toArray()));
+		assertThat(resources, containsInAnyOrder(expected.toArray()));
 		
 	}
 	
 	@Test
 	void supply() {
 		
-		JobCollection jobs = district.getSupply();
+		List<Resource> expected = new ArrayList<>();
 		
-		assertTrue(true);
+		expected.add(new Resource("energy", 6));
+		
+		ResourceCollection colony = new ResourceCollection("colony", "standerd");
+		
+		colony.addManager(district.getSupply().getResources());
+		
+		List<Resource> resources = colony.getResources();
+		
+		assertThat(resources, containsInAnyOrder(expected.toArray()));
 		
 	}
 	
