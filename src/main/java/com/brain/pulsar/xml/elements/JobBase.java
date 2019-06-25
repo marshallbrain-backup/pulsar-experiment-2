@@ -35,26 +35,15 @@ public class JobBase {
 		
 	}
 
-	public String getId() {
-		
-		return id;
-	}
-
 	public double getAmount() {
 		
 		return amount;
 	}
 
-	public List<Resource> getUpkeep() {
+	public JobType getType() {
 		
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Resource> getProduction() {
-		
-		// TODO Auto-generated method stub
-		return null;
+		return jobType;
 	}
 	
 }
