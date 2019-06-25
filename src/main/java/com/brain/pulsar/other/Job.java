@@ -6,44 +6,40 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
 import com.brain.pulsar.xml.elements.JobBase;
+import com.brain.pulsar.xml.elements.JobType;
 
-public class Job implements ResourceManager {
+public class Job {
 	
 	private double amount;
 	
 	private String id;
 	private String type;
 	
+	private JobType jobType;
+	
 	private ResourceBucket upkeep;
 	private ResourceBucket production;
 
 	public Job(JobBase r) {
 		
+		jobType = r.getType();
 		amount = r.getAmount();
-		id = r.getId();
-		type = "worker";
+		id = jobType.getId();
+		type = jobType.getType();
 		
-		upkeep = new ResourceBucket(r.getUpkeep(), type, id);
-		upkeep = new ResourceBucket(r.getProduction(), type, id);
+		upkeep = jobType.getUpkeep();
+		production = jobType.getProduction();
 		
 	}
 
-	@Override
 	public String getType() {
 		
 		return type;
 	}
 
-	@Override
-	public String getName() {
+	public String getId() {
 		
 		return id;
-	}
-
-	@Override
-	public List<Resource> getResources() {
-		
-		return null;
 	}
 	
 }
