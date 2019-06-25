@@ -11,7 +11,7 @@ public class JobCollection{
 
 	public JobCollection() {
 		
-		jobs = new HashMap<String, Map<String, List<Job>>>();
+		jobs = new HashMap<>();
 	}
 	
 	public JobCollection(List<Job> jobList) {
@@ -41,6 +41,25 @@ public class JobCollection{
 			ids.add(j);
 			
 		}
+	}
+
+	public ResourceManager getResources() {
+		
+		List<ResourceManager> managers = new ArrayList<>();
+		
+		for(Map<String, List<Job>> types: jobs.values()) {
+			for(List<Job> l: types.values()) {
+				for(Job j: l) {
+					managers.add(j.getResources());
+				}
+			}
+		}
+		
+		ResourceCollection operations = new ResourceCollection("job", "");
+		
+		operations.addManager( managers.toArray(new ResourceManager[0]));
+		
+		return operations;
 	}
 	
 }
