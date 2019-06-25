@@ -96,9 +96,15 @@ public class DistrictType {
 		return new ResourceBucket(p, "production", null);
 	}
 	
-	public ResourceCollection getSupply() {
+	public JobCollection getSupply() {
 		
-		return null;
+		List<Job> j = new ArrayList<>();
+		
+		for(JobBase r: supply) {
+			j.add(new Job(r));
+		}
+		
+		return new JobCollection(j);
 	}
 	
 }
