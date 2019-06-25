@@ -41,7 +41,7 @@ public class District {
 		
 	}
 
-	public ResourceManager getSupply() {
+	public JobCollection getSupply() {
 		
 		return type.getSupply();
 		
