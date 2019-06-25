@@ -10,25 +10,16 @@ import com.brain.pulsar.xml.elements.JobType;
 
 public class Job {
 	
-	private double amount;
-	
 	private String id;
 	private String type;
 	
 	private JobType jobType;
-	
-	private ResourceBucket upkeep;
-	private ResourceBucket production;
 
-	public Job(JobBase r) {
+	public Job(JobType t) {
 		
-		jobType = r.getType();
-		amount = r.getAmount();
+		jobType = t;
 		id = jobType.getId();
 		type = jobType.getType();
-		
-		upkeep = jobType.getUpkeep();
-		production = jobType.getProduction();
 		
 	}
 
@@ -40,6 +31,16 @@ public class Job {
 	public String getId() {
 		
 		return id;
+	}
+
+	public ResourceManager getResources() {
+		
+		ResourceBucket operations = new ResourceBucket(type, id);
+		
+		operations.combine(jobType.getUpkeep());
+		operations.combine(jobType.getProduction());
+		
+		return operations;
 	}
 	
 }
