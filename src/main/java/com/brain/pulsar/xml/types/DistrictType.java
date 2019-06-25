@@ -101,7 +101,7 @@ public class DistrictType {
 		List<Job> j = new ArrayList<>();
 		
 		for(JobBase r: supply) {
-			j.add(new Job(r));
+			j.addAll(r.createJobs());
 		}
 		
 		return new JobCollection(j);

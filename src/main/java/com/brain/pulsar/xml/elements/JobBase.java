@@ -1,5 +1,7 @@
 package com.brain.pulsar.xml.elements;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -7,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
+import com.brain.pulsar.other.Job;
 import com.brain.pulsar.other.Resource;
 
 @XmlRootElement(name = "modifier")
@@ -35,15 +38,21 @@ public class JobBase {
 		
 	}
 
-	public double getAmount() {
-		
-		return amount;
-	}
-
 	public JobType getType() {
 		
 		// TODO Auto-generated method stub
 		return jobType;
+	}
+
+	public List<Job> createJobs() {
+		
+		List<Job> jobs = new ArrayList<>();
+		
+		for(int i = 0; i < amount; i++) {
+			jobs.add(new Job(jobType));			
+		}
+		
+		return jobs;
 	}
 	
 }
