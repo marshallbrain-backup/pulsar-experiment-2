@@ -11,7 +11,7 @@ public class ResourceCollection implements ResourceManager {
 	private String name;
 	private String type;
 
-	private Map<String, Map<String, ResourceManager>> managers;
+	private Map<String, Map<String, List<ResourceManager>>> managers;
 
 	public ResourceCollection(String type, String name) {
 		
@@ -21,11 +21,19 @@ public class ResourceCollection implements ResourceManager {
 		managers = new HashMap<>();
 	}
 
-	public void addManager(ResourceManager m) {
+	public void addManager(ResourceManager... man) {
 		
-		Map<String, ResourceManager> ids = managers.getOrDefault(m.getType(), new HashMap<>());
-		ids.put(m.getName(), m);
-		managers.putIfAbsent(m.getType(), ids);
+		for(ResourceManager m: man) {
+			
+			Map<String, List<ResourceManager>> ids = managers.getOrDefault(m.getType(), new HashMap<>());
+			List<ResourceManager> list = ids.getOrDefault(m.getName(), new ArrayList<>());
+			
+			list.add(m);
+			
+			ids.putIfAbsent(m.getName(), list);
+			managers.putIfAbsent(m.getType(), ids);
+			
+		}
 		
 	}
 
@@ -46,18 +54,20 @@ public class ResourceCollection implements ResourceManager {
 		
 		List<Resource> l = new ArrayList<>();
 		
-		for(Map<String, ResourceManager> i: managers.values()) {
-			for(ResourceManager j: i.values()) {
-				for(Resource r: j.getResources()) {
-					
-					int n = l.indexOf(r);
-					
-					if(n == -1) {
-						l.add(r);
-					} else {
-						r.combine(l.set(n, r));
+		for(Map<String, List<ResourceManager>> ids: managers.values()) {
+			for(List<ResourceManager> list: ids.values()) {
+				for(ResourceManager j: list) {
+					for(Resource r: j.getResources()) {
+						
+						int n = l.indexOf(r);
+						
+						if(n == -1) {
+							l.add(r);
+						} else {
+							r.combine(l.set(n, r));
+						}
+						
 					}
-					
 				}
 			}
 		}
@@ -74,7 +84,15 @@ public class ResourceCollection implements ResourceManager {
 				Resource newRes = r.trim();
 				
 				if(newRes.isChainEmpty()) {
-					resourceList.add(newRes);
+					
+					int n = resourceList.indexOf(newRes);
+					
+					if(n == -1) {
+						resourceList.add(newRes);
+					} else {
+						newRes.combine(resourceList.set(n, newRes));
+					}
+					
 				} else {
 					
 					int n = addList.indexOf(newRes);
