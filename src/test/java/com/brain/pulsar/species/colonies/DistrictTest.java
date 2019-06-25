@@ -65,10 +65,10 @@ class DistrictTest {
 		
 		BodyType bodyType = data.getMatchData(BodyType.class).get(0);
 		DistrictType districtType = data.getMatchData(DistrictType.class).get(0);
-		List<JobType> JobTypes = data.getMatchData(JobType.class);
+		List<JobType> jobTypes = data.getMatchData(JobType.class);
 		
 		for(JobBase b: jobList) {
-			b.setType(JobTypes);
+			b.setType(jobTypes);
 		}
 		
 		Body body = new Body(bodyType, null);
@@ -106,6 +106,8 @@ class DistrictTest {
 	
 	@Test
 	void supply() {
+		
+		JobCollection jobs = district.getSupply();
 		
 		assertTrue(true);
 		
