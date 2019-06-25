@@ -40,14 +40,14 @@ class DistrictTest {
 	private static DataContainer data;
 	private static List<JobBase> jobList;
 	private District district;
-	private ResourceType resourceType;
+	private List<Modifier> modifiers;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		
 		JobAdapter jobAdapter = new JobAdapter();
 		
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, JobType.class};		
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, JobType.class, Modifier.class};		
 		XmlAdapter<?, ?>[] adapterList = new XmlAdapter<?, ?>[] {jobAdapter};
 		
 		List<DataContainer> uncompresed = new ArrayList<>();
@@ -67,6 +67,7 @@ class DistrictTest {
 		BodyType bodyType = data.getMatchData(BodyType.class).get(0);
 		DistrictType districtType = data.getMatchData(DistrictType.class).get(0);
 		List<JobType> jobTypes = data.getMatchData(JobType.class);
+		modifiers = data.getMatchData(Modifier.class);
 		
 		for(JobBase b: jobList) {
 			b.setType(jobTypes);
@@ -120,6 +121,21 @@ class DistrictTest {
 	
 	@Test
 	void modifiers() {
+		
+		List<Resource> expected = new ArrayList<>();
+		
+		expected.add(new Resource("energy", 4));
+		expected.add(new Resource("housing", 5));
+		
+		ResourceCollection colony = new ResourceCollection("colony", "standerd");
+		
+		colony.addManager(district.getOperations());
+		colony.addManager(district.getSupply().getResources());
+		colony.applyModifiers(modifiers);
+		
+		List<Resource> resources = colony.getResources();
+		
+		assertThat(resources, containsInAnyOrder(expected.toArray()));
 		
 	}
 	
@@ -211,7 +227,7 @@ class DistrictTest {
 			"<pulsar>" + 
 			"	<modifier>" + 
 			"		<id>modifier 1</id>" + 
-			"		<parent>district_city.production</parent>" + 
+			"		<parent>district:district_city.production</parent>" + 
 			"		<target>energy</target>" + 
 			"		<amount>2</amount>" + 
 			"	</modifier>" + 
