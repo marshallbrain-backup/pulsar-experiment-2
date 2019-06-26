@@ -18,8 +18,11 @@ public class PulsarBootstrap {
 		
 	}
 	
-	// TODO Organize files
-	// TODO Simplify build path
 	// TODO Comment
+	// TODO Determine average idle time of game loop
+	// TODO Possibly make rendering of shapes happen all at once
+	// TODO Make class to store shapes and the corresponding styles
+	// TODO Make class that precompiles styles
+	// TODO Handle ticking and rendering in threads
 	
 }
