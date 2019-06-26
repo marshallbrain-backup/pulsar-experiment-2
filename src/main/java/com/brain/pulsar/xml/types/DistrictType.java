@@ -1,6 +1,7 @@
 package com.brain.pulsar.xml.types;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -74,29 +75,29 @@ public class DistrictType {
 		return name;
 	}
 	
-	public ResourceBucket getUpkeep() {
+	public Resource[] getUpkeep() {
 		
 		List<Resource> u = new ArrayList<>();
 		
 		for(ResourceBase r: upkeep) {
-			u.add(new Resource(r, true));
+			u.add(new Resource(r, "upkeep", true));
 		}
 		
-		return new ResourceBucket(u, "upkeep", null);
+		return u.toArray(new Resource[0]);
 	}
 	
-	public ResourceBucket getProduction() {
+	public Resource[] getProduction() {
 		
 		List<Resource> p = new ArrayList<>();
 		
 		for(ResourceBase r: production) {
-			p.add(new Resource(r));
+			p.add(new Resource(r, "production"));
 		}
 		
-		return new ResourceBucket(p, "production", null);
+		return p.toArray(new Resource[0]);
 	}
 	
-	public JobCollection getSupply() {
+	public List<Job> getSupply() {
 		
 		List<Job> j = new ArrayList<>();
 		
@@ -104,7 +105,7 @@ public class DistrictType {
 			j.addAll(r.createJobs());
 		}
 		
-		return new JobCollection(j);
+		return j;
 	}
 	
 }
