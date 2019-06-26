@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.brain.pulsar.xml.elements.Modifier;
 
@@ -14,43 +17,55 @@ public class ResourceCollection implements ResourceManager {
 	private String name;
 	private String type;
 
-	private Map<String, Map<String, List<ResourceManager>>> managers;
+	private Map<String, List<ResourceManager>> managerList;
+	private List<List<Resource>> resources;
 
 	public ResourceCollection(String type, String name) {
 		
 		this.name = name;
 		this.type = type;
 		
-		managers = new HashMap<>();
+		managerList = new HashMap<>();
+		resources = new ArrayList<>();
 	}
 
-	public void addManager(ResourceManager... man) {
+	public void addManagers(ResourceManager... managers) {
 		
-		for(ResourceManager m: man) {
+		for(ResourceManager m: managers) {
 			
-			Map<String, List<ResourceManager>> ids = managers.getOrDefault(m.getType(), new HashMap<>());
-			List<ResourceManager> list = ids.getOrDefault(m.getName(), new ArrayList<>());
+			List<ResourceManager> list = managerList.get(m.getKey());
+			if(list == null) {
+				list = new ArrayList<>();
+				managerList.put(m.getKey(), list);
+			}
 			
 			list.add(m);
 			
-			ids.putIfAbsent(m.getName(), list);
-			managers.putIfAbsent(m.getType(), ids);
+			resources.add(m.getResources());
 			
 		}
 		
 	}
 
 	@Override
-	public void applyModifiers(List<Modifier> modifiers) {
+	public void applyModifiers(String chain, boolean match, Modifier modifier) {
 		
-		for(Modifier m: modifiers) {
+		for(Entry<String, List<ResourceManager>> e: managerList.entrySet()) {
 			
-			String[] pathList = m.getParent().split("\\.");
-			for(String p: Arrays.copyOfRange(pathList, 0, pathList.length-1)) {
-				for(ResourceManager rm: managers.get(p.split(":")[0]).get(p.split(":")[1])) {
-					rm.applyModifiers(modifiers);
-				}
+			StringBuilder bld = new StringBuilder(chain);
+			
+			if(!chain.isEmpty()) {
+				bld.append(".");
 			}
+			bld.append(e.getKey());
+			String newChain = bld.toString();
+			
+			boolean newMatch = modifierMatcher(newChain, modifier.getParent(), match);
+			
+			for(ResourceManager rm: e.getValue()) {
+				rm.applyModifiers(newChain, newMatch, modifier);
+			}
+			
 		}
 		
 	}
@@ -66,75 +81,28 @@ public class ResourceCollection implements ResourceManager {
 		
 		return name;
 	}
-
+	
 	@Override
 	public List<Resource> getResources() {
 		
-		List<Resource> l = new ArrayList<>();
+		Map<String, Resource> o = new HashMap<>();
 		
-		for(Map<String, List<ResourceManager>> ids: managers.values()) {
-			for(List<ResourceManager> list: ids.values()) {
-				for(ResourceManager j: list) {
-					for(Resource r: j.getResources()) {
-						
-						r = r.colapse();
-						
-						int n = l.indexOf(r);
-						
-						if(n == -1) {
-							l.add(r);
-						} else {
-							r.combine(l.set(n, r));
-						}
-						
-					}
-				}
-			}
-		}
-		
-		List<Resource> resourceList = new ArrayList<>();
-		
-		while(!l.isEmpty()) {
-
-			List<Resource> addList = new ArrayList<>(l);
-			List<Resource> removeList = new ArrayList<>();
-			
+		for(List<Resource> l: resources) {
 			for(Resource r: l) {
 				
-				Resource newRes = r.trim();
-				
-				if(newRes.isChainEmpty()) {
-					
-					int n = resourceList.indexOf(newRes);
-					
-					if(n == -1) {
-						resourceList.add(newRes);
-					} else {
-						newRes.combine(resourceList.set(n, newRes));
-					}
-					
-				} else {
-					
-					int n = addList.indexOf(newRes);
-					
-					if(n == -1) {
-						addList.add(newRes);
-					} else {
-						newRes.combine(addList.set(n, newRes));
-					}
-					
+				Resource res = o.get(r.getId());
+				if(res == null) {
+					res = new Resource(r, 0);
 				}
 				
-				removeList.add(r);
+				Resource modRes = r.zip();
+				res = res.combine(modRes);
+				o.put(r.getId(), res);
 				
 			}
-			
-			l.addAll(addList);
-			l.removeAll(removeList);
-			
 		}
 		
-		return resourceList;
+		return new ArrayList<>(o.values());
 	}
 	
 }
