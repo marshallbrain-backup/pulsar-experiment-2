@@ -11,7 +11,6 @@ import com.brain.pulsar.other.Job;
 import com.brain.pulsar.other.JobCollection;
 import com.brain.pulsar.other.JobManager;
 import com.brain.pulsar.other.Resource;
-import com.brain.pulsar.other.ResourceBucket;
 import com.brain.pulsar.other.ResourceManager;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.universe.Body;

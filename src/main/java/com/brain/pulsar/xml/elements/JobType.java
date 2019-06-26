@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.brain.pulsar.other.Resource;
-import com.brain.pulsar.other.ResourceBucket;
 
 @XmlRootElement(name = "job_type")
 public class JobType {

@@ -13,7 +13,6 @@ import com.brain.ion.xml.StringTrimAdapter;
 import com.brain.pulsar.other.Job;
 import com.brain.pulsar.other.JobCollection;
 import com.brain.pulsar.other.Resource;
-import com.brain.pulsar.other.ResourceBucket;
 import com.brain.pulsar.other.ResourceCollection;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.xml.elements.JobAdapter;
