@@ -1,8 +1,6 @@
 package com.brain.pulsar.species.colonies;
 
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,55 +85,76 @@ class DistrictTest {
 	@Test
 	void operations() {
 		
-		List<Resource> expected = new ArrayList<>();
+		Map<String, Double> expected = new HashMap<>();
 		
-		expected.add(new Resource("energy", 4));
-		expected.add(new Resource("housing", 5));
+		expected.put("energy", 4.0);
+		expected.put("housing", 5.0);
 		
-		ResourceCollection colony = new ResourceCollection("colony", "standerd");
+		ResourceCollection colony = new ResourceCollection("colony", "standard");
 		
-		colony.addManager(district.getOperations());
+		district.build();
+		colony.addManagers(district);
 		
 		List<Resource> resources = colony.getResources();
 		
-		assertThat(resources, containsInAnyOrder(expected.toArray()));
+		checkResorcesMatch(resources, expected);
 		
 	}
-	
+
 	@Test
 	void supply() {
 		
-		List<Resource> expected = new ArrayList<>();
+		Map<String, Double> expected = new HashMap<>();
 		
-		expected.add(new Resource("energy", 6));
+		expected.put("energy", 6.0);
 		
-		ResourceCollection colony = new ResourceCollection("colony", "standerd");
-		
-		colony.addManager(district.getSupply().getResources());
+		ResourceCollection colony = new ResourceCollection("colony", "standard");
+		JobCollection jobs = new JobCollection();
+
+		district.build();
+		jobs.addJobs(district);
+		colony.addManagers(jobs);
 		
 		List<Resource> resources = colony.getResources();
 		
-		assertThat(resources, containsInAnyOrder(expected.toArray()));
+		checkResorcesMatch(resources, expected);
 		
 	}
-	
+
 	@Test
 	void modifiers() {
 		
-		List<Resource> expected = new ArrayList<>();
+		Map<String, Double> expected = new HashMap<>();
 		
-		expected.add(new Resource("energy", 4));
-		expected.add(new Resource("housing", 5));
+		expected.put("energy", 26.0);
+		expected.put("housing", 10.0);
 		
 		ResourceCollection colony = new ResourceCollection("colony", "standerd");
+		JobCollection jobs = new JobCollection();
+
+		district.build();
+		jobs.addJobs(district);
 		
-		colony.addManager(district.getOperations());
-		colony.addManager(district.getSupply().getResources());
-		colony.applyModifiers(modifiers);
+		colony.addManagers(district);
+		colony.addManagers(jobs);
+		colony.applyModifiers(modifiers.toArray(new Modifier[0]));
 		
 		List<Resource> resources = colony.getResources();
 		
-		assertThat(resources, containsInAnyOrder(expected.toArray()));
+		checkResorcesMatch(resources, expected);
+		
+	}
+	
+	void checkResorcesMatch(List<Resource> resources, Map<String, Double> expected) {
+		
+		assertEquals("Size check", resources.size(), expected.size());
+		
+		for(Resource r: resources) {
+			
+			assertTrue("Id match for Resource: " + r, expected.containsKey(r.getId()));
+			assertTrue("Value match for Resource: " + r, expected.get(r.getId()) == r.getAmount());
+			
+		}
 		
 	}
 	
@@ -227,9 +246,21 @@ class DistrictTest {
 			"<pulsar>" + 
 			"	<modifier>" + 
 			"		<id>modifier 1</id>" + 
-			"		<parent>district:district_city.production</parent>" + 
+			"		<parent>district:\\w*\\.production</parent>" + 
 			"		<target>energy</target>" + 
-			"		<amount>2</amount>" + 
+			"		<amount>1</amount>" + 
+			"	</modifier>" + 
+			"	<modifier>" + 
+			"		<id>modifier 2</id>" + 
+			"		<parent>district:\\w*\\.production</parent>" + 
+			"		<target>.*</target>" + 
+			"		<amount>1</amount>" + 
+			"	</modifier>" + 
+			"	<modifier>" + 
+			"		<id>modifier 3</id>" + 
+			"		<parent>job\\.worker\\.clerk\\.production</parent>" + 
+			"		<target>energy</target>" + 
+			"		<amount>1</amount>" + 
 			"	</modifier>" + 
 			"</pulsar>";
 }
