@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
@@ -13,171 +15,93 @@ import com.brain.pulsar.xml.elements.ResourceBase;
 
 public class Resource {
 	
-	private double amount;
+	private final double amount;
 	
-	private String id;
-	
-	private List<String> idChain;
-	private List<String> typeChain;
+	private final String id;
+	private final String type;
 	
 	private Map<Modifier, Double> modifierList;
-	
-	public Resource() {
+
+	public Resource(ResourceBase r, String t) {
+		this(r, t, false);
+	}
+
+	public Resource(ResourceBase r, String t, boolean upkeep) {
 		
-		idChain = new ArrayList<>();
-		typeChain = new ArrayList<>();
+		id = r.getId();
+		type = t;
+		amount = r.getAmount() * ((upkeep)? -1: 1);
+		
 		modifierList = new HashMap<>();
 	}
 
-	public Resource(Resource r) {
+	public Resource(Resource r, double d) {
 		
-		this(r.id, r.amount);
-	}
-
-	public Resource(String id, double amount) {
-		
-		this();
-		
-		this.id = id;
-		this.amount = amount;
-	}
-
-	public Resource(ResourceBase r) {
-		
-		this();
-		
-		id = r.getId();
-		amount = r.getAmount();
-	}
-
-	public Resource(ResourceBase r, boolean b) {
-		
-		this();
-		
-		id = r.getId();
-		
-		if(b) {
-			amount = r.getAmount() * -1;
-		} else {
-			amount = r.getAmount();
-		}
-	}
-	
-	private Resource(Resource r, List<String> typeChain, List<String> idChain) {
-		
-		amount = r.amount;
 		id = r.id;
-		this.typeChain = new ArrayList<>(typeChain);
-		this.idChain = new ArrayList<>(idChain);
+		type = "";
+		amount = d;
 		
 	}
-	
+
 	public String getId() {
+		
 		return id;
 	}
 
-	public void combine(Resource r) {
+	public String getType() {
 		
-		if(equals(r)) {
-			amount += r.amount;
-		}
+		return type;
 	}
 
-	public void appendChain(String type, String name) {
-
-		typeChain.add(type);
-		idChain.add(name);
+	public double getAmount() {
+		
+		return amount;
 	}
 
-	public Resource trim() {
+	public Resource combine(Resource res) {
 		
-		if(isChainEmpty()) {
-			return new Resource(this);
+		if(id.equals(res.id)) {
+			return new Resource(this, amount + res.amount);
 		}
 		
-		List<String> newIdChain = new ArrayList<>(idChain.subList(1, idChain.size()));
-		List<String> newTypeChain = new ArrayList<>(typeChain.subList(1, typeChain.size()));
-		
-		return new Resource(this, newTypeChain, newIdChain);
-		
+		return null;
 	}
 
-	public Resource colapse() {
+	public static void addToList(List<Resource> master, int i, Resource[] resources) {
 		
-		double finalAmount = amount;
-		
-		for(double m: modifierList.values()) {
-			finalAmount += m;
-		}
-		
-		return new Resource(id, finalAmount);
-		
-	}
-
-	public boolean isChainEmpty() {
-		
-		return typeChain.isEmpty() && idChain.isEmpty();
-	}
-
-	public void applyModifier(List<Modifier> modifiers) {
-		
-		for(Modifier m: modifiers) {
+		for(Resource r: resources) {
 			
-			String[] pathList = m.getParent().split("\\.");
-			if(typeChain.get(0).equals(pathList[pathList.length-1]) && id.equals(m.getTarget())) {
-				modifierList.put(m, amount*m.getValue());
+			int index = master.indexOf(r);
+			
+			if(index == -1) {
+				master.add(r);
+			} else {
+				master.set(index, r.combine(master.get(i)));
 			}
 			
 		}
+	}
+	
+	public void applyModifier(Modifier mod) {
 		
+		Pattern p = Pattern.compile(mod.getTarget());
+		Matcher m = p.matcher(id);
+		boolean f = m.find();
+
+		if(f) {
+			modifierList.putIfAbsent(mod, amount * mod.getValue());			
+		}
 	}
 
-	@Override
-	public int hashCode() {
+	public Resource zip() {
 		
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((idChain == null) ? 0 : idChain.hashCode());
-		result = prime * result + ((typeChain == null) ? 0 : typeChain.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
+		double mod = 0;
+		for(double d: modifierList.values()) {
+			mod += d;
+		}
 		
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Resource)) {
-			return false;
-		}
-		Resource other = (Resource) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		if (idChain == null) {
-			if (other.idChain != null) {
-				return false;
-			}
-		} else if (!idChain.equals(other.idChain)) {
-			return false;
-		}
-		if (typeChain == null) {
-			if (other.typeChain != null) {
-				return false;
-			}
-		} else if (!typeChain.equals(other.typeChain)) {
-			return false;
-		}
-		return true;
+		return new Resource(this, amount + mod);
+		
 	}
 	
 }
