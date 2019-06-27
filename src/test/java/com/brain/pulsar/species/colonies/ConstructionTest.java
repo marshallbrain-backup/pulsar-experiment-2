@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.brain.pulsar.other.TimeEntry;
 import com.brain.pulsar.xml.elements.BuildTime;
 
 class ConstructionTest {
@@ -37,9 +38,43 @@ class ConstructionTest {
 		ConstructibleTest c = new ConstructibleTest(b);
 		
 		cc.add(c);
-		cc.tick();
+		cc.tick(new TimeEntry(10));
 		
 		assertTrue("Amount is 1", c.getAmount() == 1);
+	}
+	
+	@Test
+	void splitBuild() {
+		
+		BuildTime b = new BuildTime(10);
+		ConstructibleTest c = new ConstructibleTest(b);
+		
+		cc.add(c);
+		cc.tick(new TimeEntry(5));
+		cc.tick(new TimeEntry(5));
+		
+		assertTrue("Amount is 1", c.getAmount() == 1);
+	}
+	
+	@Test
+	void multiBuild() {
+		
+		BuildTime b = new BuildTime(10);
+		ConstructibleTest c = new ConstructibleTest(b);
+		
+		cc.add(c);
+		cc.add(c);
+		cc.tick(new TimeEntry(20));
+		
+		assertTrue("Amount is 2", c.getAmount() == 2);
+	}
+	
+	@Test
+	void emptyBuild() {
+		
+		cc.tick(new TimeEntry(10));
+		
+		assertTrue("Dose not crash", true);
 	}
 	
 }
