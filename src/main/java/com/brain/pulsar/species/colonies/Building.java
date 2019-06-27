@@ -10,12 +10,16 @@ import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceManager;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.universe.Body;
+import com.brain.pulsar.xml.elements.BuildTime;
 import com.brain.pulsar.xml.elements.Modifier;
 import com.brain.pulsar.xml.types.BuildingType;
 
-public class Building implements ResourceManager, JobManager {
+public class Building implements ResourceManager, JobManager, Constructible {
+	
+	private BuildTime buildTime;
 	
 	private BuildingType type;
+	private BuildingType pendingType;
 	
 	private List<Resource> resourceList;
 	private List<Job> jobList;
@@ -26,21 +30,38 @@ public class Building implements ResourceManager, JobManager {
 		jobList = new ArrayList<>();
 	}
 
-	public boolean setBuildingType(BuildingType buildingType, Body body) {
+	public void setBuildingType() {
+			
+		type = pendingType;
+		buildTime = null;
+		
+		Resource.addToList(resourceList, 1, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+		jobList.addAll(type.getSupply());
+		
+	}
+
+	public void setBuildingType(BuildingType buildingType) {
+			
+		type = buildingType;
+		buildTime = null;
+		
+		Resource.addToList(resourceList, 1, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+		jobList.addAll(type.getSupply());
+		
+	}
+	
+	public boolean setPendingType(BuildingType buildingType, Body body) {
 		
 		if(buildingType.isPotential(new Scope(body.getType()))) {
 			
-			type = buildingType;
-			
-			Resource.addToList(resourceList, 1, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
-			jobList.addAll(type.getSupply());
+			pendingType = buildingType;
+			buildTime = pendingType.getBuildTime();
 			
 			return true;
 			
 		}
 		
 		return false;
-		
 	}
 
 	public boolean isAssined() {
@@ -91,6 +112,19 @@ public class Building implements ResourceManager, JobManager {
 			}
 			
 		}
+		
+	}
+
+	@Override
+	public int getBuildTime() {
+		
+		return buildTime.getTime();
+	}
+
+	@Override
+	public void build() {
+		
+		setBuildingType();
 		
 	}
 	
