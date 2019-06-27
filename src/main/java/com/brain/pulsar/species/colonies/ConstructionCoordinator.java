@@ -3,6 +3,9 @@ package com.brain.pulsar.species.colonies;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.brain.pulsar.other.Entry;
+import com.brain.pulsar.other.TimeEntry;
+
 public class ConstructionCoordinator {
 	
 	private List<ConstructionEntity> constructionEntities;
@@ -21,9 +24,17 @@ public class ConstructionCoordinator {
 		return new ArrayList<>(constructionEntities);
 	}
 
-	public void tick() {
+	public void tick(TimeEntry time) {
 		
-		constructionEntities.get(0).tick();
+		if(constructionEntities.isEmpty()) {
+			return;
+		}
+		
+		time = constructionEntities.get(0).tick(time);
+		if(constructionEntities.get(0).isBuilt()) {
+			constructionEntities.remove(0);
+			tick(time);
+		}
 		
 	}
 	
@@ -41,13 +52,25 @@ class ConstructionEntity {
 		buildTime = target.getBuildTime();
 	}
 
+	public boolean isBuilt() {
+		
+		return buildTime <= 0;
+	}
+
 	public Constructible getTarget() {
 		
 		return target;
 	}
 
-	public void tick() {
-		target.build();
+	public TimeEntry tick(TimeEntry time) {
+		
+		Entry<TimeEntry, Integer> e = time.remove(buildTime);
+		buildTime = e.getValue();
+		if(buildTime <= 0) {
+			target.build();
+		}
+		
+		return e.getKey();
 	}
 	
 }
