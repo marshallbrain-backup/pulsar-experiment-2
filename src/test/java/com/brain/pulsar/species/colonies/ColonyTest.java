@@ -22,22 +22,29 @@ import com.brain.pulsar.xml.elements.JobBase;
 import com.brain.pulsar.xml.elements.JobType;
 import com.brain.pulsar.xml.elements.Modifier;
 import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.xml.types.BuildingType;
 import com.brain.pulsar.xml.types.DistrictType;
 
 public class ColonyTest {
 	
 	private static DataContainer data;
+	private static List<JobBase> jobList;
 	private Colony colony;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, JobType.class, Modifier.class};
+		JobAdapter jobAdapter = new JobAdapter();
+		
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, DistrictType.class, BuildingType.class, JobType.class, Modifier.class};
+		XmlAdapter<?, ?>[] adapterList = new XmlAdapter<?, ?>[] {jobAdapter};
 		
 		List<DataContainer> uncompresed = new ArrayList<>();
 		for (String xml : getXmlFiles()) {
-			uncompresed.add((DataContainer) XmlParser.getXml(xml, dataTypes));
+			uncompresed.add((DataContainer) XmlParser.getXml(xml, dataTypes, adapterList));
 		}
+		
+		jobList = jobAdapter.getJobList();
 		
 		data = new DataContainer(uncompresed);
 	
@@ -48,9 +55,15 @@ public class ColonyTest {
 		
 		BodyType bodyType = data.getMatchData(BodyType.class).get(0);
 		List<DistrictType> districtType = data.getMatchData(DistrictType.class);
+		List<BuildingType> buildingType = data.getMatchData(BuildingType.class);
+		List<JobType> jobTypes = data.getMatchData(JobType.class);
+		
+		for(JobBase b: jobList) {
+			b.setType(jobTypes);
+		}
 		
 		Body body = new Body(bodyType, null);
-		colony = new Colony(body, districtType);
+		colony = new Colony(body, districtType, buildingType);
 		
 	}
 	
@@ -76,12 +89,30 @@ public class ColonyTest {
 		
 	}
 	
+	@Test
+	void buildingTest() {
+		
+		Set<String> buildingTypeSet = new HashSet<>();
+		buildingTypeSet.add("building_city");
+		
+		List<Building> districts = colony.getBuildings();
+		
+		for(Building b: districts) {
+			if(b.isAssined()) {
+				assertTrue("Colony should contain district of type: " + b.getName(), buildingTypeSet.contains(b.getName()));
+			}
+		}
+		
+	}
+	
 	static List<String> getXmlFiles() {
 		
 		List<String> list = new ArrayList<>();
 		
 		list.add(BODYS);
 		list.add(DISTRICTS);
+		list.add(BUILDINGS);
+		list.add(JOB_TYPES);
 		
 		return list;
 		
@@ -104,6 +135,7 @@ public class ColonyTest {
 			"<pulsar>" + 
 			"	<district>" + 
 			"		<name>district_city</name>" + 
+			"		<base_buildtime>10</base_buildtime>" + 
 			"		<potential>" + 
 			"			<trigger name=\"has_type_tag\">" + 
 			"				standard_city" + 
@@ -133,6 +165,52 @@ public class ColonyTest {
 			"			</job>" + 
 			"		</supply>" + 
 			"	</district>" + 
+			"</pulsar>";
+	private static final String JOB_TYPES = "" + 
+			"<pulsar>" + 
+			"	<job_type>" + 
+			"		<id>clerk</id>" + 
+			"		<production>" + 
+			"			<resource id=\"energy\">" + 
+			"				3" + 
+			"			</resource>" + 
+			"		</production>" + 
+			"	</job_type>" + 
+			"</pulsar>";
+	private static final String BUILDINGS = "" + 
+			"<pulsar>" + 
+			"	<building>" + 
+			"		<name>building_city</name>" + 
+			"		<base_buildtime>10</base_buildtime>" + 
+			"		<potential>" + 
+			"			<trigger name=\"has_type_tag\">" + 
+			"				standard_city" + 
+			"			</trigger>" + 
+			"		</potential>" + 
+			"		<starting>" + 
+			"			<trigger name=\"has_type_tag\">" + 
+			"				standard_city" + 
+			"			</trigger>" + 
+			"		</starting>" + 
+			"		<upkeep>" + 
+			"			<resource id=\"energy\">" + 
+			"				1" + 
+			"			</resource>" + 
+			"		</upkeep>" + 
+			"		<production>" + 
+			"			<resource id=\"energy\">" + 
+			"				5" + 
+			"			</resource>" + 
+			"			<resource id=\"housing\">" + 
+			"				5" + 
+			"			</resource>" + 
+			"		</production>" + 
+			"		<supply>" + 
+			"			<job id=\"clerk\">" + 
+			"				2" + 
+			"			</job>" + 
+			"		</supply>" + 
+			"	</building>" + 
 			"</pulsar>";
 	
 }
