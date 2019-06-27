@@ -37,6 +37,16 @@ public class ConstructionCoordinator {
 		}
 		
 	}
+
+	public void flush() {
+		
+		for(ConstructionEntity e: constructionEntities) {
+			e.getTarget().build();
+		}
+		
+		constructionEntities.clear();
+		
+	}
 	
 }
 
