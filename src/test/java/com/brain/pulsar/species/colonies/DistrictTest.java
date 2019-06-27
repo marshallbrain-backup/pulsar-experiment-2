@@ -69,7 +69,8 @@ class DistrictTest {
 		}
 		
 		Body body = new Body(bodyType, null);
-		district = District.create(districtType, body);
+		district = new District();
+		district.setDistrictType(districtType, body);
 		
 	}
 	

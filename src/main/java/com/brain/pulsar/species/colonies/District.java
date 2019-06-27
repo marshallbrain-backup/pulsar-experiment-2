@@ -26,21 +26,21 @@ public class District implements ResourceManager, JobManager {
 	private List<Resource> resourceList;
 	private List<Job> jobList;
 
-	public static District create(DistrictType districtType, Body body) {
-		
-		if(districtType.isPotential(new Scope(body.getType()))) {
-			return new District(districtType);
-		}
-		
-		return null;
-	}
-
-	private District(DistrictType type) {
-		
-		this.type = type;
+	public District() {
 		
 		resourceList = new ArrayList<>();
 		jobList = new ArrayList<>();
+	}
+
+	public boolean setDistrictType(DistrictType districtType, Body body) {
+		
+		if(districtType.isPotential(new Scope(body.getType()))) {
+			type = districtType;
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 	public int getAmount() {
@@ -57,6 +57,10 @@ public class District implements ResourceManager, JobManager {
 		Resource.addToList(resourceList, amount, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
 		jobList.addAll(type.getSupply());
 		
+	}
+
+	public boolean isAssined() {
+		return type != null;
 	}
 
 	@Override
