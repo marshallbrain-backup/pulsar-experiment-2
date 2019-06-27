@@ -15,6 +15,7 @@ import com.brain.pulsar.other.JobCollection;
 import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceCollection;
 import com.brain.pulsar.other.Scope;
+import com.brain.pulsar.xml.elements.BuildTime;
 import com.brain.pulsar.xml.elements.JobAdapter;
 import com.brain.pulsar.xml.elements.JobBase;
 import com.brain.pulsar.xml.elements.ResourceBase;
@@ -26,6 +27,9 @@ public class BuildingType {
 	@XmlElement
 	@XmlJavaTypeAdapter(value=StringTrimAdapter.class)
 	private String name;
+	
+	@XmlElement(name = "base_buildtime")
+	private BuildTime defaultBuildTime;
 	
 	@XmlElementWrapper
 	@XmlElement(name = "trigger")
@@ -105,6 +109,11 @@ public class BuildingType {
 		}
 		
 		return j;
+	}
+
+	public BuildTime getBuildTime() {
+		
+		return defaultBuildTime;
 	}
 	
 }

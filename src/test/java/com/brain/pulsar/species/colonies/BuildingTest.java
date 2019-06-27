@@ -19,8 +19,10 @@ import com.brain.ion.xml.XmlParser;
 import com.brain.pulsar.other.JobCollection;
 import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceCollection;
+import com.brain.pulsar.other.TimeEntry;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
+import com.brain.pulsar.xml.elements.BuildTime;
 import com.brain.pulsar.xml.elements.JobAdapter;
 import com.brain.pulsar.xml.elements.JobBase;
 import com.brain.pulsar.xml.elements.JobType;
@@ -68,7 +70,11 @@ public class BuildingTest {
 		
 		Body body = new Body(bodyType, null);
 		building = new Building();
-		building.setBuildingType(buildingType, body);
+		building.setPendingType(buildingType, body);
+
+		ConstructionCoordinator cc = new ConstructionCoordinator();
+		cc.add(building);
+		cc.tick(new TimeEntry(10));
 		
 	}
 	
@@ -182,6 +188,7 @@ public class BuildingTest {
 			"<pulsar>" + 
 			"	<building>" + 
 			"		<name>building_city</name>" + 
+			"		<base_buildtime>10</base_buildtime>" + 
 			"		<potential>" + 
 			"			<trigger name=\"has_type_tag\">" + 
 			"				standard_city" + 

@@ -14,14 +14,18 @@ import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceManager;
 import com.brain.pulsar.other.Scope;
 import com.brain.pulsar.universe.Body;
+import com.brain.pulsar.xml.elements.BuildTime;
 import com.brain.pulsar.xml.elements.Modifier;
 import com.brain.pulsar.xml.types.DistrictType;
 
-public class District implements ResourceManager, JobManager {
+public class District implements ResourceManager, JobManager, Constructible {
 	
 	private int amount;
 	
+	private BuildTime buildTime;
+	
 	private DistrictType type;
+	private DistrictType retoolingType;
 	
 	private List<Resource> resourceList;
 	private List<Job> jobList;
@@ -32,10 +36,27 @@ public class District implements ResourceManager, JobManager {
 		jobList = new ArrayList<>();
 	}
 
-	public boolean setDistrictType(DistrictType districtType, Body body) {
+	public void setDistrictType() {
+		
+		type = retoolingType;
+		retoolingType = null;
+		buildTime = type.getBuildTime();
+		
+	}
+
+	public void setDistrictType(DistrictType districtType) {
+		
+		type = districtType;
+		retoolingType = null;
+		buildTime = type.getBuildTime();
+		
+	}
+
+	public boolean setRetoolingType(DistrictType districtType, Body body) {
 		
 		if(districtType.isPotential(new Scope(body.getType()))) {
-			type = districtType;
+			retoolingType = districtType;
+			buildTime = retoolingType.getBuildTime();
 			return true;
 		}
 		
@@ -45,18 +66,6 @@ public class District implements ResourceManager, JobManager {
 
 	public int getAmount() {
 		return amount;
-	}
-	
-	public void build() {
-		
-		amount++;
-		
-		resourceList.clear();
-		jobList.clear();
-		
-		Resource.addToList(resourceList, amount, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
-		jobList.addAll(type.getSupply());
-		
 	}
 
 	public boolean isAssined() {
@@ -105,6 +114,31 @@ public class District implements ResourceManager, JobManager {
 			if(newMatch) {
 				res.applyModifier(modifier);
 			}
+			
+		}
+		
+	}
+
+	@Override
+	public int getBuildTime() {
+		
+		return buildTime.getTime();
+	}
+
+	@Override
+	public void build() {
+		
+		if(retoolingType != null) {
+			setDistrictType();
+		} else {
+			
+			amount++;
+			
+			resourceList.clear();
+			jobList.clear();
+			
+			Resource.addToList(resourceList, amount, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+			jobList.addAll(type.getSupply());
 			
 		}
 		

@@ -20,6 +20,7 @@ import com.brain.ion.xml.XmlParser;
 import com.brain.pulsar.other.JobCollection;
 import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.ResourceCollection;
+import com.brain.pulsar.other.TimeEntry;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.elements.JobAdapter;
@@ -70,7 +71,11 @@ class DistrictTest {
 		
 		Body body = new Body(bodyType, null);
 		district = new District();
-		district.setDistrictType(districtType, body);
+		district.setRetoolingType(districtType, body);
+
+		ConstructionCoordinator cc = new ConstructionCoordinator();
+		cc.add(district);
+		cc.tick(new TimeEntry(10));
 		
 	}
 	
@@ -187,6 +192,7 @@ class DistrictTest {
 			"<pulsar>" + 
 			"	<district>" + 
 			"		<name>district_city</name>" + 
+			"		<base_buildtime>10</base_buildtime>" + 
 			"		<potential>" + 
 			"			<trigger name=\"has_type_tag\">" + 
 			"				standard_city" + 
