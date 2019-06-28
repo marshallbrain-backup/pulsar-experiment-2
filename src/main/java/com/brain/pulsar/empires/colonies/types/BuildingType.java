@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.brain.ion.xml.StringTrimAdapter;
 import com.brain.pulsar.conditions.Scope;
 import com.brain.pulsar.conditions.Trigger;
 import com.brain.pulsar.empires.colonies.jobs.Job;
@@ -25,7 +24,6 @@ import com.brain.pulsar.xml.adapters.JobAdapter;
 public class BuildingType {
 	
 	@XmlElement
-	@XmlJavaTypeAdapter(value=StringTrimAdapter.class)
 	private String name;
 	
 	@XmlElement(name = "base_buildtime")
@@ -49,7 +47,6 @@ public class BuildingType {
 	
 	@XmlElementWrapper
 	@XmlElement(name = "job")
-	@XmlJavaTypeAdapter(value=JobAdapter.class)
 	private List<JobBase> supply;
 
 	public boolean isPotential(Scope bodyType) {

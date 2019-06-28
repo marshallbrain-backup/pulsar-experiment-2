@@ -1,10 +1,10 @@
 package com.brain.pulsar.conditions;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.brain.ion.xml.StringTrimAdapter;
 import com.brain.pulsar.universe.types.BodyType;
 
 @XmlRootElement(name = "trigger")
