@@ -17,6 +17,7 @@ public class Job implements ResourceManager {
 	private String id;
 	private String type;
 	
+	private Pop worker;
 	private JobType jobType;
 	
 	private List<Resource> resourceList;
@@ -76,6 +77,16 @@ public class Job implements ResourceManager {
 			
 		}
 		
+	}
+
+	public boolean hasPop() {
+		
+		return worker != null;
+	}
+
+	public void setPop(Pop pop) {
+		worker = pop;
+		worker.setJob(this);
 	}
 	
 }
