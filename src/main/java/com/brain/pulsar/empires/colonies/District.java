@@ -43,6 +43,11 @@ public class District implements ResourceManager, JobManager, Constructible {
 		
 	}
 
+	public DistrictType getDistrictType() {
+		
+		return type;
+	}
+
 	public void setDistrictType(DistrictType districtType) {
 		
 		type = districtType;
