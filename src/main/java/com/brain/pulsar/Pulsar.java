@@ -30,9 +30,9 @@ import com.brain.ion.settings.SettingEntry;
 import com.brain.ion.xml.XmlParser;
 import com.brain.pulsar.ui.Ui;
 import com.brain.pulsar.universe.StarSystem;
+import com.brain.pulsar.universe.types.BodyType;
+import com.brain.pulsar.universe.types.StarSystemType;
 import com.brain.pulsar.xml.DataContainer;
-import com.brain.pulsar.xml.types.BodyType;
-import com.brain.pulsar.xml.types.StarSystemType;
 
 /**
  * The main class for the game. Handles initialization of the game engine as

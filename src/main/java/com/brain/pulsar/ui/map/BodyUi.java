@@ -20,8 +20,8 @@ import com.brain.ion.graphics.vectors.Text;
 import com.brain.ion.graphics.vectors.Vector;
 import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
-import com.brain.pulsar.units.Distance;
-import com.brain.pulsar.units.DistanceUnit;
+import com.brain.pulsar.info_containers.Distance;
+import com.brain.pulsar.info_containers.DistanceUnit;
 import com.brain.pulsar.universe.Body;
 
 /**
