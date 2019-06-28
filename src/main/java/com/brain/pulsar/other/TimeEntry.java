@@ -12,6 +12,10 @@ public class TimeEntry {
 		
 		this.time = time;
 	}
+	
+	public int getTime() {
+		return time;
+	}
 
 	public Entry<TimeEntry, Integer> remove(int buildTime) {
 		
