@@ -1,4 +1,4 @@
-package com.brain.pulsar.units;
+package com.brain.pulsar.info_containers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
