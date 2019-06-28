@@ -1,4 +1,4 @@
-package com.brain.pulsar.xml.elements;
+package com.brain.pulsar.empires.colonies.jobs;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
-import com.brain.pulsar.other.Job;
-import com.brain.pulsar.other.Resource;
+import com.brain.pulsar.empires.colonies.types.JobType;
+import com.brain.pulsar.resources.Resource;
 
 @XmlRootElement(name = "modifier")
 public class JobBase {

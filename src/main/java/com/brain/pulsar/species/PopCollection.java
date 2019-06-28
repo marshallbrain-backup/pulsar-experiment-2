@@ -1,11 +1,12 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.species;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.brain.pulsar.xml.elements.Modifier;
+import com.brain.pulsar.info_containers.TimeEntry;
+import com.brain.pulsar.resources.Modifier;
 
 public class PopCollection {
 	

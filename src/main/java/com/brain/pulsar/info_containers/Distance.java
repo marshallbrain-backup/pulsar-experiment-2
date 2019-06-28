@@ -1,4 +1,4 @@
-package com.brain.pulsar.units;
+package com.brain.pulsar.info_containers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

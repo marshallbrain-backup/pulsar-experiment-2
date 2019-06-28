@@ -1,10 +1,10 @@
-package com.brain.pulsar.species.colonies;
+package com.brain.pulsar.empires.colonies;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.brain.pulsar.other.Entry;
-import com.brain.pulsar.other.TimeEntry;
+import com.brain.pulsar.info_containers.Entry;
+import com.brain.pulsar.info_containers.TimeEntry;
 
 public class ConstructionCoordinator {
 	

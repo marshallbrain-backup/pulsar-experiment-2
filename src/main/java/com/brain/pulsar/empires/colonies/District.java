@@ -1,4 +1,4 @@
-package com.brain.pulsar.species.colonies;
+package com.brain.pulsar.empires.colonies;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,16 +7,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.brain.ion.other.Utils;
-import com.brain.pulsar.other.Job;
-import com.brain.pulsar.other.JobCollection;
-import com.brain.pulsar.other.JobManager;
-import com.brain.pulsar.other.Resource;
-import com.brain.pulsar.other.ResourceManager;
-import com.brain.pulsar.other.Scope;
+import com.brain.pulsar.conditions.Scope;
+import com.brain.pulsar.empires.colonies.jobs.Job;
+import com.brain.pulsar.empires.colonies.jobs.JobManager;
+import com.brain.pulsar.empires.colonies.types.DistrictType;
+import com.brain.pulsar.resources.BuildTime;
+import com.brain.pulsar.resources.Modifier;
+import com.brain.pulsar.resources.Resource;
+import com.brain.pulsar.resources.ResourceManager;
 import com.brain.pulsar.universe.Body;
-import com.brain.pulsar.xml.elements.BuildTime;
-import com.brain.pulsar.xml.elements.Modifier;
-import com.brain.pulsar.xml.types.DistrictType;
 
 public class District implements ResourceManager, JobManager, Constructible {
 	

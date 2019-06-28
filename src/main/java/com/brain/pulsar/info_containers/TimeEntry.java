@@ -1,4 +1,4 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.info_containers;
 
 public class TimeEntry {
 	

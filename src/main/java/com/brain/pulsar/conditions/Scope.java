@@ -1,7 +1,7 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.conditions;
 
 import com.brain.pulsar.universe.Body;
-import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.universe.types.BodyType;
 
 public class Scope {
 	

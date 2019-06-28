@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.brain.pulsar.units.Distance;
-import com.brain.pulsar.units.DistanceUnit;
-import com.brain.pulsar.xml.types.BodyType;
+import com.brain.pulsar.info_containers.Distance;
+import com.brain.pulsar.info_containers.DistanceUnit;
+import com.brain.pulsar.universe.types.BodyType;
 
 /**
  * Stores information about a cosmic body.

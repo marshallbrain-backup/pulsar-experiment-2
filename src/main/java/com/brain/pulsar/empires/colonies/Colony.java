@@ -1,4 +1,4 @@
-package com.brain.pulsar.species.colonies;
+package com.brain.pulsar.empires.colonies;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,14 +6,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.brain.pulsar.other.Job;
-import com.brain.pulsar.other.JobCollection;
-import com.brain.pulsar.other.PopCollection;
-import com.brain.pulsar.other.ResourceCollection;
-import com.brain.pulsar.other.TimeEntry;
+import com.brain.pulsar.empires.colonies.jobs.Job;
+import com.brain.pulsar.empires.colonies.jobs.JobCollection;
+import com.brain.pulsar.empires.colonies.types.BuildingType;
+import com.brain.pulsar.empires.colonies.types.DistrictType;
+import com.brain.pulsar.info_containers.TimeEntry;
+import com.brain.pulsar.resources.ResourceCollection;
+import com.brain.pulsar.species.PopCollection;
 import com.brain.pulsar.universe.Body;
-import com.brain.pulsar.xml.types.BuildingType;
-import com.brain.pulsar.xml.types.DistrictType;
 
 public class Colony {
 	

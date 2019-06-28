@@ -1,18 +1,18 @@
-package com.brain.pulsar.species.colonies;
+package com.brain.pulsar.empires.colonies;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.brain.ion.other.Utils;
-import com.brain.pulsar.other.Job;
-import com.brain.pulsar.other.JobManager;
-import com.brain.pulsar.other.Resource;
-import com.brain.pulsar.other.ResourceManager;
-import com.brain.pulsar.other.Scope;
+import com.brain.pulsar.conditions.Scope;
+import com.brain.pulsar.empires.colonies.jobs.Job;
+import com.brain.pulsar.empires.colonies.jobs.JobManager;
+import com.brain.pulsar.empires.colonies.types.BuildingType;
+import com.brain.pulsar.resources.BuildTime;
+import com.brain.pulsar.resources.Modifier;
+import com.brain.pulsar.resources.Resource;
+import com.brain.pulsar.resources.ResourceManager;
 import com.brain.pulsar.universe.Body;
-import com.brain.pulsar.xml.elements.BuildTime;
-import com.brain.pulsar.xml.elements.Modifier;
-import com.brain.pulsar.xml.types.BuildingType;
 
 public class Building implements ResourceManager, JobManager, Constructible {
 	

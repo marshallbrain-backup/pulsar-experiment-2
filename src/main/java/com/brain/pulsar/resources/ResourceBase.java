@@ -1,4 +1,4 @@
-package com.brain.pulsar.xml.elements;
+package com.brain.pulsar.resources;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;

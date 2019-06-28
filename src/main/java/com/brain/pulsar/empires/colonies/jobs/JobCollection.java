@@ -1,4 +1,4 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.empires.colonies.jobs;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +9,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.brain.pulsar.xml.elements.Modifier;
+import com.brain.pulsar.resources.Modifier;
+import com.brain.pulsar.resources.Resource;
+import com.brain.pulsar.resources.ResourceManager;
+import com.brain.pulsar.species.Pop;
 
 public class JobCollection implements ResourceManager {
 	

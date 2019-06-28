@@ -1,5 +1,6 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.species;
 
+import com.brain.pulsar.empires.colonies.jobs.Job;
 
 public class Pop {
 	

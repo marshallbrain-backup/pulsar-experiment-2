@@ -1,4 +1,4 @@
-package com.brain.pulsar.xml.types;
+package com.brain.pulsar.empires.colonies.types;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.brain.ion.xml.StringTrimAdapter;
-import com.brain.pulsar.other.Job;
-import com.brain.pulsar.other.JobCollection;
-import com.brain.pulsar.other.Resource;
-import com.brain.pulsar.other.ResourceCollection;
-import com.brain.pulsar.other.Scope;
-import com.brain.pulsar.xml.elements.BuildTime;
-import com.brain.pulsar.xml.elements.JobAdapter;
-import com.brain.pulsar.xml.elements.JobBase;
-import com.brain.pulsar.xml.elements.ResourceBase;
-import com.brain.pulsar.xml.elements.Trigger;
+import com.brain.pulsar.conditions.Scope;
+import com.brain.pulsar.conditions.Trigger;
+import com.brain.pulsar.empires.colonies.jobs.Job;
+import com.brain.pulsar.empires.colonies.jobs.JobBase;
+import com.brain.pulsar.empires.colonies.jobs.JobCollection;
+import com.brain.pulsar.resources.BuildTime;
+import com.brain.pulsar.resources.Resource;
+import com.brain.pulsar.resources.ResourceBase;
+import com.brain.pulsar.resources.ResourceCollection;
+import com.brain.pulsar.xml.adapters.JobAdapter;
 
 @XmlRootElement(name = "building")
 public class BuildingType {

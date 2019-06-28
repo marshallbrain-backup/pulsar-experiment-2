@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.brain.pulsar.xml.types.BodyType;
-import com.brain.pulsar.xml.types.StarSystemType;
+import com.brain.pulsar.universe.types.BodyType;
+import com.brain.pulsar.universe.types.StarSystemType;
 
 /**
  * The object that contains the information about a star system.

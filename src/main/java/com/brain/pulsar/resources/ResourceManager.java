@@ -1,10 +1,8 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.resources;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.brain.pulsar.xml.elements.Modifier;
 
 public interface ResourceManager {
 	

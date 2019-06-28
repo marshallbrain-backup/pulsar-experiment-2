@@ -1,4 +1,4 @@
-package com.brain.pulsar.xml.elements;
+package com.brain.pulsar.resources;
 
 import java.util.ArrayList;
 import java.util.Arrays;

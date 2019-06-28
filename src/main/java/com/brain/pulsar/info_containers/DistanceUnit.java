@@ -1,4 +1,4 @@
-package com.brain.pulsar.units;
+package com.brain.pulsar.info_containers;
 
 /**
  * Stores information about conversions for different unit types

@@ -1,4 +1,4 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.resources;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,7 +10,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.brain.pulsar.xml.elements.Modifier;
+import com.brain.pulsar.empires.colonies.jobs.JobCollection;
+import com.brain.pulsar.empires.colonies.jobs.JobManager;
 
 public class ResourceCollection implements ResourceManager {
 	

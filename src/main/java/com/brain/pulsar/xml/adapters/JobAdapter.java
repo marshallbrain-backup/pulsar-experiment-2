@@ -1,9 +1,11 @@
-package com.brain.pulsar.xml.elements;
+package com.brain.pulsar.xml.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import com.brain.pulsar.empires.colonies.jobs.JobBase;
 
 public class JobAdapter extends XmlAdapter<JobBase, JobBase> {
 	

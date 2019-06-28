@@ -1,4 +1,4 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.resources;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,9 +9,6 @@ import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
-
-import com.brain.pulsar.xml.elements.Modifier;
-import com.brain.pulsar.xml.elements.ResourceBase;
 
 public class Resource {
 	

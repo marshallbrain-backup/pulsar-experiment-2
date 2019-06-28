@@ -1,4 +1,4 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.empires.colonies.jobs;
 
 import java.util.List;
 

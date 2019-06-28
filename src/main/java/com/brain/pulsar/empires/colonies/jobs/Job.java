@@ -1,4 +1,4 @@
-package com.brain.pulsar.other;
+package com.brain.pulsar.empires.colonies.jobs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,9 +8,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
 import com.brain.ion.other.Utils;
-import com.brain.pulsar.xml.elements.JobBase;
-import com.brain.pulsar.xml.elements.JobType;
-import com.brain.pulsar.xml.elements.Modifier;
+import com.brain.pulsar.empires.colonies.types.JobType;
+import com.brain.pulsar.resources.Modifier;
+import com.brain.pulsar.resources.Resource;
+import com.brain.pulsar.resources.ResourceManager;
+import com.brain.pulsar.species.Pop;
 
 public class Job implements ResourceManager {
 	

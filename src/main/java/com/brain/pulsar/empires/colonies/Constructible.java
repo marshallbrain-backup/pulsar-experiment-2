@@ -1,4 +1,4 @@
-package com.brain.pulsar.species.colonies;
+package com.brain.pulsar.empires.colonies;
 
 
 public interface Constructible {

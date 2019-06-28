@@ -1,4 +1,4 @@
-package com.brain.pulsar.xml.elements;
+package com.brain.pulsar.empires.colonies.types;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.brain.pulsar.other.Resource;
+import com.brain.pulsar.resources.Resource;
+import com.brain.pulsar.resources.ResourceBase;
 
 @XmlRootElement(name = "job_type")
 public class JobType {
