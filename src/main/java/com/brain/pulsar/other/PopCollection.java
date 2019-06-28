@@ -37,7 +37,7 @@ public class PopCollection {
 		
 		currentGrouth += addGrouth * time.getTime();
 		
-		if(currentGrouth >= maxGrouth) {
+		while(currentGrouth >= maxGrouth) {
 			popList.add(new Pop());
 			currentGrouth -= maxGrouth;
 		}
@@ -45,7 +45,7 @@ public class PopCollection {
 	}
 	
 	public List<Pop> getPopList() {
-		return new ArrayList<>(popList);
+		return popList;
 	}
 	
 	public void addModifier(Modifier m) {
