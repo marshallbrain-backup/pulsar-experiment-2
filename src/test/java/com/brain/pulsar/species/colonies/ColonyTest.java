@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -16,7 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.brain.ion.xml.XmlParser;
+import com.brain.pulsar.other.Job;
 import com.brain.pulsar.other.PopCollection;
+import com.brain.pulsar.other.Resource;
 import com.brain.pulsar.other.TimeEntry;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.xml.DataContainer;
@@ -124,6 +127,19 @@ public class ColonyTest {
 	@Test
 	void jobTest() {
 		
+		Map<String, List<Job>> jobs = colony.getJobs();
+		
+		colony.tick(new TimeEntry(330));
+		
+		for(List<Job> l: jobs.values()) {
+			for(Job j: l) {
+			
+				System.out.println(j.getKey());
+				assertTrue(j.hasPop());
+			
+			}
+			
+		}
 	}
 	
 	static List<String> getXmlFiles() {
