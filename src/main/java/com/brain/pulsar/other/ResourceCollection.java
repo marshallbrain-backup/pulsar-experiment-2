@@ -19,6 +19,7 @@ public class ResourceCollection implements ResourceManager {
 
 	private Map<String, List<ResourceManager>> managerList;
 	private List<List<Resource>> resources;
+	private JobCollection jobs;
 
 	public ResourceCollection(String type, String name) {
 		
@@ -43,7 +44,34 @@ public class ResourceCollection implements ResourceManager {
 			
 			resources.add(m.getResources());
 			
+			if(m instanceof JobManager) {
+				jobs.addJobs((JobManager) m);
+			}
+			
 		}
+		
+	}
+	
+	public void updateMap() {
+		
+		List<ResourceManager> updateList = new ArrayList<>();
+		for(Entry<String, List<ResourceManager>> e: managerList.entrySet()) {
+			
+			List<ResourceManager> removeList = new ArrayList<>();
+			for(ResourceManager r: e.getValue()) {
+				
+				if(!r.getKey().equals(e.getKey())) {
+					removeList.add(r);
+					updateList.add(r);
+				}
+				
+			}
+			
+			e.getValue().removeAll(removeList);
+			
+		}
+		
+		addManagers(updateList.toArray(new ResourceManager[0]));
 		
 	}
 
@@ -103,6 +131,11 @@ public class ResourceCollection implements ResourceManager {
 		}
 		
 		return new ArrayList<>(o.values());
+	}
+
+	public void addJobCollection(JobCollection jobs) {
+		this.jobs = jobs;
+		
 	}
 	
 }
