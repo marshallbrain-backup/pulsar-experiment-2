@@ -71,13 +71,13 @@ public class Building implements ResourceManager, JobManager, Constructible {
 	@Override
 	public String getType() {
 		
-		return "district";
+		return "building";
 	}
 
 	@Override
 	public String getName() {
 		
-		return type.getName();
+		return (type == null)?"null":type.getName();
 	}
 
 	@Override

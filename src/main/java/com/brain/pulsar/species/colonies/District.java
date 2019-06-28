@@ -81,7 +81,7 @@ public class District implements ResourceManager, JobManager, Constructible {
 	@Override
 	public String getName() {
 		
-		return type.getName();
+		return (type == null)?"null":type.getName();
 	}
 
 	@Override
@@ -138,7 +138,9 @@ public class District implements ResourceManager, JobManager, Constructible {
 			jobList.clear();
 			
 			Resource.addToList(resourceList, amount, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
-			jobList.addAll(type.getSupply());
+			for(int i = 0; i < amount; i++) {
+				jobList.addAll(type.getSupply());
+			}
 			
 		}
 		
