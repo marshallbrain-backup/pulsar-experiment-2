@@ -58,10 +58,6 @@ public class Job implements ResourceManager {
 	@Override
 	public void applyModifiers(String chain, boolean match, Modifier modifier) {
 		
-		if(!modifier.getParent().contains("job")) {
-			return;
-		}
-		
 		for(Resource res: resourceList) {
 			
 			StringBuilder bld = new StringBuilder(chain);
