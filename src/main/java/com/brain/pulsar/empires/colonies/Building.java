@@ -68,6 +68,16 @@ public class Building implements ResourceManager, JobManager, Constructible {
 		return type != null;
 	}
 
+	public BuildingType getPendingType() {
+		
+		return pendingType;
+	}
+
+	public BuildingType getBuildingType() {
+		
+		return type;
+	}
+
 	@Override
 	public String getType() {
 		
@@ -77,7 +87,7 @@ public class Building implements ResourceManager, JobManager, Constructible {
 	@Override
 	public String getName() {
 		
-		return (type == null)?"null":type.getName();
+		return (type == null)? "null": type.getName();
 	}
 
 	@Override
@@ -95,22 +105,36 @@ public class Building implements ResourceManager, JobManager, Constructible {
 	@Override
 	public void applyModifiers(String chain, boolean match, Modifier modifier) {
 		
-		for(Resource res: resourceList) {
+		for(Resource r: resourceList) {
 			
 			StringBuilder bld = new StringBuilder(chain);
 			
 			if(!chain.isEmpty()) {
 				bld.append(".");
 			}
-			bld.append(res.getType());
+			bld.append(r.getType());
 			String newChain = bld.toString();
 			
 			boolean newMatch = modifierMatcher(newChain, modifier.getParent(), match);
 			
 			if(newMatch) {
-				res.applyModifier(modifier);
+				r.applyModifier(modifier);
 			}
 			
+		}
+			
+		StringBuilder bld = new StringBuilder(chain);
+		
+		if(!chain.isEmpty()) {
+			bld.append(".");
+		}
+		bld.append("job");
+		String newChain = bld.toString();
+		
+		boolean newMatch = modifierMatcher(newChain, modifier.getParent(), match);
+		
+		for(Job j: jobList) {
+			j.applyModifiers(newChain, newMatch, modifier);
 		}
 		
 	}
@@ -118,7 +142,7 @@ public class Building implements ResourceManager, JobManager, Constructible {
 	@Override
 	public int getBuildTime() {
 		
-		return buildTime.getTime();
+		return (buildTime == null)? 0: buildTime.getTime();
 	}
 
 	@Override
