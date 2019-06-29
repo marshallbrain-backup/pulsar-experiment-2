@@ -36,6 +36,15 @@ public class JobType {
 		production = new ArrayList<>();
 	}
 	
+	public JobType(String id, List<ResourceBase> upkeep, List<ResourceBase> production) {
+		
+		type = "worker";
+		
+		this.id = id;
+		this.upkeep = upkeep;
+		this.production = production;
+	}
+	
 	public String getId() {
 		return id;
 	}
