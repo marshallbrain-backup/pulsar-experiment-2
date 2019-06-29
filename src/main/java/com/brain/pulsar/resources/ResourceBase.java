@@ -15,6 +15,11 @@ public class ResourceBase {
 		id = null;
 		amount = 0;
 	}
+	
+	public ResourceBase(String id, double amount) {
+		this.id = id;
+		this.amount = amount;
+	}
 
 	public String getId() {
 		

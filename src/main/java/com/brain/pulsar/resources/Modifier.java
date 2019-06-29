@@ -16,7 +16,6 @@ public class Modifier {
 	@XmlElement
 	private final String target;
 	
-	
 	public Modifier() {
 		
 		id = null;
@@ -24,7 +23,14 @@ public class Modifier {
 		target = null;
 		amount = 0;
 	}
-
+	
+	public Modifier(String id, String parent, String target, double amount) {
+		
+		this.id = id;
+		this.parent = parent;
+		this.target = target;
+		this.amount = amount;
+	}
 
 	public Modifier(Modifier m, String newParent) {
 		
@@ -34,17 +40,14 @@ public class Modifier {
 		amount = m.amount;
 	}
 
-
 	public String getParent() {
 		
 		return parent;
 	}
 
-
 	public double getValue() {
 		return amount;
 	}
-
 
 	public String getTarget() {
 		
