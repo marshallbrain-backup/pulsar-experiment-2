@@ -75,7 +75,7 @@ public class DistrictType {
 		return name;
 	}
 	
-	public Resource[] getUpkeep() {
+	public List<Resource> getUpkeep() {
 		
 		List<Resource> u = new ArrayList<>();
 		
@@ -83,10 +83,10 @@ public class DistrictType {
 			u.add(new Resource(r, "upkeep", true));
 		}
 		
-		return u.toArray(new Resource[0]);
+		return u;
 	}
 	
-	public Resource[] getProduction() {
+	public List<Resource> getProduction() {
 		
 		List<Resource> p = new ArrayList<>();
 		
@@ -94,7 +94,7 @@ public class DistrictType {
 			p.add(new Resource(r, "production"));
 		}
 		
-		return p.toArray(new Resource[0]);
+		return p;
 	}
 	
 	public List<Job> getSupply() {

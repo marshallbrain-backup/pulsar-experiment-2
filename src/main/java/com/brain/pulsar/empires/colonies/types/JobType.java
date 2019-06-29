@@ -45,7 +45,7 @@ public class JobType {
 		return type;
 	}
 	
-	public Resource[] getUpkeep() {
+	public List<Resource> getUpkeep() {
 		
 		List<Resource> u = new ArrayList<>();
 		
@@ -53,10 +53,10 @@ public class JobType {
 			u.add(new Resource(r, "upkeep", true));
 		}
 		
-		return u.toArray(new Resource[0]);
+		return u;
 	}
 	
-	public Resource[] getProduction() {
+	public List<Resource> getProduction() {
 		
 		List<Resource> p = new ArrayList<>();
 		
@@ -64,7 +64,7 @@ public class JobType {
 			p.add(new Resource(r, "production"));
 		}
 		
-		return p.toArray(new Resource[0]);
+		return p;
 	}
 	
 }
