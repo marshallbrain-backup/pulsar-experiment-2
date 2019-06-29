@@ -35,7 +35,8 @@ public class Building implements ResourceManager, JobManager, Constructible {
 		type = pendingType;
 		buildTime = null;
 		
-		Resource.addToList(resourceList, 1, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+		resourceList.addAll(type.getUpkeep());
+		resourceList.addAll(type.getProduction());
 		jobList.addAll(type.getSupply());
 		
 	}
@@ -45,7 +46,8 @@ public class Building implements ResourceManager, JobManager, Constructible {
 		type = buildingType;
 		buildTime = null;
 		
-		Resource.addToList(resourceList, 1, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+		resourceList.addAll(type.getUpkeep());
+		resourceList.addAll(type.getProduction());
 		jobList.addAll(type.getSupply());
 		
 	}

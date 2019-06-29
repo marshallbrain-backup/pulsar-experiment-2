@@ -141,7 +141,8 @@ public class District implements ResourceManager, JobManager, Constructible {
 			resourceList.clear();
 			jobList.clear();
 			
-			Resource.addToList(resourceList, amount, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+			resourceList.addAll(type.getUpkeep());
+			resourceList.addAll(type.getProduction());
 			for(int i = 0; i < amount; i++) {
 				jobList.addAll(type.getSupply());
 			}

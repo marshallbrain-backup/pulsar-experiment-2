@@ -32,7 +32,8 @@ public class Job implements ResourceManager {
 		
 		resourceList = new ArrayList<>();
 		
-		Resource.addToList(resourceList, 1, Utils.concatenateArray(jobType.getUpkeep(), jobType.getProduction()));
+		resourceList.addAll(jobType.getUpkeep());
+		resourceList.addAll(jobType.getProduction());
 		
 	}
 
