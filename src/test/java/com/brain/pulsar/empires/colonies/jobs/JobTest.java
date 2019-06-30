@@ -11,10 +11,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.brain.pulsar.empires.colonies.District;
 import com.brain.pulsar.empires.colonies.types.JobType;
 import com.brain.pulsar.resources.Modifier;
 import com.brain.pulsar.resources.Resource;
 import com.brain.pulsar.resources.ResourceBase;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 
 class JobTest {
@@ -88,6 +92,11 @@ class JobTest {
 		
 		assertThat(actual.toArray(new Resource[0]), arrayContainingInAnyOrder(expected.toArray(new Resource[0])));
 		
+	}
+	
+	@Test
+	void equals() {
+		EqualsVerifier.forClass(Job.class).suppress(Warning.NONFINAL_FIELDS).verify();
 	}
 	
 }

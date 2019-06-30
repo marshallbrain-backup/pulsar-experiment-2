@@ -12,9 +12,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.brain.pulsar.empires.colonies.District;
 import com.brain.pulsar.empires.colonies.types.BuildingType;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.universe.types.BodyType;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 
 class ResourceTest {
@@ -69,6 +72,11 @@ class ResourceTest {
 		r = r.zip();
 		assertThat(r, equalTo(new Resource(new ResourceBase("test", 2), "").zip()));
 		
+	}
+	
+	@Test
+	void equals() {
+		EqualsVerifier.forClass(Resource.class).verify();
 	}
 	
 }

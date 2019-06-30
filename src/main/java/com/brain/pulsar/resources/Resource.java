@@ -17,7 +17,7 @@ public class Resource {
 	private final String id;
 	private final String type;
 	
-	private Map<Modifier, Double> modifierList;
+	private final Map<Modifier, Double> modifierList;
 
 	public Resource(ResourceBase r, String t) {
 		this(r, t, false);
@@ -37,6 +37,8 @@ public class Resource {
 		id = r.id;
 		type = "";
 		amount = d;
+		
+		modifierList = null;
 		
 	}
 
@@ -95,7 +97,7 @@ public class Resource {
 	}
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		
 		final int prime = 31;
 		int result = 1;
@@ -109,7 +111,7 @@ public class Resource {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public final boolean equals(Object obj) {
 		
 		if (this == obj) {
 			return true;

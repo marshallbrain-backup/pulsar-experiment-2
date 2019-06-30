@@ -153,5 +153,69 @@ public class Building implements ResourceManager, JobManager, Constructible {
 		setBuildingType();
 		
 	}
+
+	@Override
+	public final int hashCode() {
+		
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((buildTime == null) ? 0 : buildTime.hashCode());
+		result = prime * result + ((jobList == null) ? 0 : jobList.hashCode());
+		result = prime * result + ((pendingType == null) ? 0 : pendingType.hashCode());
+		result = prime * result + ((resourceList == null) ? 0 : resourceList.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Building)) {
+			return false;
+		}
+		Building other = (Building) obj;
+		if (buildTime == null) {
+			if (other.buildTime != null) {
+				return false;
+			}
+		} else if (!buildTime.equals(other.buildTime)) {
+			return false;
+		}
+		if (jobList == null) {
+			if (other.jobList != null) {
+				return false;
+			}
+		} else if (!jobList.equals(other.jobList)) {
+			return false;
+		}
+		if (pendingType == null) {
+			if (other.pendingType != null) {
+				return false;
+			}
+		} else if (!pendingType.equals(other.pendingType)) {
+			return false;
+		}
+		if (resourceList == null) {
+			if (other.resourceList != null) {
+				return false;
+			}
+		} else if (!resourceList.equals(other.resourceList)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		return true;
+	}
 	
 }

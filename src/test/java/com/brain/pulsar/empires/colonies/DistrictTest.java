@@ -24,6 +24,9 @@ import com.brain.pulsar.universe.types.BodyType;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.adapters.JobAdapter;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+
 class DistrictTest {
 	
 	static DataContainer data;
@@ -120,6 +123,11 @@ class DistrictTest {
 		
 		assertThat(district.getKey(), equalTo("district:district_city"));
 		
+	}
+	
+	@Test
+	void equals() {
+		EqualsVerifier.forClass(District.class).suppress(Warning.NONFINAL_FIELDS).verify();
 	}
 	
 	void setDistrictType() {

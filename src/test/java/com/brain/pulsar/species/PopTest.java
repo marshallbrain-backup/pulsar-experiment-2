@@ -10,8 +10,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.brain.pulsar.empires.colonies.District;
 import com.brain.pulsar.empires.colonies.jobs.Job;
 import com.brain.pulsar.empires.colonies.types.JobType;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 
 class PopTest {
@@ -30,10 +34,15 @@ class PopTest {
 	void job() {
 		
 		Pop p = new Pop();
-		p.setJob(new Job(new JobType("test", new ArrayList<>(), new ArrayList<>())));
+		p.setEmployment(true);
 		
 		assertThat(p.isUnimployed(), equalTo(false));
 		
+	}
+	
+	@Test
+	void equals() {
+		EqualsVerifier.forClass(Pop.class).suppress(Warning.NONFINAL_FIELDS).verify();
 	}
 	
 }

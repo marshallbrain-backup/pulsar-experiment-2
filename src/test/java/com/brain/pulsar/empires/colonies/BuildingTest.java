@@ -26,6 +26,9 @@ import com.brain.pulsar.universe.types.BodyType;
 import com.brain.pulsar.xml.DataContainer;
 import com.brain.pulsar.xml.adapters.JobAdapter;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+
 class BuildingTest {
 	
 	static DataContainer data;
@@ -258,6 +261,11 @@ class BuildingTest {
 	@Test
 	void key() {
 		
+	}
+	
+	@Test
+	void equals() {
+		EqualsVerifier.forClass(Building.class).suppress(Warning.NONFINAL_FIELDS).verify();
 	}
 	
 	void checkResorcesMatch(List<Resource> resources, List<String> expected) {
