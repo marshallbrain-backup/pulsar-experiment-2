@@ -28,6 +28,9 @@ import com.brain.ion.graphics.VectorGraphics;
 import com.brain.ion.input.Mouse;
 import com.brain.ion.settings.SettingEntry;
 import com.brain.ion.xml.XmlParser;
+import com.brain.pulsar.empires.Empire;
+import com.brain.pulsar.empires.colonies.types.BuildingType;
+import com.brain.pulsar.empires.colonies.types.DistrictType;
 import com.brain.pulsar.ui.Ui;
 import com.brain.pulsar.universe.StarSystem;
 import com.brain.pulsar.universe.types.BodyType;
@@ -89,8 +92,13 @@ public class Pulsar implements TickCall, RenderCall {
 		// to allow the ability to oraganize them any way the user wants
 		List<BodyType> typeBodys = common.getMatchData(BodyType.class);
 		List<StarSystemType> typeSytems = common.getMatchData(StarSystemType.class);
+		List<DistrictType> districtTypes = common.getMatchData(DistrictType.class);;
+		List<BuildingType> buildingTypes = common.getMatchData(BuildingType.class);;
+		
+		Empire empire = new Empire(districtTypes, buildingTypes);
 		
 		mainSystem = new StarSystem(typeBodys, typeSytems);
+		mainSystem.getStarList().get(0).createColony(empire);
 		
 		ui = new Ui(mainSystem);
 		
