@@ -45,7 +45,7 @@ public class ResourceCollection implements ResourceManager {
 			
 			resources.add(m.getResources());
 			
-			if(m instanceof JobManager) {
+			if(jobs != null && m instanceof JobManager) {
 				jobs.addJobs((JobManager) m);
 			}
 			
@@ -132,11 +132,6 @@ public class ResourceCollection implements ResourceManager {
 		}
 		
 		return new ArrayList<>(o.values());
-	}
-
-	public void addJobCollection(JobCollection jobs) {
-		this.jobs = jobs;
-		
 	}
 	
 }

@@ -43,7 +43,7 @@ public class Colony {
 		pops = new PopCollection();
 		jobs = new JobCollection(pops.getPopList());
 		
-		resourceCollection.addJobCollection(jobs);
+		resourceCollection.addManagers(jobs);
 		
 		initDistricts();
 		initBuildings();
@@ -104,6 +104,11 @@ public class Colony {
 
 	public Map<String, List<Job>> getJobs() {
 		return jobs.getJobs();
+	}
+
+	public String getDesignation() {
+		
+		return "Colony";
 	}
 	
 }
