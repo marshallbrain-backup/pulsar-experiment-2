@@ -1,5 +1,6 @@
 package com.brain.pulsar.ui;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +24,7 @@ public class Ui {
 	
 	private StarSystemUi map;
 	private List<View> viewList;
+	private Map<String, BufferedImage> imageMap;
 	
 	/**
 	 * Creates a new Ui
@@ -33,6 +35,8 @@ public class Ui {
 	public Ui(StarSystem mainSystem) {
 		
 		viewList = new ArrayList<>();
+		
+		imageMap = VectorGraphics.loadImages(new File("gfx"));
 		
 		Map<String, VectorGroup> vg = VectorGraphics.loadVectors(new File("gfx"));
 		
@@ -101,6 +105,8 @@ public class Ui {
 	 *            The graphics object that is linked to the JFrame
 	 */
 	public void render(VectorGraphics g) {
+		
+		g.loadImages(imageMap);
 		
 		map.render(g);
 		

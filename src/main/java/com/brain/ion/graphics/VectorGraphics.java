@@ -8,11 +8,16 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
 import com.brain.ion.graphics.vectors.Circle;
+import com.brain.ion.graphics.vectors.Image;
 import com.brain.ion.graphics.vectors.Path;
 import com.brain.ion.graphics.vectors.Rectangle;
 import com.brain.ion.graphics.vectors.Text;
@@ -36,6 +41,7 @@ public class VectorGraphics {
 	private Area trackArea;
 	
 	private Map<SettingEntry, String> settings;
+	private Map<String, BufferedImage> imageMap;
 	
 	/**
 	 * Base constructor
@@ -58,6 +64,34 @@ public class VectorGraphics {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 	}
+
+	public static Map<String, BufferedImage> loadImages(File gfx) {
+		
+		Map<String, BufferedImage> imageMap = new HashMap<>();
+		
+		loadImages(gfx, imageMap);
+		
+		return imageMap;
+		
+	}
+
+	private static void loadImages(File gfx, Map<String, BufferedImage> imageMap) {
+		
+		for(File f: gfx.listFiles()) {
+			if(f.isFile()) {
+				try {
+					BufferedImage bi = ImageIO.read(f);
+					if(bi != null) {
+						imageMap.put(f.getPath(), bi);
+					}
+				} catch (IOException e) {
+				}
+			} else {
+				loadImages(f, imageMap);
+			}
+		}
+		
+	}
 	
 	/**
 	 * Loads the vectors from the given file.
@@ -69,7 +103,7 @@ public class VectorGraphics {
 	public static Map<String, VectorGroup> loadVectors(File gfx) {
 		
 		Map<String, VectorGroup> vectors = new HashMap<>();
-		Class<?>[] classes = { IonXmlRoot.class, VectorGroup.class, Circle.class, Rectangle.class, Text.class, Path.class };
+		Class<?>[] classes = { IonXmlRoot.class, VectorGroup.class, Circle.class, Rectangle.class, Text.class, Path.class, Image.class };
 		
 		readFiles(gfx, vectors, classes);
 		
@@ -111,6 +145,10 @@ public class VectorGraphics {
 			
 		}
 		
+	}
+
+	public void loadImages(Map<String, BufferedImage> map) {
+		imageMap = map;
 	}
 	
 	/**
@@ -179,6 +217,13 @@ public class VectorGraphics {
 			
 		}
 		
+	}
+
+	public void draw(Image image) {
+		if(imageMap != null) {
+			BufferedImage i = imageMap.get(image.getImagePath());
+			graphics.drawImage(i, image.getXform(), null);
+		}
 	}
 	
 	/**
