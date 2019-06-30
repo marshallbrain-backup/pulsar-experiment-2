@@ -14,7 +14,7 @@ import com.brain.ion.input.Mouse;
 import com.brain.pulsar.ui.view.View;
 import com.brain.pulsar.ui.view.ViewFactory;
 import com.brain.pulsar.ui.view.ViewType;
-import com.brain.pulsar.ui.view.body.BodyOverview;
+import com.brain.pulsar.ui.view.body.overview.BodyOverview;
 import com.brain.pulsar.universe.Body;
 import com.brain.pulsar.universe.StarSystem;
 

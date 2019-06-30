@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.xml.IonXmlRoot;
-import com.brain.pulsar.ui.view.body.BodyOverview;
+import com.brain.pulsar.ui.view.body.overview.BodyOverview;
 import com.brain.pulsar.universe.Body;
 
 public class ViewFactory {
