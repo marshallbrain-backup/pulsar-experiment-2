@@ -80,7 +80,11 @@ public class BodyOverview implements View {
 		
 		g.setTranslate(ScreenPosition.ZERO);
 		for(RenderEntry e: shapes) {
-			g.draw(e.shape, e.style);
+			if(e.shape == null) {
+				g.draw(e.image);
+			} else {
+				g.draw(e.shape, e.style);
+			}
 		}
 		
 		lastRendered.add(g.resetAreaRendering());
