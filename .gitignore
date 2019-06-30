@@ -100,4 +100,5 @@ hs_err_pid*
 settings.txt
 /common/
 /gfx/
+/junit test files/
 *.MF

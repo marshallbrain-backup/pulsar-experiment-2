@@ -17,7 +17,7 @@ public class Resource {
 	private final String id;
 	private final String type;
 	
-	private Map<Modifier, Double> modifierList;
+	private final Map<Modifier, Double> modifierList;
 
 	public Resource(ResourceBase r, String t) {
 		this(r, t, false);
@@ -37,6 +37,8 @@ public class Resource {
 		id = r.id;
 		type = "";
 		amount = d;
+		
+		modifierList = null;
 		
 	}
 
@@ -63,42 +65,95 @@ public class Resource {
 		
 		return null;
 	}
-
-	public static void addToList(List<Resource> master, int i, Resource[] resources) {
-		
-		for(Resource r: resources) {
-			
-			int index = master.indexOf(r);
-			
-			if(index == -1) {
-				master.add(r);
-			} else {
-				master.set(index, r.combine(master.get(i)));
-			}
-			
-		}
-	}
 	
 	public void applyModifier(Modifier mod) {
 		
-		Pattern p = Pattern.compile(mod.getTarget());
-		Matcher m = p.matcher(id);
-		boolean f = m.find();
-
-		if(f) {
-			modifierList.putIfAbsent(mod, amount * mod.getValue());			
+		if(modifierList != null) {
+		
+			Pattern p = Pattern.compile(mod.getTarget());
+			Matcher m = p.matcher(id);
+			boolean f = m.find();
+	
+			if(f) {
+				modifierList.putIfAbsent(mod, amount * mod.getValue());			
+			}
+			
 		}
+		
 	}
 
 	public Resource zip() {
 		
 		double mod = 0;
-		for(double d: modifierList.values()) {
-			mod += d;
+		
+		if(modifierList != null) {
+			for(double d: modifierList.values()) {
+				mod += d;
+			}
 		}
 		
 		return new Resource(this, amount + mod);
 		
+	}
+
+	@Override
+	public final int hashCode() {
+		
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(amount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((modifierList == null) ? 0 : modifierList.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Resource)) {
+			return false;
+		}
+		Resource other = (Resource) obj;
+		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount)) {
+			return false;
+		}
+		if (id == null) {
+			if (other.id != null) {
+				return false;
+			}
+		} else if (!id.equals(other.id)) {
+			return false;
+		}
+		if (modifierList == null) {
+			if (other.modifierList != null) {
+				return false;
+			}
+		} else if (!modifierList.equals(other.modifierList)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		
+		return "Resource [amount=" + amount + ", id=" + id + ", modifierList=" + modifierList + ", type=" + type + "]";
 	}
 	
 }

@@ -9,7 +9,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.brain.ion.xml.StringTrimAdapter;
 import com.brain.pulsar.conditions.Scope;
 import com.brain.pulsar.conditions.Trigger;
 import com.brain.pulsar.empires.colonies.jobs.Job;
@@ -25,7 +24,6 @@ import com.brain.pulsar.xml.adapters.JobAdapter;
 public class DistrictType {
 	
 	@XmlElement
-	@XmlJavaTypeAdapter(value=StringTrimAdapter.class)
 	private String name;
 	
 	@XmlElement(name = "base_buildtime")
@@ -49,7 +47,6 @@ public class DistrictType {
 	
 	@XmlElementWrapper
 	@XmlElement(name = "job")
-	@XmlJavaTypeAdapter(value=JobAdapter.class)
 	private List<JobBase> supply;
 
 	public boolean isPotential(Scope bodyType) {
@@ -78,7 +75,7 @@ public class DistrictType {
 		return name;
 	}
 	
-	public Resource[] getUpkeep() {
+	public List<Resource> getUpkeep() {
 		
 		List<Resource> u = new ArrayList<>();
 		
@@ -86,10 +83,10 @@ public class DistrictType {
 			u.add(new Resource(r, "upkeep", true));
 		}
 		
-		return u.toArray(new Resource[0]);
+		return u;
 	}
 	
-	public Resource[] getProduction() {
+	public List<Resource> getProduction() {
 		
 		List<Resource> p = new ArrayList<>();
 		
@@ -97,7 +94,7 @@ public class DistrictType {
 			p.add(new Resource(r, "production"));
 		}
 		
-		return p.toArray(new Resource[0]);
+		return p;
 	}
 	
 	public List<Job> getSupply() {

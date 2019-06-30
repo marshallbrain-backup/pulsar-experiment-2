@@ -16,11 +16,11 @@ import com.brain.pulsar.species.Pop;
 
 public class Job implements ResourceManager {
 	
-	private String id;
-	private String type;
+	private final String id;
+	private final String type;
 	
 	private Pop worker;
-	private JobType jobType;
+	private final JobType jobType;
 	
 	private List<Resource> resourceList;
 
@@ -32,7 +32,8 @@ public class Job implements ResourceManager {
 		
 		resourceList = new ArrayList<>();
 		
-		Resource.addToList(resourceList, 1, Utils.concatenateArray(jobType.getUpkeep(), jobType.getProduction()));
+		resourceList.addAll(jobType.getUpkeep());
+		resourceList.addAll(jobType.getProduction());
 		
 	}
 
@@ -56,10 +57,6 @@ public class Job implements ResourceManager {
 
 	@Override
 	public void applyModifiers(String chain, boolean match, Modifier modifier) {
-		
-		if(!modifier.getParent().contains("job")) {
-			return;
-		}
 		
 		for(Resource res: resourceList) {
 			
@@ -88,7 +85,71 @@ public class Job implements ResourceManager {
 
 	public void setPop(Pop pop) {
 		worker = pop;
-		worker.setJob(this);
+		worker.setEmployment(true);
+	}
+
+	@Override
+	public final int hashCode() {
+		
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((jobType == null) ? 0 : jobType.hashCode());
+		result = prime * result + ((resourceList == null) ? 0 : resourceList.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + ((worker == null) ? 0 : worker.hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Job)) {
+			return false;
+		}
+		Job other = (Job) obj;
+		if (id == null) {
+			if (other.id != null) {
+				return false;
+			}
+		} else if (!id.equals(other.id)) {
+			return false;
+		}
+		if (jobType == null) {
+			if (other.jobType != null) {
+				return false;
+			}
+		} else if (!jobType.equals(other.jobType)) {
+			return false;
+		}
+		if (resourceList == null) {
+			if (other.resourceList != null) {
+				return false;
+			}
+		} else if (!resourceList.equals(other.resourceList)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		if (worker == null) {
+			if (other.worker != null) {
+				return false;
+			}
+		} else if (!worker.equals(other.worker)) {
+			return false;
+		}
+		return true;
 	}
 	
 }

@@ -35,7 +35,8 @@ public class Building implements ResourceManager, JobManager, Constructible {
 		type = pendingType;
 		buildTime = null;
 		
-		Resource.addToList(resourceList, 1, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+		resourceList.addAll(type.getUpkeep());
+		resourceList.addAll(type.getProduction());
 		jobList.addAll(type.getSupply());
 		
 	}
@@ -45,7 +46,8 @@ public class Building implements ResourceManager, JobManager, Constructible {
 		type = buildingType;
 		buildTime = null;
 		
-		Resource.addToList(resourceList, 1, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+		resourceList.addAll(type.getUpkeep());
+		resourceList.addAll(type.getProduction());
 		jobList.addAll(type.getSupply());
 		
 	}
@@ -68,6 +70,16 @@ public class Building implements ResourceManager, JobManager, Constructible {
 		return type != null;
 	}
 
+	public BuildingType getPendingType() {
+		
+		return pendingType;
+	}
+
+	public BuildingType getBuildingType() {
+		
+		return type;
+	}
+
 	@Override
 	public String getType() {
 		
@@ -77,7 +89,7 @@ public class Building implements ResourceManager, JobManager, Constructible {
 	@Override
 	public String getName() {
 		
-		return (type == null)?"null":type.getName();
+		return (type == null)? "null": type.getName();
 	}
 
 	@Override
@@ -95,22 +107,36 @@ public class Building implements ResourceManager, JobManager, Constructible {
 	@Override
 	public void applyModifiers(String chain, boolean match, Modifier modifier) {
 		
-		for(Resource res: resourceList) {
+		for(Resource r: resourceList) {
 			
 			StringBuilder bld = new StringBuilder(chain);
 			
 			if(!chain.isEmpty()) {
 				bld.append(".");
 			}
-			bld.append(res.getType());
+			bld.append(r.getType());
 			String newChain = bld.toString();
 			
 			boolean newMatch = modifierMatcher(newChain, modifier.getParent(), match);
 			
 			if(newMatch) {
-				res.applyModifier(modifier);
+				r.applyModifier(modifier);
 			}
 			
+		}
+			
+		StringBuilder bld = new StringBuilder(chain);
+		
+		if(!chain.isEmpty()) {
+			bld.append(".");
+		}
+		bld.append("job");
+		String newChain = bld.toString();
+		
+		boolean newMatch = modifierMatcher(newChain, modifier.getParent(), match);
+		
+		for(Job j: jobList) {
+			j.applyModifiers(newChain, newMatch, modifier);
 		}
 		
 	}
@@ -118,7 +144,7 @@ public class Building implements ResourceManager, JobManager, Constructible {
 	@Override
 	public int getBuildTime() {
 		
-		return buildTime.getTime();
+		return (buildTime == null)? 0: buildTime.getTime();
 	}
 
 	@Override
@@ -126,6 +152,70 @@ public class Building implements ResourceManager, JobManager, Constructible {
 		
 		setBuildingType();
 		
+	}
+
+	@Override
+	public final int hashCode() {
+		
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((buildTime == null) ? 0 : buildTime.hashCode());
+		result = prime * result + ((jobList == null) ? 0 : jobList.hashCode());
+		result = prime * result + ((pendingType == null) ? 0 : pendingType.hashCode());
+		result = prime * result + ((resourceList == null) ? 0 : resourceList.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Building)) {
+			return false;
+		}
+		Building other = (Building) obj;
+		if (buildTime == null) {
+			if (other.buildTime != null) {
+				return false;
+			}
+		} else if (!buildTime.equals(other.buildTime)) {
+			return false;
+		}
+		if (jobList == null) {
+			if (other.jobList != null) {
+				return false;
+			}
+		} else if (!jobList.equals(other.jobList)) {
+			return false;
+		}
+		if (pendingType == null) {
+			if (other.pendingType != null) {
+				return false;
+			}
+		} else if (!pendingType.equals(other.pendingType)) {
+			return false;
+		}
+		if (resourceList == null) {
+			if (other.resourceList != null) {
+				return false;
+			}
+		} else if (!resourceList.equals(other.resourceList)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		return true;
 	}
 	
 }

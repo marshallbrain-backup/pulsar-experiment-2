@@ -36,6 +36,15 @@ public class JobType {
 		production = new ArrayList<>();
 	}
 	
+	public JobType(String id, List<ResourceBase> upkeep, List<ResourceBase> production) {
+		
+		type = "worker";
+		
+		this.id = id;
+		this.upkeep = upkeep;
+		this.production = production;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -45,7 +54,7 @@ public class JobType {
 		return type;
 	}
 	
-	public Resource[] getUpkeep() {
+	public List<Resource> getUpkeep() {
 		
 		List<Resource> u = new ArrayList<>();
 		
@@ -53,10 +62,10 @@ public class JobType {
 			u.add(new Resource(r, "upkeep", true));
 		}
 		
-		return u.toArray(new Resource[0]);
+		return u;
 	}
 	
-	public Resource[] getProduction() {
+	public List<Resource> getProduction() {
 		
 		List<Resource> p = new ArrayList<>();
 		
@@ -64,7 +73,7 @@ public class JobType {
 			p.add(new Resource(r, "production"));
 		}
 		
-		return p.toArray(new Resource[0]);
+		return p;
 	}
 	
 }

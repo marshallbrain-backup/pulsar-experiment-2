@@ -2,7 +2,7 @@ package com.brain.ion.xml;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class StringTrimAdapter extends XmlAdapter<String, String> {
+public class StringAdapter extends XmlAdapter<String, String> {
 	
 	@Override
 	public String unmarshal(String v) throws Exception {

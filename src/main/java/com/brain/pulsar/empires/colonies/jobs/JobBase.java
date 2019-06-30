@@ -16,7 +16,7 @@ import com.brain.pulsar.resources.Resource;
 public class JobBase {
 	
 	@XmlValue
-	private final double amount;
+	private final int amount;
 	
 	@XmlAttribute
 	private final String id;
@@ -26,6 +26,15 @@ public class JobBase {
 	public JobBase() {
 		id = null;
 		amount = 0;
+	}
+	
+	public JobBase(JobType jobType, int amount) {
+		
+		this.jobType = jobType;
+		this.amount = amount;
+		
+		id = this.jobType.getId();
+		
 	}
 
 	public void setType(List<JobType> jobTypes) {
@@ -40,7 +49,6 @@ public class JobBase {
 
 	public JobType getType() {
 		
-		// TODO Auto-generated method stub
 		return jobType;
 	}
 

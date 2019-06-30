@@ -43,6 +43,11 @@ public class District implements ResourceManager, JobManager, Constructible {
 		
 	}
 
+	public DistrictType getDistrictType() {
+		
+		return type;
+	}
+
 	public void setDistrictType(DistrictType districtType) {
 		
 		type = districtType;
@@ -136,13 +141,82 @@ public class District implements ResourceManager, JobManager, Constructible {
 			resourceList.clear();
 			jobList.clear();
 			
-			Resource.addToList(resourceList, amount, Utils.concatenateArray(type.getUpkeep(), type.getProduction()));
+			resourceList.addAll(type.getUpkeep());
+			resourceList.addAll(type.getProduction());
 			for(int i = 0; i < amount; i++) {
 				jobList.addAll(type.getSupply());
 			}
 			
 		}
 		
+	}
+
+	@Override
+	public final int hashCode() {
+		
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + amount;
+		result = prime * result + ((buildTime == null) ? 0 : buildTime.hashCode());
+		result = prime * result + ((jobList == null) ? 0 : jobList.hashCode());
+		result = prime * result + ((resourceList == null) ? 0 : resourceList.hashCode());
+		result = prime * result + ((retoolingType == null) ? 0 : retoolingType.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public final boolean equals(Object obj) {
+		
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof District)) {
+			return false;
+		}
+		District other = (District) obj;
+		if (amount != other.amount) {
+			return false;
+		}
+		if (buildTime == null) {
+			if (other.buildTime != null) {
+				return false;
+			}
+		} else if (!buildTime.equals(other.buildTime)) {
+			return false;
+		}
+		if (jobList == null) {
+			if (other.jobList != null) {
+				return false;
+			}
+		} else if (!jobList.equals(other.jobList)) {
+			return false;
+		}
+		if (resourceList == null) {
+			if (other.resourceList != null) {
+				return false;
+			}
+		} else if (!resourceList.equals(other.resourceList)) {
+			return false;
+		}
+		if (retoolingType == null) {
+			if (other.retoolingType != null) {
+				return false;
+			}
+		} else if (!retoolingType.equals(other.retoolingType)) {
+			return false;
+		}
+		if (type == null) {
+			if (other.type != null) {
+				return false;
+			}
+		} else if (!type.equals(other.type)) {
+			return false;
+		}
+		return true;
 	}
 	
 }

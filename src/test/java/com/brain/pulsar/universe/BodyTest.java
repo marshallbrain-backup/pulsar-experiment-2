@@ -15,11 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.brain.ion.xml.XmlParser;
-import com.brain.pulsar.units.Distance;
-import com.brain.pulsar.units.DistanceUnit;
+import com.brain.pulsar.info_containers.Distance;
+import com.brain.pulsar.info_containers.DistanceUnit;
+import com.brain.pulsar.universe.types.BodyType;
+import com.brain.pulsar.universe.types.StarSystemType;
 import com.brain.pulsar.xml.DataContainer;
-import com.brain.pulsar.xml.types.BodyType;
-import com.brain.pulsar.xml.types.StarSystemType;
 
 class BodyTest {
 	
