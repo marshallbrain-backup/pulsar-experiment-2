@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.brain.pulsar.empires.Empire;
+import com.brain.pulsar.empires.colonies.Colony;
 import com.brain.pulsar.info_containers.Distance;
 import com.brain.pulsar.info_containers.DistanceUnit;
 import com.brain.pulsar.universe.types.BodyType;
@@ -28,6 +30,7 @@ public class Body {
 	private Distance radius;
 	private Random random;
 	private BodyType type;
+	private Colony colony;
 	
 	/**
 	 * Basic constructor
@@ -355,6 +358,15 @@ public class Body {
 	public BodyType getType() {
 		
 		return type;
+	}
+	
+	public void createColony(Empire empire) {
+		colony = empire.createColony(this);
+	}
+
+	public Colony getColony() {
+		
+		return colony;
 	}
 	
 }
