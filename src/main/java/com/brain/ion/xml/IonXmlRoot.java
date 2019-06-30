@@ -29,7 +29,11 @@ public class IonXmlRoot {
 	 */
 	public List<VectorGroup> getVectorGroups() {
 		
-		return new ArrayList<>(vectors);
+		if(vectors != null) {
+			return new ArrayList<>(vectors);
+		}
+		
+		return new ArrayList<>();
 	}
 	
 	/**
