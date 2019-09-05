@@ -250,6 +250,10 @@ public class BodyType {
 
 	public boolean hasTag(String value) {
 		
+		if(tags == null) {
+			return false;
+		}
+		
 		return tags.contains(value);
 	}
 	
