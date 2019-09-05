@@ -51,6 +51,10 @@ public class DistrictType {
 
 	public boolean isPotential(Scope bodyType) {
 		
+		if(potential.isEmpty()) {
+			return true;
+		}
+		
 		for(Trigger t: potential) {
 			if(t.isCondition(bodyType)) {
 				return true;
@@ -60,16 +64,16 @@ public class DistrictType {
 		return false;
 	}
 
-	public boolean isStarting(Scope bodyType) {
-		
-		for(Trigger t: potential) {
-			if(t.isCondition(bodyType)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
+//	public boolean isStarting(Scope bodyType) {
+//		
+//		for(Trigger t: potential) {
+//			if(t.isCondition(bodyType)) {
+//				return true;
+//			}
+//		}
+//		
+//		return false;
+//	}
 	
 	public String getName() {
 		return name;
