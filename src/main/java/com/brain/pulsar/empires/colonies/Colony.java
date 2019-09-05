@@ -110,5 +110,10 @@ public class Colony {
 		
 		return "Colony";
 	}
+
+	public int getRemainingDistricts() {
+		
+		return 10;
+	}
 	
 }
