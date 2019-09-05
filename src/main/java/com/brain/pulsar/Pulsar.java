@@ -83,7 +83,7 @@ public class Pulsar implements TickCall, RenderCall {
 		
 		// The Type classes are there for the
 		// @XmlAnyElement tag in DataContainer
-		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class };
+		Class<?>[] dataTypes = new Class<?>[] { DataContainer.class, BodyType.class, StarSystemType.class, DistrictType.class };
 		
 		getXmlFiles(new File("common"), dataTypes, data);
 		DataContainer common = new DataContainer(data);
