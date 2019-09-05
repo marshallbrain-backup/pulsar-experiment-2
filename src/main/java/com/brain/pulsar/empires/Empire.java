@@ -9,6 +9,8 @@ import com.brain.pulsar.universe.Body;
 
 public class Empire {
 	
+	private Colony colony;
+	
 	private List<DistrictType> districtTypes;
 	private List<BuildingType> buildingTypes;
 	
@@ -19,7 +21,9 @@ public class Empire {
 
 	public Colony createColony(Body b) {
 		
-		return new Colony(b, districtTypes, buildingTypes);
+		colony = new Colony(b, districtTypes, buildingTypes);
+		
+		return colony;
 	}
 	
 }
