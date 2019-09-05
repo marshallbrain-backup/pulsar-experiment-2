@@ -97,7 +97,13 @@ public class XmlParser {
 		}
 		
 		if(reader.ready()) {
-			return um.unmarshal(reader);
+			
+			try {
+				return um.unmarshal(reader);
+			} catch (javax.xml.bind.UnmarshalException e) {
+				
+			}
+			
 		}
 		
 		return null;
