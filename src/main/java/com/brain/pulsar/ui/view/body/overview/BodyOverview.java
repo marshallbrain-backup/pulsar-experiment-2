@@ -41,6 +41,13 @@ public class BodyOverview implements View {
 	public boolean tick(Mouse m) {
 		
 		if(lastRendered.contains(m.getPosition())) {
+			
+			int districtId = Districts.action(m, vectorGroups);
+			
+			if(districtId > -1) {
+				System.out.println("click district " + districtId);
+			}
+			
 			return true;
 		}
 		
