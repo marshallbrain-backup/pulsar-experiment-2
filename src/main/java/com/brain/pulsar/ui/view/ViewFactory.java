@@ -13,9 +13,17 @@ public class ViewFactory {
 	private List<View> viewList;
 	private Map<String, VectorGroup> views;
 	
+	private DetailMaster currentDetail;
+	
 	public ViewFactory(List<View> viewList, Map<String, VectorGroup> views) {
+		
 		this.viewList = viewList;
 		this.views = views;
+		
+		currentDetail = new DetailMaster();
+		
+		viewList.add(currentDetail);
+		
 	}
 
 	public void create(ViewType targetView, Object... paramaters) {
@@ -36,7 +44,7 @@ public class ViewFactory {
 		
 		Map<String, VectorGroup> view = IonXmlRoot.getVectorGroups(views, "view_body\\..*", true);
 		
-		viewList.add(new BodyOverview(targetBody, view));
+		viewList.add(new BodyOverview(targetBody, view, currentDetail));
 		
 	}
 	
