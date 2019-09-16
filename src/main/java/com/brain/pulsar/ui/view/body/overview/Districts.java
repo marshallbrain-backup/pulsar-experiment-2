@@ -62,14 +62,14 @@ public class Districts implements DetailInterface {
 		
 	}
 	
-	public static void render(VectorGraphics g, Map<String, VectorGroup> vectorGroups, List<RenderEntry> shapes, Colony colony) {
+	public static void render(VectorGraphics g, Map<String, VectorGroup> vectorGroups, Colony colony) {
 		
-		frame(g, vectorGroups, shapes, colony);
-		entrys(g, vectorGroups, shapes, colony);
+		frame(g, vectorGroups, colony);
+		entrys(g, vectorGroups, colony);
 		
 	}
 	
-	private static void frame(VectorGraphics g, Map<String, VectorGroup> vectorGroups, List<RenderEntry> shapes, Colony colony) {
+	private static void frame(VectorGraphics g, Map<String, VectorGroup> vectorGroups, Colony colony) {
 		
 		VectorGroup info = vectorGroups.get("districts");
 
@@ -78,24 +78,17 @@ public class Districts implements DetailInterface {
 		g.moveTranslate(info.getOrigin());
 		
 		Vector frame = info.getVectorById("frame");
-		Shape f = frame.getShape();
-		f = g.getAffineTransform().createTransformedShape(f);
+		g.draw(frame.getShape(), frame.getStyle());
 		
 		Vector text = info.getVectorById("district_text");
-		Shape t = text.getShape(g.getGraphics());
-		t = g.getAffineTransform().createTransformedShape(t);
+		g.draw(text.getShape(g.getGraphics()), text.getStyle());
 		
 		Vector div = info.getVectorById("divider");
-		Shape d = div.getShape();
-		d = g.getAffineTransform().createTransformedShape(d);
-		
-		shapes.add(new RenderEntry(f, frame.getStyle()));
-		shapes.add(new RenderEntry(t, text.getStyle()));
-		shapes.add(new RenderEntry(d, div.getStyle()));
+		g.draw(div.getShape(), div.getStyle());
 		
 	}
 	
-	private static void entrys(VectorGraphics g, Map<String, VectorGroup> vectorGroups, List<RenderEntry> shapes, Colony colony) {
+	private static void entrys(VectorGraphics g, Map<String, VectorGroup> vectorGroups, Colony colony) {
 		
 		List<District> districts = colony.getDistricts();
 		
@@ -110,26 +103,28 @@ public class Districts implements DetailInterface {
 			g.moveTranslate(info.getOrigin());
 			
 			Vector frame = info.getVectorById("frame");
-			Shape f = frame.getShape();
-			f = g.getAffineTransform().createTransformedShape(f);
-			x += f.getBounds().height+5;
+			g.draw(frame.getShape(), frame.getStyle());
+			x += frame.getShape().getBounds().height+5;
 			
 			Vector icon = info.getVectorById("icon");
-			Shape b = icon.getShape();
-			b = g.getAffineTransform().createTransformedShape(b);
+			g.draw(icon.getShape(), icon.getStyle());
 			
 			Text text = (Text) info.getVectorById("amount");
 			text = text.setText(
 					String.format("%02d", districts.get(i).getAmount()) + "/" + 
 					String.format("%02d", districts.get(i).getAmount() + colony.getRemainingDistricts()));
-			Shape t = text.getShape(g.getGraphics());
-			t = g.getAffineTransform().createTransformedShape(t);
-				
-			shapes.add(new RenderEntry(b, icon.getStyle()));
-			shapes.add(new RenderEntry(f, frame.getStyle()));
-			shapes.add(new RenderEntry(t, text.getStyle()));
+			g.draw(text.getShape(g.getGraphics()), text.getStyle());
 			
 		}
+		
+	}
+
+	@Override
+	public void detailRender(VectorGraphics g, Map<String, VectorGroup> vectorGroups, Object target) {
+		
+		District district = (District) target;
+		
+		System.out.println(district.getName());
 		
 	}
 	

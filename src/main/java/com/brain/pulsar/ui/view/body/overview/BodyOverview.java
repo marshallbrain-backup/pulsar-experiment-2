@@ -62,8 +62,6 @@ public class BodyOverview implements View {
 	@Override
 	public void render(VectorGraphics g) {
 		
-		List<RenderEntry> shapes = new ArrayList<>();
-		
 		lastRendered.reset();
 		windowCode = g.getParentCode();
 		g.moveTranslate(150, 100);
@@ -81,17 +79,8 @@ public class BodyOverview implements View {
 			g.draw(v.getShape(), v.getStyle());
 		}
 		
-		Information.render(g, vectorGroups, shapes, body);
-		Districts.render(g, vectorGroups, shapes, body.getColony());
-		
-		g.setTranslate(ScreenPosition.ZERO);
-		for(RenderEntry e: shapes) {
-			if(e.shape == null) {
-				g.draw(e.image);
-			} else {
-				g.draw(e.shape, e.style);
-			}
-		}
+		Information.render(g, vectorGroups, body);
+		Districts.render(g, vectorGroups, body.getColony());
 		
 		lastRendered.add(g.resetAreaRendering());
 		

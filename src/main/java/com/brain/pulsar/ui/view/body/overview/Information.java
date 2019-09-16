@@ -1,5 +1,6 @@
 package com.brain.pulsar.ui.view.body.overview;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,17 @@ import com.brain.pulsar.universe.Body;
 
 public class Information {
 
-	public static void render(VectorGraphics g, Map<String, VectorGroup> vectorGroups, List<RenderEntry> shapes, Body body) {
+	public static void render(VectorGraphics g, Map<String, VectorGroup> vectorGroups, Body body) {
+		
+		List<RenderEntry> shapes = new ArrayList<>();
 		
 		renderBasicInfo(g, vectorGroups, shapes, body);
 		renderBasicColonyInfo(g, vectorGroups, shapes, body);
+
+		g.setTranslate(ScreenPosition.ZERO);
+		for(RenderEntry s: shapes) {
+			g.draw(s.shape, s.style);
+		}
 		
 	}
 	
