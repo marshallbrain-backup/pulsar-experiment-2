@@ -15,41 +15,35 @@ import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
 import com.brain.pulsar.empires.colonies.Colony;
 import com.brain.pulsar.empires.colonies.District;
+import com.brain.pulsar.ui.view.Detail;
+import com.brain.pulsar.ui.view.DetailInterface;
 import com.brain.pulsar.ui.view.RenderEntry;
 
-public class Districts {
+public class Districts implements DetailInterface {
 
-	public static int action(Mouse m, Map<String, VectorGroup> vectorGroups) {
+	public static Detail action(Mouse m, Map<String, VectorGroup> vectorGroups, List<District> districts) {
 		
 		if(m.buttonClicked(1)) {
 			
-			if(actionFrame(m, vectorGroups.get("districts"))) {
-				return actionEntry(m, vectorGroups.get("districts_entry"));
+			VectorGroup vg = vectorGroups.get("districts");
+
+			Mouse mouseOffset = new Mouse(m, 150 + vg.getOrigin().x, 100 + vg.getOrigin().y);
+			
+			Vector frame = vg.getVectorById("frame");
+			Shape f = frame.getShape();
+			
+			Area clickable = new Area(f);
+			if(clickable.contains(mouseOffset.getPosition())) {
+				return actionEntry(m, vectorGroups.get("districts_entry"), districts);
 			}
 			
 		}
 		
-		return -1;
+		return null;
 		
 	}
 	
-	private static boolean actionFrame(Mouse m, VectorGroup vg) {
-
-		Mouse mouseOffset = new Mouse(m, 150 + vg.getOrigin().x, 100 + vg.getOrigin().y);
-		
-		Vector frame = vg.getVectorById("frame");
-		Shape f = frame.getShape();
-		
-		Area clickable = new Area(f);
-		if(clickable.contains(mouseOffset.getPosition())) {
-			return true;
-		}
-		
-		return false;
-		
-	}
-	
-	private static int actionEntry(Mouse m, VectorGroup vg) {
+	private static Detail actionEntry(Mouse m, VectorGroup vg, List<District> districts) {
 
 		Mouse mouseOffset = new Mouse(m, 150 + vg.getOrigin().x, 100 + vg.getOrigin().y);
 		
@@ -60,10 +54,11 @@ public class Districts {
 		
 		Area clickable = new Area(f);
 		if(clickable.contains(offset)) {
-			return mouseOffset.getPosition().y/(f.getBounds().height+5);
+			int i = mouseOffset.getPosition().y/(f.getBounds().height+5);
+			return new Detail(new Districts(), districts.get(i));
 		}
 		
-		return -1;
+		return null;
 		
 	}
 	
