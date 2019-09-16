@@ -20,7 +20,7 @@ public class ViewFactory {
 		this.viewList = viewList;
 		this.views = views;
 		
-		currentDetail = new DetailMaster();
+		currentDetail = new DetailMaster(views);
 		
 		viewList.add(currentDetail);
 		

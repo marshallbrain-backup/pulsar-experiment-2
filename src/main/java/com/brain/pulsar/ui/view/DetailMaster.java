@@ -1,11 +1,21 @@
 package com.brain.pulsar.ui.view;
 
+import java.util.Map;
+
 import com.brain.ion.graphics.VectorGraphics;
+import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
 
 public class DetailMaster implements View {
 	
 	private Detail current;
+	
+	private Map<String, VectorGroup> vectorGroups;
+	
+	public DetailMaster(Map<String, VectorGroup> vectorGroups) {
+		this.vectorGroups = vectorGroups;
+		
+	}
 
 	public void setDetail(Detail newCurrent) {
 		current = newCurrent;
@@ -23,7 +33,10 @@ public class DetailMaster implements View {
 
 	@Override
 	public void render(VectorGraphics g) {
-		// TODO Auto-generated method stub
+		
+		if(current != null) {
+			current.render(g, vectorGroups);
+		}
 		
 	}
 
