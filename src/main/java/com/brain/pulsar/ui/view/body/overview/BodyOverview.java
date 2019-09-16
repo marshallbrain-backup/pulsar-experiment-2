@@ -16,6 +16,8 @@ import com.brain.ion.graphics.vectors.Text;
 import com.brain.ion.graphics.vectors.Vector;
 import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
+import com.brain.pulsar.ui.view.Detail;
+import com.brain.pulsar.ui.view.DetailMaster;
 import com.brain.pulsar.ui.view.RenderEntry;
 import com.brain.pulsar.ui.view.View;
 import com.brain.pulsar.universe.Body;
@@ -26,11 +28,14 @@ public class BodyOverview implements View {
 	
 	private Body body;
 	private Area lastRendered;
+	private DetailMaster currentDetail;
+	
 	private Map<String, VectorGroup> vectorGroups;
 
-	public BodyOverview(Body body, Map<String, VectorGroup> vectorGroups) {
+	public BodyOverview(Body body, Map<String, VectorGroup> vectorGroups, DetailMaster currentDetail) {
 		
 		this.body = body;
+		this.currentDetail = currentDetail;
 		this.vectorGroups = vectorGroups;
 		
 		lastRendered = new Area();
@@ -42,10 +47,9 @@ public class BodyOverview implements View {
 		
 		if(lastRendered.contains(m.getPosition())) {
 			
-			int districtId = Districts.action(m, vectorGroups);
-			
-			if(districtId > -1) {
-				System.out.println("click district " + districtId);
+			Detail newCurrent = Districts.action(m, vectorGroups, body.getColony().getDistricts());
+			if(newCurrent != null) {
+				currentDetail.setDetail(newCurrent);
 			}
 			
 			return true;
@@ -57,11 +61,6 @@ public class BodyOverview implements View {
 
 	@Override
 	public void render(VectorGraphics g) {
-		
-		if(windowCode == 0) {
-			windowCode = g.getParentCode();
-			return;
-		}
 		
 		List<RenderEntry> shapes = new ArrayList<>();
 		
