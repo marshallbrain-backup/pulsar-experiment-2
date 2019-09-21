@@ -62,6 +62,7 @@ public class VectorGraphics {
 		
 		g.clipRect(0, 0, getWindowWidth(), getWindowHeight());
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 		
 	}
 
@@ -177,6 +178,12 @@ public class VectorGraphics {
 	 */
 	public void draw(Shape s, Map<String, String> style) {
 		
+		draw(s, style, true);
+		
+	}
+	
+	public void draw(Shape s, Map<String, String> style, boolean logArea) {
+		
 		s = currentTransform.createTransformedShape(s);
 		
 		if (style != null) {
@@ -211,7 +218,7 @@ public class VectorGraphics {
 				
 			}
 			
-			if(trackArea != null) {
+			if(trackArea != null && logArea == true) {
 				trackArea.add(new Area(s));
 			}
 			
