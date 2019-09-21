@@ -34,7 +34,7 @@ public class Colony {
 		
 		parent = b;
 		
-		districts = new District[6];
+		districts = new District[5];
 		buildings = new ArrayList<>();
 		districtTypes = Collections.unmodifiableList(dt);
 		buildingTypes = Collections.unmodifiableList(bt);
