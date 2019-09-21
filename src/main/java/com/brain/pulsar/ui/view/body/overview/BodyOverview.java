@@ -28,6 +28,7 @@ public class BodyOverview implements View {
 	
 	private Body body;
 	private Area lastRendered;
+	private Area frameArea;
 	private DetailMaster currentDetail;
 	
 	private Map<String, VectorGroup> vectorGroups;
@@ -45,9 +46,9 @@ public class BodyOverview implements View {
 	@Override
 	public boolean tick(Mouse m) {
 		
-		if(lastRendered.contains(m.getPosition())) {
+		if(lastRendered.contains(m.getPosition()) || frameArea.contains(m.getPosition())) {
 			
-			Detail newCurrent = Districts.action(m, vectorGroups, body.getColony().getDistricts());
+			Detail newCurrent = Districts.action(m, body.getColony().getDistricts());
 			if(newCurrent != null) {
 				currentDetail.setDetail(newCurrent);
 			}
@@ -72,11 +73,12 @@ public class BodyOverview implements View {
 		g.beginAreaRendering();
 		
 		for(Vector v: frame.getVectors()) {
-			g.draw(v.getShape(), v.getStyle());
+			g.draw(v.getShape(), v.getStyle(), false);
+			frameArea = new Area(g.getAffineTransform().createTransformedShape(v.getShape()));
 		}
 		
 		for(Vector v: header.getVectors()) {
-			g.draw(v.getShape(), v.getStyle());
+			g.draw(v.getShape(), v.getStyle(), false);
 		}
 		
 		Information.render(g, vectorGroups, body);
