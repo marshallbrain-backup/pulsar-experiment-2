@@ -3,6 +3,7 @@ package com.brain.pulsar.ui.view.body.overview;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,21 +21,19 @@ import com.brain.pulsar.ui.view.DetailInterface;
 import com.brain.pulsar.ui.view.RenderEntry;
 
 public class Districts implements DetailInterface {
+	
+	private static List<Area> entryArea;
 
-	public static Detail action(Mouse m, Map<String, VectorGroup> vectorGroups, List<District> districts) {
+	public static Detail action(Mouse m, List<District> districts) {
 		
-		if(m.buttonClicked(1)) {
+		if(m.buttonClicked(1) && entryArea != null) {
 			
-			VectorGroup vg = vectorGroups.get("districts");
-
-			Mouse mouseOffset = new Mouse(m, 150 + vg.getOrigin().x, 100 + vg.getOrigin().y);
-			
-			Vector frame = vg.getVectorById("frame");
-			Shape f = frame.getShape();
-			
-			Area clickable = new Area(f);
-			if(clickable.contains(mouseOffset.getPosition())) {
-				return actionEntry(m, vectorGroups.get("districts_entry"), districts);
+			for(int i = 0; i < entryArea.size(); i++) {
+				
+				if(entryArea.get(i).contains(m.getPosition())) {
+					return new Detail(new Districts(), districts.get(i));
+				}
+				
 			}
 			
 		}
@@ -43,26 +42,32 @@ public class Districts implements DetailInterface {
 		
 	}
 	
-	private static Detail actionEntry(Mouse m, VectorGroup vg, List<District> districts) {
+	private static Detail actionEntry(Mouse m, List<District> districts) {
 
-		Mouse mouseOffset = new Mouse(m, 150 + vg.getOrigin().x, 100 + vg.getOrigin().y);
-		
-		Vector frame = vg.getVectorById("frame");
-		Shape f = frame.getShape();
-		
-		Point offset = new Point(mouseOffset.getPosition().x, mouseOffset.getPosition().y%(f.getBounds().height+5));
-		
-		Area clickable = new Area(f);
-		if(clickable.contains(offset)) {
-			int i = mouseOffset.getPosition().y/(f.getBounds().height+5);
-			return new Detail(new Districts(), districts.get(i));
-		}
-		
+//		Mouse mouseOffset = new Mouse(m, 150 + vg.getOrigin().x, 100 + vg.getOrigin().y);
+//		
+//		Vector frame = vg.getVectorById("frame");
+//		Shape f = frame.getShape();
+//		
+//		Point offset = new Point(mouseOffset.getPosition().x, mouseOffset.getPosition().y%(f.getBounds().height+5));
+//		
+//		Area clickable = new Area(f);
+//		if(clickable.contains(offset)) {
+//			int i = mouseOffset.getPosition().y/(f.getBounds().height+5);
+//			return new Detail(new Districts(), districts.get(i));
+//		}
+//		
 		return null;
 		
 	}
 	
 	public static void render(VectorGraphics g, Map<String, VectorGroup> vectorGroups, Colony colony) {
+		
+		if(entryArea == null) {
+			entryArea = new ArrayList<>();
+		}
+		
+		entryArea.clear();
 		
 		frame(g, vectorGroups, colony);
 		entrys(g, vectorGroups, colony);
@@ -104,7 +109,8 @@ public class Districts implements DetailInterface {
 			
 			Vector frame = info.getVectorById("frame");
 			g.draw(frame.getShape(), frame.getStyle());
-			x += frame.getShape().getBounds().height+5;
+			x += frame.getShape().getBounds().height+3;
+			entryArea.add(new Area(g.getAffineTransform().createTransformedShape(frame.getShape())));
 			
 			Vector icon = info.getVectorById("icon");
 			g.draw(icon.getShape(), icon.getStyle());
@@ -123,8 +129,6 @@ public class Districts implements DetailInterface {
 	public void detailRender(VectorGraphics g, Map<String, VectorGroup> vectorGroups, Object target) {
 		
 		District district = (District) target;
-		
-		System.out.println(district.getName());
 		
 	}
 	
