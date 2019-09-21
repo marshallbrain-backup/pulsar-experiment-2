@@ -17,13 +17,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Rectangle implements Vector {
 
 	@XmlAttribute
-	private int x;
+	private double x;
 	@XmlAttribute
-	private int y;
+	private double y;
 	@XmlAttribute(name = "w")
-	private int width;
+	private double width;
 	@XmlAttribute(name = "h")
-	private int hight;
+	private double hight;
 
 	@XmlAttribute
 	private String id;
