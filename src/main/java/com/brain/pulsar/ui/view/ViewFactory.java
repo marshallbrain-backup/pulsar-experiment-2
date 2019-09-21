@@ -20,7 +20,7 @@ public class ViewFactory {
 		this.viewList = viewList;
 		this.views = views;
 		
-		currentDetail = new DetailMaster(views);
+		currentDetail = new DetailMaster(IonXmlRoot.getVectorGroups(views, "view_detail\\..*", true));
 		
 		viewList.add(currentDetail);
 		
