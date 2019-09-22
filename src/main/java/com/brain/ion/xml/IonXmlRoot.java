@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -55,12 +56,14 @@ public class IonXmlRoot {
 		Pattern regexPatern = Pattern.compile(regex);
 		
 		for (Entry<String, VectorGroup> e : vg.entrySet()) {
-			if (regexPatern.matcher(e.getKey()).find()) {
+			
+			Matcher regexMatcher = regexPatern.matcher(e.getKey());
+			if (regexMatcher.lookingAt()) {
 				
 				String key = e.getKey();
 				
 				if (cut) {
-					key = key.substring(key.indexOf('.') + 1);
+					key = key.substring(regexMatcher.end());
 				}
 				
 				newGroup.put(key, new VectorGroup(e.getValue()));
