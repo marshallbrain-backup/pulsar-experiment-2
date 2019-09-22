@@ -40,9 +40,9 @@ public class Ui {
 		
 		Map<String, VectorGroup> vg = VectorGraphics.loadVectors(new File("gfx"));
 		
-		Map<String, VectorGroup> bodys = IonXmlRoot.getVectorGroups(vg, "^body\\..*", true);
-		Map<String, VectorGroup> bodyToolTip = IonXmlRoot.getVectorGroups(vg, "^body_tool_tip\\..*", true);
-		Map<String, VectorGroup> views = IonXmlRoot.getVectorGroups(vg, "^view_.*", false);
+		Map<String, VectorGroup> bodys = IonXmlRoot.getVectorGroups(vg, "^body\\.", true);
+		Map<String, VectorGroup> bodyToolTip = IonXmlRoot.getVectorGroups(vg, "^body_tool_tip\\.", true);
+		Map<String, VectorGroup> views = IonXmlRoot.getVectorGroups(vg, "^view_", false);
 		
 		vg.clear();
 		
@@ -72,7 +72,7 @@ public class Ui {
 			map.tick(m);
 		}
 		
-		cleanViewList();
+//		cleanViewList();
 		
 	}
 	

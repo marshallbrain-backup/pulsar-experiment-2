@@ -20,7 +20,7 @@ public class ViewFactory {
 		this.viewList = viewList;
 		this.views = views;
 		
-		currentDetail = new DetailMaster(IonXmlRoot.getVectorGroups(views, "view_detail\\..*", true));
+		currentDetail = new DetailMaster(IonXmlRoot.getVectorGroups(views, "^view_detail[_.]", true));
 		
 		viewList.add(currentDetail);
 		
@@ -42,7 +42,7 @@ public class ViewFactory {
 		
 		Body targetBody = (Body) paramaters[0];
 		
-		Map<String, VectorGroup> view = IonXmlRoot.getVectorGroups(views, "view_body\\..*", true);
+		Map<String, VectorGroup> view = IonXmlRoot.getVectorGroups(views, "view_body\\.", true);
 		
 		viewList.add(new BodyOverview(targetBody, view, currentDetail));
 		
