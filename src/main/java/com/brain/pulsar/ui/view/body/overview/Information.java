@@ -20,7 +20,10 @@ public class Information {
 		List<RenderEntry> shapes = new ArrayList<>();
 		
 		renderBasicInfo(g, vectorGroups, shapes, body);
-		renderBasicColonyInfo(g, vectorGroups, shapes, body);
+
+		if(body.getColony() != null) {
+			renderBasicColonyInfo(g, vectorGroups, shapes, body);
+		}
 
 		g.setTranslate(ScreenPosition.ZERO);
 		for(RenderEntry s: shapes) {
@@ -55,6 +58,7 @@ public class Information {
 		g.moveTranslate(info.getOrigin());
 		
 		Vector infoFrame = info.getVectorById("frame");
+		
 		Vector planetType = ((Text)info.getVectorById("colony_type")).setText(body.getColony().getDesignation());
 		
 		Vector[] infoShapeList = new Vector[] {planetType};
