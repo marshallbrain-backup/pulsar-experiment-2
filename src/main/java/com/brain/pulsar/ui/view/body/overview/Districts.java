@@ -130,6 +130,66 @@ public class Districts implements DetailInterface {
 		
 		District district = (District) target;
 		
+		if(district.isAssined()) {
+			
+			renderTooledButtons(g, vectorGroups);
+			renderTooledDistricts(g, vectorGroups, district);
+			
+		}
+		
+	}
+	
+	private void renderTooledDistricts(VectorGraphics g, Map<String, VectorGroup> vectorGroups, District district) {
+		
+		VectorGroup divs = vectorGroups.get("district_tooled.types");
+		VectorGroup type = vectorGroups.get("district.type");
+		
+		g.setTranslate(ScreenPosition.ZERO);
+		g.moveTranslate(150, 100);
+		g.moveTranslate(divs.getOrigin());
+		
+		Vector frame = type.getVectorById("frame");
+		g.draw(frame.getShape(), frame.getStyle());
+		
+		Vector line1 = type.getVectorById("line1");
+		g.draw(line1.getShape(), line1.getStyle());
+		
+		Vector line2 = type.getVectorById("line2");
+		g.draw(line2.getShape(), line2.getStyle());
+
+		Text name = (Text) type.getVectorById("name");
+		name = name.setText("TEST");
+		g.draw(name.getShape(g.getGraphics()), name.getStyle());
+
+		Text info = (Text) type.getVectorById("info");
+		info = info.setText(district.getDistrictType().getUpkeepString());
+		g.draw(info.getShape(g.getGraphics()), info.getStyle());
+		
+	}
+	
+	private void renderTooledButtons(VectorGraphics g, Map<String, VectorGroup> vectorGroups) {
+		
+		VectorGroup info = vectorGroups.get("district_tooled.button");
+		
+		g.setTranslate(ScreenPosition.ZERO);
+		g.moveTranslate(150, 100);
+		g.moveTranslate(info.getOrigin());
+		
+		Vector bulid = info.getVectorById("build");
+		g.draw(bulid.getShape(), bulid.getStyle());
+		
+		Vector demolish = info.getVectorById("demolish");
+		g.draw(demolish.getShape(), demolish.getStyle());
+		
+		Vector replace = info.getVectorById("replace");
+		g.draw(replace.getShape(), replace.getStyle());
+		
+		Vector retool = info.getVectorById("retool");
+		g.draw(retool.getShape(), retool.getStyle());
+		
+		Vector divider = info.getVectorById("divider");
+		g.draw(divider.getShape(), divider.getStyle());
+		
 	}
 	
 }
