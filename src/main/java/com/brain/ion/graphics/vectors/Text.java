@@ -117,7 +117,7 @@ public class Text implements Vector {
 	public Shape getShape(Graphics2D g) {
 		
 		if (textFormated == null) {
-			textFormated = textValue.replaceAll("\\s+", "");
+			textFormated = textValue.trim();
 		}
 		
 		if (font == null) {
