@@ -89,6 +89,18 @@ public class DistrictType {
 		
 		return u;
 	}
+
+	public String getUpkeepString() {
+
+		String s = "";
+
+		for(ResourceBase r: upkeep) {
+			s = r.getId() + "-" + r.getAmount();
+		}
+
+		return "Upkeep: " + s;
+
+	}
 	
 	public List<Resource> getProduction() {
 		
@@ -116,5 +128,4 @@ public class DistrictType {
 		
 		return defaultBuildTime;
 	}
-	
 }
