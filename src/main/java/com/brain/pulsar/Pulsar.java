@@ -124,8 +124,8 @@ public class Pulsar implements TickCall, RenderCall {
 	 */
 	private void cloneResorses() throws URISyntaxException, IOException {
 		
-		URI commonOld = PulsarBootstrap.class.getResource("/resorses/common").toURI();
-		URI gfxOld = PulsarBootstrap.class.getResource("/resorses/gfx").toURI();
+		URI commonOld = PulsarBootstrap.class.getResource("/common").toURI();
+		URI gfxOld = PulsarBootstrap.class.getResource("/gfx").toURI();
 		
 		File commonNew = new File("common");
 		File gfxNew = new File("gfx");
