@@ -1,7 +1,6 @@
 package com.brain.pulsar.empires.colonies.jobs;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.fail;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.ArrayList;
