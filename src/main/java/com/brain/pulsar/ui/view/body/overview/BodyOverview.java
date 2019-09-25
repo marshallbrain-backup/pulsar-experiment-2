@@ -88,8 +88,6 @@ public class BodyOverview implements View {
 		
 	}
 	
-	
-	
 	@Override
 	public int getWindowCode() {
 		return windowCode;
