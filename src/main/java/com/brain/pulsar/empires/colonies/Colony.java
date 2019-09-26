@@ -36,7 +36,7 @@ public class Colony {
 		
 		districts = new District[5];
 		buildings = new ArrayList<>();
-		districtTypes = Collections.unmodifiableList(dt);
+		districtTypes = new ArrayList<>(dt);
 		buildingTypes = Collections.unmodifiableList(bt);
 		constructionManager = new ConstructionCoordinator();
 		resourceCollection = new ResourceCollection("colony", "standard");
@@ -55,19 +55,22 @@ public class Colony {
 	private void initDistricts() {
 		
 		for(int i = 0; i < districts.length; i++) {
-			District d = new District();
+			District d = new District(this);
 			districts[i] = d;
 			resourceCollection.addManagers(d);
 		}
 		
 		int i = 0;
+		List<DistrictType> remove = new ArrayList<>();
 		for(DistrictType dt: districtTypes) {
 			if(districts[i].setRetoolingType(dt, parent)) {
 				constructionManager.add(districts[i]);
-				constructionManager.add(districts[i]);
+				remove.add(dt);
 				i++;
 			}
 		}
+
+		districtTypes.removeAll(remove);
 		
 	}
 
@@ -115,5 +118,8 @@ public class Colony {
 		
 		return 10;
 	}
-	
+
+	public List<DistrictType> getDistrictTypes() {
+		return districtTypes;
+	}
 }
