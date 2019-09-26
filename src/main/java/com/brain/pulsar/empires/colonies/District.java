@@ -20,6 +20,8 @@ import com.brain.pulsar.universe.Body;
 public class District implements ResourceManager, JobManager, Constructible {
 	
 	private int amount;
+
+	private Colony parent;
 	
 	private BuildTime buildTime;
 	
@@ -29,8 +31,9 @@ public class District implements ResourceManager, JobManager, Constructible {
 	private List<Resource> resourceList;
 	private List<Job> jobList;
 
-	public District() {
-		
+	public District(Colony parent) {
+
+		this.parent = parent;
 		resourceList = new ArrayList<>();
 		jobList = new ArrayList<>();
 	}
@@ -86,6 +89,10 @@ public class District implements ResourceManager, JobManager, Constructible {
 	public String getName() {
 		
 		return (type == null)?"null":type.getName();
+	}
+
+	public Colony getParant() {
+		return parent;
 	}
 
 	@Override
@@ -218,5 +225,5 @@ public class District implements ResourceManager, JobManager, Constructible {
 		}
 		return true;
 	}
-	
+
 }
