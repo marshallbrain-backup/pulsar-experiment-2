@@ -67,7 +67,7 @@ class DistrictTest {
 			b.setType(jobTypes);
 		}
 		
-		district = new District();
+		district = new District(null);
 	
 	}
 	
