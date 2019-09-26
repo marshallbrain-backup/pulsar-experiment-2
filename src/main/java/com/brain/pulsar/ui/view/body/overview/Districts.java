@@ -16,6 +16,7 @@ import com.brain.ion.graphics.vectors.VectorGroup;
 import com.brain.ion.input.Mouse;
 import com.brain.pulsar.empires.colonies.Colony;
 import com.brain.pulsar.empires.colonies.District;
+import com.brain.pulsar.empires.colonies.types.DistrictType;
 import com.brain.pulsar.ui.view.Detail;
 import com.brain.pulsar.ui.view.DetailInterface;
 import com.brain.pulsar.ui.view.RenderEntry;
@@ -117,7 +118,7 @@ public class Districts implements DetailInterface {
 			
 			Text text = (Text) info.getVectorById("amount");
 			text = text.setText(
-					String.format("%02d", districts.get(i).getAmount()) + "/" + 
+					String.format("%02d", districts.get(i).getAmount()) + "/" +
 					String.format("%02d", districts.get(i).getAmount() + colony.getRemainingDistricts()));
 			g.draw(text.getShape(g.getGraphics()), text.getStyle());
 			
@@ -131,10 +132,10 @@ public class Districts implements DetailInterface {
 		District district = (District) target;
 		
 		if(district.isAssined()) {
-			
 			renderTooledButtons(g, vectorGroups);
 			renderTooledDistricts(g, vectorGroups, district);
-			
+		} else {
+			renderUntooledDistricts(g, vectorGroups, district);
 		}
 		
 	}
@@ -147,23 +148,8 @@ public class Districts implements DetailInterface {
 		g.setTranslate(ScreenPosition.ZERO);
 		g.moveTranslate(150, 100);
 		g.moveTranslate(divs.getOrigin());
-		
-		Vector frame = type.getVectorById("frame");
-		g.draw(frame.getShape(), frame.getStyle());
-		
-		Vector line1 = type.getVectorById("line1");
-		g.draw(line1.getShape(), line1.getStyle());
-		
-		Vector line2 = type.getVectorById("line2");
-		g.draw(line2.getShape(), line2.getStyle());
 
-		Text name = (Text) type.getVectorById("name");
-		name = name.setText("TEST");
-		g.draw(name.getShape(g.getGraphics()), name.getStyle());
-
-		Text info = (Text) type.getVectorById("info");
-		info = info.setText(district.getDistrictType().getUpkeepString());
-		g.draw(info.getShape(g.getGraphics()), info.getStyle());
+		renderDistrictType(g, type, district.getDistrictType());
 		
 	}
 	
@@ -190,6 +176,42 @@ public class Districts implements DetailInterface {
 		Vector divider = info.getVectorById("divider");
 		g.draw(divider.getShape(), divider.getStyle());
 		
+	}
+
+	private void renderUntooledDistricts(VectorGraphics g, Map<String, VectorGroup> vectorGroups, District district){
+
+		VectorGroup type = vectorGroups.get("district.type");
+		VectorGroup list = vectorGroups.get("district.untooled");
+
+		g.setTranslate(ScreenPosition.ZERO);
+		g.moveTranslate(150, 100);
+		g.moveTranslate(list.getOrigin());
+
+		for(DistrictType d: district.getParant().getDistrictTypes()) {
+			renderDistrictType(g, type, d);
+		}
+
+	}
+
+	private void renderDistrictType(VectorGraphics g, VectorGroup type, DistrictType district) {
+
+		Vector frame = type.getVectorById("frame");
+		g.draw(frame.getShape(), frame.getStyle());
+
+		Vector line1 = type.getVectorById("line1");
+		g.draw(line1.getShape(), line1.getStyle());
+
+		Vector line2 = type.getVectorById("line2");
+		g.draw(line2.getShape(), line2.getStyle());
+
+		Text name = (Text) type.getVectorById("name");
+		name = name.setText(district.getName());
+		g.draw(name.getShape(g.getGraphics()), name.getStyle());
+
+		Text info = (Text) type.getVectorById("info");
+		info = info.setText(district.getUpkeepString());
+		g.draw(info.getShape(g.getGraphics()), info.getStyle());
+
 	}
 	
 }
