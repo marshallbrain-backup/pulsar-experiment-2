@@ -188,12 +188,13 @@ public class Districts implements DetailInterface {
 		g.moveTranslate(list.getOrigin());
 
 		for(DistrictType d: district.getParant().getDistrictTypes()) {
-			renderDistrictType(g, type, d);
+			int xOffset = renderDistrictType(g, type, d);
+			g.moveTranslate(0, xOffset+5);
 		}
 
 	}
 
-	private void renderDistrictType(VectorGraphics g, VectorGroup type, DistrictType district) {
+	private int renderDistrictType(VectorGraphics g, VectorGroup type, DistrictType district) {
 
 		Vector frame = type.getVectorById("frame");
 		g.draw(frame.getShape(), frame.getStyle());
@@ -212,6 +213,8 @@ public class Districts implements DetailInterface {
 		info = info.setText(district.getUpkeepString());
 		g.draw(info.getShape(g.getGraphics()), info.getStyle());
 
+		return frame.getShape().getBounds().height;
+
 	}
-	
+
 }
