@@ -63,7 +63,7 @@ public class Colony {
 		int i = 0;
 		List<DistrictType> remove = new ArrayList<>();
 		for(DistrictType dt: districtTypes) {
-			if(districts[i].setRetoolingType(dt, parent)) {
+			if(districts[i].setRetoolingType(dt, parent, false)) {
 				constructionManager.add(districts[i]);
 				remove.add(dt);
 				i++;

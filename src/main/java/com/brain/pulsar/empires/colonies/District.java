@@ -59,9 +59,9 @@ public class District implements ResourceManager, JobManager, Constructible {
 		
 	}
 
-	public boolean setRetoolingType(DistrictType districtType, Body body) {
+	public boolean setRetoolingType(DistrictType districtType, Body body, boolean emptyInclude) {
 		
-		if(districtType.isPotential(new Scope(body.getType()))) {
+		if(districtType.isPotential(new Scope(body.getType()), emptyInclude)) {
 			retoolingType = districtType;
 			buildTime = retoolingType.getBuildTime();
 			return true;

@@ -137,7 +137,7 @@ class DistrictTest {
 
 		Body body = new Body(bodyType, null);
 		
-		assertThat(district.setRetoolingType(districtType, body), is(true));
+		assertThat(district.setRetoolingType(districtType, body, true), is(true));
 		
 		district.build();
 		
