@@ -49,9 +49,9 @@ public class DistrictType {
 	@XmlElement(name = "job")
 	private List<JobBase> supply;
 
-	public boolean isPotential(Scope bodyType) {
+	public boolean isPotential(Scope bodyType, boolean emptyInclude) {
 		
-		if(potential.isEmpty()) {
+		if(emptyInclude && potential.isEmpty()) {
 			return true;
 		}
 		
@@ -95,7 +95,7 @@ public class DistrictType {
 		String s = "";
 
 		for(ResourceBase r: upkeep) {
-			s = r.getId() + "-" + r.getAmount();
+			s = r.getId() + " (" + r.getAmount() + ")";
 		}
 
 		return "Upkeep: " + s;
